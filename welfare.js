@@ -453,8 +453,55 @@
     const button = q("#run-check");
     if (!target || !api || !button) return;
 
+    const title = q("#overall-check-title");
+    const badge = q("#overall-check-badge");
+    const message = q("#overall-check-message");
+    const nextActions = q("#next-action-box");
+
+    const renderOverall = (backendOk, errorMessage = "") => {
+      const frontStatuses = qa("#front-checks .status");
+      const frontOk =
+        frontStatuses.length > 0 &&
+        frontStatuses.every((node) => node.textContent.trim() === "OK");
+      const allOk = frontOk && backendOk;
+
+      if (allOk) {
+        title.textContent = "全項目OKです。STEP 4のシステム検査は完了しています";
+        badge.textContent = "全項目OK";
+        badge.className =
+          "status status--success completion-panel__status";
+        message.textContent =
+          "設定や接続に異常はありません。この画面で追加設定は不要です。次は実際の相談受付からオーナー確認までの業務導線を確認します。";
+        nextActions.hidden = false;
+        return;
+      }
+
+      title.textContent = "確認が必要な項目があります";
+      badge.textContent = "要確認";
+      badge.className =
+        "status status--danger completion-panel__status";
+      message.textContent =
+        errorMessage ||
+        "NGになっている項目を確認し、修正後に「もう一度チェック」を押してください。";
+      nextActions.hidden = true;
+    };
+
     const run = async () => {
+      button.disabled = true;
+      button.textContent = "確認中…";
       target.innerHTML = '<p class="help">Worker・Supabaseを確認中…</p>';
+
+      if (title) title.textContent = "総合判定を確認中です";
+      if (badge) {
+        badge.textContent = "確認中";
+        badge.className = "status status--info completion-panel__status";
+      }
+      if (message) {
+        message.textContent =
+          "フロント画面、Worker、Supabaseの検査結果をまとめています。";
+      }
+      if (nextActions) nextActions.hidden = true;
+
       try {
         const data = await api.request(
           `/system-check?admin_code=${encodeURIComponent(cfg.adminCode)}`,
@@ -467,16 +514,24 @@
           ["用具個体の期間重複防止", data.database?.tests?.rental_overlap_trigger],
           ["相談・紹介・利用者管理", data.inquiry_workflow?.ok],
         ];
+        const backendOk = items.every(([, ok]) => Boolean(ok));
+
         target.innerHTML = items.map(([label, ok]) =>
           `<div class="check-row"><span>${esc(label)}</span><span class="status ${ok ? "status--success" : "status--danger"}">${ok ? "OK" : "NG"}</span></div>`
         ).join("");
+
+        renderOverall(backendOk);
       } catch (err) {
         target.innerHTML = `<p class="error-text">${esc(err.message)}</p>`;
+        renderOverall(false, err.message);
+      } finally {
+        button.disabled = false;
+        button.textContent = "もう一度チェック";
       }
     };
 
     button.addEventListener("click", run);
-    run();
+    window.setTimeout(run, 0);
   }
 
   document.addEventListener("DOMContentLoaded", () => {

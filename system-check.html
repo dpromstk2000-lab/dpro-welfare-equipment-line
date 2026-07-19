@@ -30,11 +30,40 @@
 <main class="page">
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
-    <h1>営業前システムチェック</h1>
+    <h1>営業前システムチェックと次の操作</h1>
     <p>フロント画面に加え、Worker、Supabase、RLS、非公開Storage、相談・利用者管理をまとめて確認します。</p>
     <div class="hero-actions">
-      <button class="button button--primary" id="run-check">一括チェック</button>
-      <button class="button button--secondary" data-demo-action="デモデータ準備はSTEP 2・3で接続します。">デモ準備</button>
+      <button class="button button--primary" id="run-check">もう一度チェック</button>
+      <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
+    </div>
+  </section>
+
+  <section class="section completion-panel" id="overall-check-result" aria-live="polite">
+    <div class="completion-panel__head">
+      <div>
+        <p class="eyebrow">OVERALL RESULT</p>
+        <h2 id="overall-check-title">総合判定を確認中です</h2>
+      </div>
+      <span class="status status--info completion-panel__status" id="overall-check-badge">確認中</span>
+    </div>
+    <p id="overall-check-message">
+      フロント画面、Worker、Supabaseの検査結果をまとめています。
+    </p>
+
+    <div class="next-action-box" id="next-action-box" hidden>
+      <h3>次に確認する操作</h3>
+      <ol class="next-action-list">
+        <li><strong>相談受付を試す</strong><span>相談フォームからテスト相談を1件送信します。</span></li>
+        <li><strong>オーナーPCで確認</strong><span>「利用者・紹介」を開き、送信した相談が一覧に表示されることを確認します。</span></li>
+        <li><strong>担当者を割り当てる</strong><span>相談の担当スタッフと対応状態を更新します。</span></li>
+      </ol>
+      <div class="button-row">
+        <a class="button button--primary" href="inquiry.html?type=new">1．相談受付を開く</a>
+        <a class="button button--secondary" href="owner.html">2．オーナーPCを開く</a>
+      </div>
+      <p class="help">
+        すべてOKの場合、このsystem-check画面で追加設定を行う必要はありません。
+      </p>
     </div>
   </section>
 

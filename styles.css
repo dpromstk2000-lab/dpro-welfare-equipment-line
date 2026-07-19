@@ -837,3 +837,104 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* STEP WELFARE-EQUIP-4-R2：総合判定・次の操作 */
+.completion-panel {
+  padding: clamp(22px, 4vw, 32px);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #ffffff, var(--primary-soft));
+  box-shadow: var(--shadow);
+}
+
+.completion-panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.completion-panel__head h2 {
+  margin: 0;
+  font-size: clamp(23px, 3vw, 31px);
+  line-height: 1.4;
+}
+
+.completion-panel__status {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding-inline: 15px;
+  font-size: 15px;
+}
+
+.next-action-box {
+  margin-top: 22px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+}
+
+.next-action-box h3 {
+  margin: 0 0 14px;
+  font-size: 21px;
+}
+
+.next-action-list {
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: next-action;
+}
+
+.next-action-list li {
+  counter-increment: next-action;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+  min-height: 58px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
+.next-action-list li::before {
+  content: counter(next-action);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: white;
+  background: var(--primary);
+  font-weight: 900;
+  grid-row: 1 / span 2;
+}
+
+.next-action-list strong,
+.next-action-list span {
+  display: block;
+}
+
+.next-action-list span {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+@media (max-width: 680px) {
+  .completion-panel__head {
+    flex-direction: column;
+  }
+
+  .completion-panel__status {
+    align-self: flex-start;
+  }
+
+  .next-action-box {
+    padding: 17px;
+  }
+}
