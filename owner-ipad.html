@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE デモ画面">
+  <title>専門相談員iPad｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="owner.html">オーナーPC</a>
+      <a href="owner-ipad.html" aria-current="page">相談員iPad</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="hero">
+    <p class="eyebrow">SPECIALIST IPAD</p>
+    <h1>本日の訪問と記録</h1>
+    <p>アセスメント、商品選定、適合確認、モニタリングをタッチ操作しやすい画面で行います。</p>
+  </section>
+
+  <section class="section grid grid--3">
+    <a class="action-card" href="#today"><span class="action-card__number">07</span><h3>本日の訪問</h3><p>7件の予定があります。</p></a>
+    <button class="action-card" data-demo-action="利用者検索を開始するデモです。"><span class="action-card__number">検</span><h3>利用者検索</h3><p>氏名・電話番号・利用者番号から検索します。</p></button>
+    <button class="action-card" data-demo-action="新規アセスメントを開始するデモです。"><span class="action-card__number">新</span><h3>新規アセスメント</h3><p>住環境と生活課題を記録します。</p></button>
+  </section>
+
+  <section class="section card" id="today">
+    <div class="split-heading"><div><p class="eyebrow">TODAY</p><h2>訪問予定</h2></div><span class="status status--info">2026年7月19日</span></div>
+    <div data-visit-list></div>
+  </section>
+
+  <section class="section grid grid--2">
+    <article class="card">
+      <p class="eyebrow">ASSESSMENT</p><h2>現場で記録する内容</h2>
+      <ul class="compact-list"><li>生活上の困りごと</li><li>移動・移乗・寝起き</li><li>住環境と搬入経路</li><li>介護者の状況</li><li>用具候補と選定理由</li></ul>
+      <button class="button button--primary" data-demo-action="アセスメント入力画面を開くデモです。">記録を開始</button>
+    </article>
+    <article class="card">
+      <p class="eyebrow">MONITORING</p><h2>モニタリング</h2>
+      <ul class="compact-list"><li>使用状況</li><li>目標達成状況</li><li>身体・住環境の変化</li><li>適合・不具合</li><li>継続・変更・回収判断</li></ul>
+      <button class="button button--secondary" data-demo-action="モニタリング入力画面を開くデモです。">記録を開始</button>
+    </article>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>

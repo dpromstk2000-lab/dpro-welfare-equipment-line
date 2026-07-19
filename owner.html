@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE デモ画面">
+  <title>オーナーPC管理｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="owner.html" aria-current="page">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">OWNER LOGIN</p>
+    <h1>オーナーPC管理画面</h1>
+    <p>デモ管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code aria-label="管理コード" placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error aria-live="polite"></p>
+  </section>
+
+  <section data-protected-area hidden>
+    <section class="hero">
+      <p class="eyebrow">OWNER DASHBOARD</p>
+      <h1>今日の業務と期限を一画面で確認</h1>
+      <p>紹介案件、訪問、モニタリング、修理、用具在庫を横断して管理します。</p>
+    </section>
+
+    <section class="section grid grid--4">
+      <article class="card metric"><span>新規相談</span><strong data-summary="newInquiries">0</strong><span>件</span></article>
+      <article class="card metric"><span>本日の訪問</span><strong data-summary="todayVisits">0</strong><span>件</span></article>
+      <article class="card metric"><span>期限接近</span><strong data-summary="monitoringDue">0</strong><span>件</span></article>
+      <article class="card metric"><span>修理対応中</span><strong data-summary="openRepairs">0</strong><span>件</span></article>
+    </section>
+
+    <section class="section owner-layout" data-tabs>
+      <aside class="side-menu">
+        <button class="is-active" data-tab="dashboard">ダッシュボード</button>
+        <button data-tab="clients">利用者・紹介</button>
+        <button data-tab="plans">計画・契約</button>
+        <button data-tab="assets">用具・在庫</button>
+        <button data-tab="visits">訪問・配送</button>
+        <button data-tab="monitoring">モニタリング</button>
+        <button data-tab="settings">事業所設定</button>
+      </aside>
+
+      <div>
+        <section class="panel" data-panel="dashboard">
+          <article class="card">
+            <div class="split-heading"><div><p class="eyebrow">TODAY</p><h2>本日の訪問</h2></div><a class="button button--secondary button--small" href="owner-ipad.html">iPad画面</a></div>
+            <div data-visit-list></div>
+          </article>
+          <article class="card section">
+            <p class="eyebrow">ALERT</p><h2>確認が必要な項目</h2>
+            <div class="check-list">
+              <div class="check-row"><span>モニタリング期限が7日以内</span><span class="status status--warning">6件</span></div>
+              <div class="check-row"><span>回収後、消毒未完了</span><span class="status status--danger">3台</span></div>
+              <div class="check-row"><span>貸与・販売の選択説明が未記録</span><span class="status status--warning">1件</span></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel" data-panel="clients" hidden>
+          <article class="card"><p class="eyebrow">CLIENTS</p><h2>利用者・紹介案件</h2><p>電話番号、氏名、利用者番号、ケアマネジャー名から検索する画面をSTEP 4で実装します。</p><button class="button button--primary" data-demo-action="新規紹介案件の登録デモです。">新規紹介を登録</button></article>
+        </section>
+
+        <section class="panel" data-panel="plans" hidden>
+          <article class="card"><p class="eyebrow">PLAN</p><h2>計画・契約</h2><p>アセスメント、選定理由、貸与・販売比較、福祉用具サービス計画をSTEP 6で実装します。</p></article>
+        </section>
+
+        <section class="panel" data-panel="assets" hidden>
+          <article class="card"><p class="eyebrow">ASSETS</p><h2>用具個体・在庫</h2><div class="grid grid--2"><div class="notice notice--info"><strong>貸出中</strong><br><span data-summary="rentalAssets">0</span>台</div><div class="notice"><strong>貸出可能</strong><br><span data-summary="readyAssets">0</span>台</div></div></article>
+        </section>
+
+        <section class="panel" data-panel="visits" hidden>
+          <article class="card"><p class="eyebrow">VISITS</p><h2>訪問・配送予定</h2><div data-visit-list></div></article>
+        </section>
+
+        <section class="panel" data-panel="monitoring" hidden>
+          <article class="card"><p class="eyebrow">MONITORING</p><h2>期限管理</h2><p>計画に紐付くモニタリング予定と実施記録を管理します。</p><div class="notice">期限が近い利用者を担当者別に表示します。</div></article>
+        </section>
+
+        <section class="panel" data-panel="settings" hidden>
+          <article class="card"><p class="eyebrow">SETTINGS</p><h2>事業所設定</h2>
+            <div class="form-grid">
+              <div class="field"><label>事業所名</label><input value="DPRO 福祉用具センター"></div>
+              <div class="field"><label>事業所コード</label><input value="dpro_welfare_equipment_demo" readonly></div>
+              <div class="field"><label>基本訪問枠</label><select><option>30分</option><option>60分</option><option>90分</option><option>120分</option></select></div>
+              <div class="field"><label>タイムゾーン</label><input value="Asia/Tokyo" readonly></div>
+            </div>
+            <div class="button-row"><button class="button button--primary" data-demo-action="事業所設定を保存するデモです。">設定を保存</button></div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>

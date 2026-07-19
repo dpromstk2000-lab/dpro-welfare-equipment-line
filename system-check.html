@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE デモ画面">
+  <title>system-check｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="owner.html">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html" aria-current="page">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="hero">
+    <p class="eyebrow">SYSTEM CHECK</p>
+    <h1>営業前システムチェック</h1>
+    <p>STEP 1では、フロント画面・設定・画面間リンクを確認します。Worker、Supabase、Storageは後続STEPで接続します。</p>
+    <div class="hero-actions">
+      <button class="button button--primary" id="run-check">一括チェック</button>
+      <button class="button button--secondary" data-demo-action="デモデータ準備はSTEP 2・3で接続します。">デモ準備</button>
+    </div>
+  </section>
+
+  <section class="section grid grid--2">
+    <article class="card">
+      <p class="eyebrow">CONFIG</p><h2>基本設定</h2>
+      <div class="check-list" id="front-checks"></div>
+    </article>
+    <article class="card">
+      <p class="eyebrow">PHONE NORMALIZE</p><h2>電話番号正規化デモ</h2>
+      <div class="field">
+        <label for="phone">確認する電話番号</label>
+        <input id="phone" data-phone-input value="＋８１ ９０－１２３４－５６７８">
+        <span class="help">正規化結果</span>
+        <strong data-phone-result></strong>
+      </div>
+    </article>
+  </section>
+
+  <section class="section card">
+    <p class="eyebrow">BACKEND STATUS</p><h2>後続STEPで接続する項目</h2>
+    <div class="check-list">
+      <div class="check-row"><span>Cloudflare Worker API</span><span class="status status--warning">STEP 3</span></div>
+      <div class="check-row"><span>Supabase・RLS・必須テーブル</span><span class="status status--warning">STEP 2</span></div>
+      <div class="check-row"><span>非公開Storage</span><span class="status status--warning">STEP 2</span></div>
+      <div class="check-row"><span>用具個体の期間重複防止</span><span class="status status--warning">STEP 2</span></div>
+      <div class="check-row"><span>デモデータ作成</span><span class="status status--warning">STEP 2・3</span></div>
+    </div>
+  </section>
+</main>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const run = document.getElementById("run-check");
+  const target = document.getElementById("front-checks");
+  const checks = [
+    ["設定ファイル", () => Boolean(window.DPRO_CONFIG)],
+    ["システムコード", () => window.DPRO_CONFIG?.systemCode === "WELFARE-EQUIP"],
+    ["事業所コード", () => window.DPRO_CONFIG?.officeCode === "dpro_welfare_equipment_demo"],
+    ["デモ管理コード", () => window.DPRO_CONFIG?.adminCode === "1234"],
+    ["production_guard", () => window.DPRO_CONFIG?.productionGuard === true],
+    ["電話番号正規化", () => window.DPRO?.normalizePhone("＋８１ ９０－１２３４－５６７８") === "09012345678"],
+    ["必須画面数", () => Object.keys(window.DPRO_CONFIG?.pages || {}).length === 6]
+  ];
+  const execute = () => {
+    target.innerHTML = checks.map(([label, test]) => {
+      let ok = false;
+      try { ok = Boolean(test()); } catch (_) { ok = false; }
+      return `<div class="check-row"><span>${label}</span><span class="status ${ok ? "status--success" : "status--danger"}">${ok ? "OK" : "NG"}</span></div>`;
+    }).join("");
+  };
+  run.addEventListener("click", execute);
+  execute();
+});
+</script>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>
