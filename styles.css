@@ -938,3 +938,235 @@ img {
     padding: 17px;
   }
 }
+
+
+/* STEP WELFARE-EQUIP-5：商品・在庫・用具個体管理 */
+.inventory-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.inventory-metrics .metric {
+  min-height: 116px;
+  padding: 18px;
+}
+
+.inventory-metrics .metric strong {
+  font-size: 32px;
+}
+
+.inventory-guide h2 {
+  margin-bottom: 14px;
+}
+
+.lifecycle-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.lifecycle-flow span {
+  padding: 9px 13px;
+  border-radius: 999px;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  font-weight: 900;
+}
+
+.lifecycle-flow b {
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.inventory-subtabs {
+  display: flex;
+  gap: 8px;
+  margin: 22px 0 16px;
+  padding: 8px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+}
+
+.inventory-subtabs button {
+  min-width: 150px;
+  min-height: 46px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 10px;
+  color: var(--text);
+  background: transparent;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.inventory-subtabs button.is-active {
+  color: white;
+  background: var(--primary);
+}
+
+.asset-list,
+.product-list,
+.sale-stock-list {
+  display: grid;
+  gap: 11px;
+  margin-top: 16px;
+}
+
+.asset-row,
+.product-row,
+.stock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface-alt);
+}
+
+.asset-row.is-selected {
+  border: 2px solid var(--primary);
+  background: var(--primary-soft);
+}
+
+.asset-row h3,
+.asset-row p,
+.product-row h3,
+.product-row p,
+.stock-row h3,
+.stock-row p {
+  margin: 0;
+}
+
+.asset-row__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.asset-row__head strong {
+  font-size: 18px;
+  color: var(--primary-dark);
+}
+
+.product-row__meta,
+.stock-row__quantity {
+  display: grid;
+  justify-items: end;
+  gap: 7px;
+  min-width: 130px;
+  color: var(--muted);
+}
+
+.stock-row__quantity strong {
+  color: var(--primary-dark);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.stock-row.is-low {
+  border-color: #e8a2a2;
+  background: #fff4f4;
+}
+
+.selected-asset-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 15px;
+  border-radius: 12px;
+  background: var(--primary-soft);
+}
+
+.selected-asset-summary strong {
+  font-size: 19px;
+}
+
+.asset-action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.asset-history {
+  margin-top: 16px;
+}
+
+.asset-history h3 {
+  margin: 18px 0 8px;
+}
+
+.asset-history ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asset-history li {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-alt);
+}
+
+.asset-history li span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.checkbox-field {
+  align-content: center;
+}
+
+.checkbox-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+}
+
+.checkbox-field input {
+  width: 22px;
+  min-height: 22px;
+}
+
+@media (max-width: 1080px) {
+  .inventory-metrics {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .inventory-metrics {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .asset-row,
+  .product-row,
+  .stock-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .product-row__meta,
+  .stock-row__quantity {
+    justify-items: start;
+    min-width: 0;
+  }
+
+  .asset-action-buttons {
+    grid-template-columns: 1fr;
+  }
+}

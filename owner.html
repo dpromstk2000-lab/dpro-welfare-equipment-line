@@ -188,8 +188,170 @@
           <article class="card"><p class="eyebrow">PLAN</p><h2>計画・契約</h2><p>アセスメント、選定理由、貸与・販売比較、福祉用具サービス計画をSTEP 6で実装します。</p></article>
         </section>
 
-        <section class="panel" data-panel="assets" hidden>
-          <article class="card"><p class="eyebrow">ASSETS</p><h2>用具個体・在庫</h2><div class="grid grid--2"><div class="notice notice--info"><strong>貸出中</strong><br><span data-summary="rentalAssets">0</span>台</div><div class="notice"><strong>貸出可能</strong><br><span data-summary="readyAssets">0</span>台</div></div></article>
+        <section class="panel" data-panel="assets" hidden id="inventory-panel">
+          <section class="inventory-metrics">
+            <article class="card metric"><span>登録個体</span><strong data-inventory-count="total_assets">－</strong><span>台</span></article>
+            <article class="card metric"><span>貸出可能</span><strong data-inventory-count="available">－</strong><span>台</span></article>
+            <article class="card metric"><span>貸出中</span><strong data-inventory-count="rented">－</strong><span>台</span></article>
+            <article class="card metric"><span>処理待ち</span><strong data-inventory-count="needs_processing">－</strong><span>台</span></article>
+            <article class="card metric"><span>点検期限接近</span><strong data-inventory-count="inspection_due_within_30_days">－</strong><span>台</span></article>
+          </section>
+
+          <article class="card section inventory-guide">
+            <p class="eyebrow">SAFE LIFECYCLE</p>
+            <h2>回収した用具は、消毒・点検後に貸出可能へ戻します</h2>
+            <div class="lifecycle-flow">
+              <span>回収済み</span><b>→</b><span>消毒中</span><b>→</b><span>点検中</span><b>→</b><span>貸出可能</span>
+            </div>
+            <p class="help">工程を飛ばす状態変更は、データベース側でも拒否されます。</p>
+          </article>
+
+          <div class="inventory-subtabs" role="tablist">
+            <button class="is-active" type="button" data-inventory-tab="assets">用具個体</button>
+            <button type="button" data-inventory-tab="products">商品マスター</button>
+            <button type="button" data-inventory-tab="sale-stock">販売在庫</button>
+          </div>
+
+          <section data-inventory-panel="assets">
+            <article class="card">
+              <div class="split-heading">
+                <div><p class="eyebrow">RENTAL ASSETS</p><h2>福祉用具個体検索</h2></div>
+                <button class="button button--outline button--small" id="reload-assets" type="button">再読込</button>
+              </div>
+              <form id="asset-search-form" class="form-grid">
+                <div class="field"><label>管理番号・シリアル・バーコード</label><input name="q"></div>
+                <div class="field"><label>状態</label>
+                  <select name="status">
+                    <option value="">すべて</option>
+                    <option value="available">貸出可能</option>
+                    <option value="reserved">予約済み</option>
+                    <option value="rented">貸出中</option>
+                    <option value="returned_pending">回収済み・消毒待ち</option>
+                    <option value="sanitizing">消毒中</option>
+                    <option value="inspection">点検中</option>
+                    <option value="repair">修理中</option>
+                    <option value="retired">廃棄・除却</option>
+                    <option value="lost">紛失</option>
+                  </select>
+                </div>
+                <div class="field field--full button-row">
+                  <button class="button button--primary" type="submit">検索</button>
+                </div>
+              </form>
+              <p class="error-text" id="asset-list-error"></p>
+              <div id="asset-list" class="asset-list"></div>
+            </article>
+
+            <section class="section grid grid--2">
+              <article class="card">
+                <p class="eyebrow">NEW ASSET</p>
+                <h2>新しい用具個体を登録</h2>
+                <form id="asset-form" class="form-grid">
+                  <div class="field field--full"><label>商品</label><select name="product_model_id" data-rental-product-select required><option value="">選択してください</option></select></div>
+                  <div class="field"><label>用具管理番号</label><input name="asset_number" placeholder="例：AS-4001" required></div>
+                  <div class="field"><label>シリアル番号</label><input name="serial_number"></div>
+                  <div class="field"><label>バーコード値</label><input name="barcode_value" placeholder="未入力時は管理番号"></div>
+                  <div class="field"><label>保管場所</label><input name="current_location" value="本社倉庫"></div>
+                  <div class="field"><label>取得日</label><input name="acquired_on" type="date"></div>
+                  <div class="field"><label>取得価格</label><input name="purchase_price" type="number" min="0"></div>
+                  <div class="field"><label>仕入先</label><input name="supplier_name"></div>
+                  <div class="field"><label>保証期限</label><input name="warranty_end_date" type="date"></div>
+                  <div class="field field--full"><label>状態メモ</label><textarea name="condition_note"></textarea></div>
+                  <div class="field field--full"><button class="button button--secondary" type="submit">点検待ちで登録</button></div>
+                </form>
+                <p class="error-text" id="asset-form-error"></p>
+              </article>
+
+              <article class="card" id="asset-operation-card">
+                <p class="eyebrow">ASSET OPERATION</p>
+                <h2>選択した用具の工程操作</h2>
+                <p id="selected-asset-message">一覧から用具を選択してください。</p>
+                <div id="asset-operation-content" hidden>
+                  <div class="selected-asset-summary" id="selected-asset-summary"></div>
+                  <div class="field"><label>担当スタッフ</label><select id="asset-operation-staff" data-inventory-staff-select><option value="">未選択</option></select></div>
+                  <div class="field"><label>作業内容・理由</label><textarea id="asset-operation-note"></textarea></div>
+                  <div class="asset-action-buttons" id="asset-action-buttons"></div>
+                  <p class="error-text" id="asset-operation-error"></p>
+                  <button class="button button--outline button--small section" id="show-asset-history" type="button">履歴を表示</button>
+                  <div id="asset-history" class="asset-history"></div>
+                </div>
+              </article>
+            </section>
+          </section>
+
+          <section data-inventory-panel="products" hidden>
+            <section class="grid grid--2">
+              <article class="card">
+                <p class="eyebrow">PRODUCT CATEGORY</p><h2>カテゴリ追加</h2>
+                <form id="category-form" class="form-grid">
+                  <div class="field"><label>カテゴリコード</label><input name="category_code" placeholder="例：RAMP" required></div>
+                  <div class="field"><label>カテゴリ名</label><input name="category_name" required></div>
+                  <div class="field"><label>区分</label><select name="insurance_class"><option value="rental">貸与</option><option value="sale">販売</option><option value="selection">貸与・販売選択制</option><option value="self_pay">自費</option></select></div>
+                  <div class="field"><label>表示順</label><input name="display_order" type="number" value="100" min="0"></div>
+                  <div class="field field--full"><button class="button button--outline" type="submit">カテゴリを追加</button></div>
+                </form>
+                <p class="error-text" id="category-error"></p>
+              </article>
+
+              <article class="card">
+                <p class="eyebrow">PRODUCT MODEL</p><h2>商品マスター登録</h2>
+                <form id="product-form" class="form-grid">
+                  <div class="field field--full"><label>カテゴリ</label><select name="category_id" data-category-select required><option value="">選択してください</option></select></div>
+                  <div class="field"><label>商品コード</label><input name="product_code" required></div>
+                  <div class="field"><label>商品名</label><input name="product_name" required></div>
+                  <div class="field"><label>メーカー</label><input name="manufacturer"></div>
+                  <div class="field"><label>型番</label><input name="model_number"></div>
+                  <div class="field"><label>TAISコード</label><input name="tais_code"></div>
+                  <div class="field"><label>介護保険商品コード</label><input name="insurance_item_code"></div>
+                  <div class="field checkbox-field"><label><input name="can_rent" type="checkbox" checked> 貸与対応</label></div>
+                  <div class="field checkbox-field"><label><input name="can_sell" type="checkbox"> 販売対応</label></div>
+                  <div class="field checkbox-field"><label><input name="selection_option" type="checkbox"> 貸与・販売選択制</label></div>
+                  <div class="field"><label>月額貸与価格</label><input name="monthly_rental_price" type="number" min="0"></div>
+                  <div class="field"><label>販売価格</label><input name="sale_price" type="number" min="0"></div>
+                  <div class="field"><label>点検間隔（日）</label><input name="inspection_interval_days" type="number" value="180" min="1"></div>
+                  <div class="field"><label>販売在庫警告数</label><input name="stock_alert_threshold" type="number" value="2" min="0"></div>
+                  <div class="field field--full"><label>使用上の注意</label><textarea name="usage_cautions"></textarea></div>
+                  <div class="field field--full"><button class="button button--primary" type="submit">商品を登録</button></div>
+                </form>
+                <p class="error-text" id="product-error"></p>
+              </article>
+            </section>
+
+            <article class="card section">
+              <div class="split-heading"><div><p class="eyebrow">PRODUCT LIST</p><h2>商品一覧</h2></div><button class="button button--outline button--small" id="reload-products" type="button">再読込</button></div>
+              <div id="product-list" class="product-list"></div>
+            </article>
+          </section>
+
+          <section data-inventory-panel="sale-stock" hidden>
+            <section class="grid grid--2">
+              <article class="card">
+                <p class="eyebrow">SALE STOCK</p><h2>販売在庫を増減</h2>
+                <form id="sale-stock-form" class="form-grid">
+                  <div class="field field--full"><label>販売商品</label><select name="product_model_id" data-sale-product-select required><option value="">選択してください</option></select></div>
+                  <div class="field"><label>保管場所</label><input name="location_name" value="本社倉庫"></div>
+                  <div class="field"><label>増減数</label><input name="quantity_change" type="number" required placeholder="入荷は正数、販売は負数"></div>
+                  <div class="field"><label>処理区分</label><select name="movement_type"><option value="receipt">入荷</option><option value="sale">販売</option><option value="return">返品</option><option value="adjustment">棚卸調整</option><option value="disposal">廃棄</option></select></div>
+                  <div class="field field--full"><label>理由・伝票番号</label><textarea name="reason"></textarea></div>
+                  <div class="field field--full"><button class="button button--primary" type="submit">在庫を更新</button></div>
+                </form>
+                <p class="error-text" id="sale-stock-error"></p>
+              </article>
+              <article class="card">
+                <p class="eyebrow">RULE</p><h2>在庫不足を防止</h2>
+                <ul class="compact-list">
+                  <li>現在庫を超える販売・廃棄は拒否</li>
+                  <li>商品・場所ごとに在庫を分離</li>
+                  <li>増減前・増減後・理由を履歴保存</li>
+                  <li>警告数以下の在庫を強調表示</li>
+                </ul>
+              </article>
+            </section>
+            <article class="card section">
+              <div class="split-heading"><div><p class="eyebrow">CURRENT STOCK</p><h2>販売在庫一覧</h2></div><button class="button button--outline button--small" id="reload-sale-stock" type="button">再読込</button></div>
+              <div id="sale-stock-list" class="sale-stock-list"></div>
+            </article>
+          </section>
         </section>
 
         <section class="panel" data-panel="visits" hidden>
@@ -223,5 +385,6 @@
 <script src="api.js"></script>
 <script src="shared.js"></script>
 <script src="welfare.js"></script>
+<script src="inventory.js"></script>
 </body>
 </html>

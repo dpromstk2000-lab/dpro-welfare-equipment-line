@@ -31,7 +31,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェックと次の操作</h1>
-    <p>フロント画面に加え、Worker、Supabase、RLS、非公開Storage、相談・利用者管理をまとめて確認します。</p>
+    <p>フロント画面、Worker、Supabase、RLS、非公開Storage、相談・利用者管理、商品・在庫管理をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">もう一度チェック</button>
       <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
@@ -51,18 +51,18 @@
     </p>
 
     <div class="next-action-box" id="next-action-box" hidden>
-      <h3>次に確認する操作</h3>
+      <h3>確認できる業務画面</h3>
       <ol class="next-action-list">
-        <li><strong>相談受付を試す</strong><span>相談フォームからテスト相談を1件送信します。</span></li>
-        <li><strong>オーナーPCで確認</strong><span>「利用者・紹介」を開き、送信した相談が一覧に表示されることを確認します。</span></li>
-        <li><strong>担当者を割り当てる</strong><span>相談の担当スタッフと対応状態を更新します。</span></li>
+        <li><strong>商品マスター</strong><span>貸与・販売・選択制、価格、点検間隔を管理します。</span></li>
+        <li><strong>用具個体</strong><span>管理番号、シリアル、保管場所、現在状態を確認します。</span></li>
+        <li><strong>安全工程</strong><span>回収後は消毒・点検を経てから貸出可能へ戻します。</span></li>
       </ol>
       <div class="button-row">
-        <a class="button button--primary" href="inquiry.html?type=new">1．相談受付を開く</a>
-        <a class="button button--secondary" href="owner.html">2．オーナーPCを開く</a>
+        <a class="button button--primary" href="owner.html">オーナーPCを開く</a>
+        <a class="button button--secondary" href="inquiry.html?type=new">相談受付を開く</a>
       </div>
       <p class="help">
-        すべてOKの場合、このsystem-check画面で追加設定を行う必要はありません。
+        全項目OKの場合、今すぐ行う必須操作はありません。次の開発STEPへ進めます。
       </p>
     </div>
   </section>
