@@ -149,11 +149,24 @@
   }
 
   function normalizePhone(value) {
-    const fullWidth = "０１２３４５６７８９";
     let normalized = String(value ?? "")
-      .replace(/[０-９]/g, (char) => String(fullWidth.indexOf(char)))
+      .normalize("NFKC")
+      .replace(/[‐‑‒–—―ーｰ−﹣－]/g, "-")
+      .replace(/\s+/g, "")
       .replace(/[^\d+]/g, "");
-    if (normalized.startsWith("+81")) normalized = `0${normalized.slice(3)}`;
+
+    // +81 90... / ＋８１ ９０... → 090...
+    // +81 (0)90... → 090...
+    if (normalized.startsWith("+810")) {
+      normalized = normalized.slice(3);
+    } else if (normalized.startsWith("+81")) {
+      normalized = `0${normalized.slice(3)}`;
+    } else if (normalized.startsWith("00810")) {
+      normalized = normalized.slice(4);
+    } else if (normalized.startsWith("0081")) {
+      normalized = `0${normalized.slice(4)}`;
+    }
+
     return normalized.replace(/\D/g, "");
   }
 
