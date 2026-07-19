@@ -19,6 +19,7 @@
     <nav class="main-nav" data-main-nav>
       <a href="index.html">LINE利用者</a>
       <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
       <a href="owner.html">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="staff.html">配送スタッフ</a>
@@ -30,7 +31,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェック</h1>
-    <p>STEP 1では、フロント画面・設定・画面間リンクを確認します。Worker、Supabase、Storageは後続STEPで接続します。</p>
+    <p>フロント画面に加え、Worker、Supabase、RLS、非公開Storage、相談・利用者管理をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">一括チェック</button>
       <button class="button button--secondary" data-demo-action="デモデータ準備はSTEP 2・3で接続します。">デモ準備</button>
@@ -54,13 +55,9 @@
   </section>
 
   <section class="section card">
-    <p class="eyebrow">BACKEND STATUS</p><h2>後続STEPで接続する項目</h2>
-    <div class="check-list">
-      <div class="check-row"><span>Cloudflare Worker API</span><span class="status status--warning">STEP 3</span></div>
-      <div class="check-row"><span>Supabase・RLS・必須テーブル</span><span class="status status--warning">STEP 2</span></div>
-      <div class="check-row"><span>非公開Storage</span><span class="status status--warning">STEP 2</span></div>
-      <div class="check-row"><span>用具個体の期間重複防止</span><span class="status status--warning">STEP 2</span></div>
-      <div class="check-row"><span>デモデータ作成</span><span class="status status--warning">STEP 2・3</span></div>
+    <p class="eyebrow">BACKEND STATUS</p><h2>Worker・データベース</h2>
+    <div class="check-list" id="backend-checks">
+      <p class="help">API確認を開始します。</p>
     </div>
   </section>
 </main>
@@ -93,6 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
   <div>Version: <span data-system-version></span></div>
 </footer>
 <script src="config.js"></script>
+<script src="api.js"></script>
 <script src="shared.js"></script>
+<script src="welfare.js"></script>
 </body>
 </html>

@@ -99,20 +99,43 @@
       protectedArea?.removeAttribute("hidden");
       gate.setAttribute("hidden", "");
       sessionStorage.setItem("dpro_welfare_admin_ok", "1");
+      document.dispatchEvent(new CustomEvent("dpro-admin-ready"));
     };
 
-    if (sessionStorage.getItem("dpro_welfare_admin_ok") === "1") {
+    if (
+      sessionStorage.getItem("dpro_welfare_admin_ok") === "1" &&
+      window.DPRO_API?.hasToken()
+    ) {
       unlock();
       return;
     }
 
-    login?.addEventListener("click", () => {
-      if ((input?.value || "").trim() === cfg.adminCode) {
-        error.textContent = "";
-        unlock();
-      } else {
-        error.textContent = "管理コードが一致しません。デモ管理コードは1234です。";
+    login?.addEventListener("click", async () => {
+      const code = (input?.value || "").trim();
+      if (!code) {
+        error.textContent = "管理コードを入力してください。";
         input?.focus();
+        return;
+      }
+
+      login.disabled = true;
+      login.textContent = "確認中…";
+      error.textContent = "";
+
+      try {
+        if (window.DPRO_API) {
+          await window.DPRO_API.login(code);
+        } else if (code !== cfg.adminCode) {
+          throw new Error("管理コードが一致しません。");
+        }
+        unlock();
+      } catch (apiError) {
+        error.textContent =
+          apiError?.message || "管理コードを確認できませんでした。";
+        input?.focus();
+      } finally {
+        login.disabled = false;
+        login.textContent = "開く";
       }
     });
 

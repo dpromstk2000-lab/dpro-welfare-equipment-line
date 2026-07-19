@@ -19,6 +19,7 @@
     <nav class="main-nav" data-main-nav>
       <a href="index.html" aria-current="page">LINE利用者</a>
       <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
       <a href="owner.html">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="staff.html">配送スタッフ</a>
@@ -32,7 +33,7 @@
     <h1>福祉用具の相談から、納品後の困りごとまでLINEでつながる</h1>
     <p>用具の選定は福祉用具専門相談員が状態と住環境を確認してご案内します。自由注文ではなく、安全に使えることを最優先にしています。</p>
     <div class="hero-actions">
-      <button class="button button--primary" data-demo-action="福祉用具の相談を受け付けるデモです。">福祉用具を相談する</button>
+      <a class="button button--primary" href="inquiry.html?type=new">福祉用具を相談する</a>
       <a class="button button--secondary" href="member.html">利用中の用具を見る</a>
     </div>
   </section>
@@ -44,18 +45,18 @@
       <p>困っている内容を選ぶだけで、事業所へ相談内容を届けられます。</p>
     </div>
     <div class="grid grid--3">
-      <button class="action-card" data-demo-action="新規相談フォームを開くデモです。">
+      <a class="action-card" href="inquiry.html?type=new">
         <span class="action-card__number">01</span><h3>福祉用具の相談</h3><p>移動、入浴、排泄、寝起きなどのお困りごとを相談します。</p>
-      </button>
-      <button class="action-card" data-demo-action="不具合受付を開始するデモです。">
-        <span class="action-card__number">02</span><h3>不具合・故障</h3><p>異音、ぐらつき、破損などを写真付きで連絡できます。</p>
-      </button>
-      <button class="action-card" data-demo-action="交換・追加相談を開始するデモです。">
+      </a>
+      <a class="action-card" href="inquiry.html?type=malfunction">
+        <span class="action-card__number">02</span><h3>不具合・故障</h3><p>異音、ぐらつき、破損などを連絡できます。</p>
+      </a>
+      <a class="action-card" href="inquiry.html?type=exchange">
         <span class="action-card__number">03</span><h3>交換・追加相談</h3><p>身体状況や生活環境の変化に合わせて相談できます。</p>
-      </button>
-      <button class="action-card" data-demo-action="返却相談を開始するデモです。">
+      </a>
+      <a class="action-card" href="inquiry.html?type=return">
         <span class="action-card__number">04</span><h3>返却の相談</h3><p>返却希望日や回収時の注意事項を連絡します。</p>
-      </button>
+      </a>
       <a class="action-card" href="member.html">
         <span class="action-card__number">05</span><h3>訪問予定</h3><p>次回の納品、点検、モニタリング予定を確認します。</p>
       </a>
@@ -83,6 +84,7 @@
   <div>Version: <span data-system-version></span></div>
 </footer>
 <script src="config.js"></script>
+<script src="api.js"></script>
 <script src="shared.js"></script>
 </body>
 </html>

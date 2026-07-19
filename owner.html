@@ -19,6 +19,7 @@
     <nav class="main-nav" data-main-nav>
       <a href="index.html">LINE利用者</a>
       <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
       <a href="owner.html" aria-current="page">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="staff.html">配送スタッフ</a>
@@ -81,8 +82,106 @@
           </article>
         </section>
 
-        <section class="panel" data-panel="clients" hidden>
-          <article class="card"><p class="eyebrow">CLIENTS</p><h2>利用者・紹介案件</h2><p>電話番号、氏名、利用者番号、ケアマネジャー名から検索する画面をSTEP 4で実装します。</p><button class="button button--primary" data-demo-action="新規紹介案件の登録デモです。">新規紹介を登録</button></article>
+        <section class="panel" data-panel="clients" hidden id="client-inquiry-panel">
+          <article class="card">
+            <div class="split-heading">
+              <div><p class="eyebrow">CLIENT SEARCH</p><h2>既存利用者検索</h2></div>
+              <span class="selected-client-badge" id="selected-client-badge">利用者未選択</span>
+            </div>
+            <form id="client-search-form" class="form-grid">
+              <div class="field"><label>氏名</label><input name="name" maxlength="120"></div>
+              <div class="field"><label>電話番号</label><input name="phone" type="tel" inputmode="tel"></div>
+              <div class="field"><label>生年月日</label><input name="birth_date" type="date"></div>
+              <div class="field"><label>被保険者番号</label><input name="insurance_number" maxlength="80"></div>
+              <div class="field field--full button-row">
+                <button class="button button--primary" type="submit">検索する</button>
+                <button class="button button--outline" type="reset" id="clear-client-selection">選択解除</button>
+              </div>
+            </form>
+            <p class="error-text" id="client-search-error" aria-live="polite"></p>
+            <div id="client-search-results" class="result-list"></div>
+          </article>
+
+          <section class="section grid grid--2">
+            <article class="card">
+              <p class="eyebrow">PHONE / COUNTER</p>
+              <h2>電話・店頭受付</h2>
+              <form id="admin-inquiry-form" class="form-grid">
+                <div class="field"><label>受付経路</label><select name="source"><option value="phone">電話</option><option value="walkin">店頭</option><option value="fax">FAX</option><option value="hospital">病院・施設</option><option value="other">その他</option></select></div>
+                <div class="field"><label>相談者</label><select name="contact_role"><option value="client">利用者本人</option><option value="family">家族</option><option value="care_manager">ケアマネ</option><option value="medical">医療・介護関係者</option><option value="other">その他</option></select></div>
+                <div class="field"><label>相談者名</label><input name="contact_name" required></div>
+                <div class="field"><label>電話番号</label><input name="phone" type="tel" inputmode="tel"></div>
+                <div class="field"><label>相談区分</label><select name="inquiry_type"><option value="new">新規相談</option><option value="malfunction">不具合</option><option value="exchange">交換</option><option value="add">追加</option><option value="return">返却</option><option value="other">その他</option></select></div>
+                <div class="field"><label>緊急度</label><select name="urgency"><option value="normal">通常</option><option value="high">高い</option><option value="emergency">緊急</option><option value="low">低い</option></select></div>
+                <div class="field"><label>担当者</label><select name="assigned_staff_id" data-staff-select><option value="">未割当</option></select></div>
+                <div class="field"><label>対応期限</label><input name="due_at" type="datetime-local"></div>
+                <div class="field field--full"><label>相談内容</label><textarea name="summary" required></textarea></div>
+                <div class="field field--full"><span class="help" data-linked-client-label>既存利用者は選択されていません。</span></div>
+                <div class="field field--full"><button class="button button--primary" type="submit">受付を登録</button></div>
+              </form>
+              <p class="error-text" id="admin-inquiry-error"></p>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">CARE MANAGER REFERRAL</p>
+              <h2>ケアマネジャー紹介</h2>
+              <form id="referral-form" class="form-grid">
+                <div class="field field--full"><label>ケアマネジャー</label><select name="care_manager_id" data-care-manager-select required><option value="">選択してください</option></select></div>
+                <div class="field field--full"><label>相談する用具</label><input name="requested_categories" placeholder="例：車いす、特殊寝台"></div>
+                <div class="field"><label>利用開始希望日</label><input name="desired_start_date" type="date"></div>
+                <div class="field"><label>担当者</label><select name="assigned_staff_id" data-staff-select><option value="">未割当</option></select></div>
+                <div class="field field--full"><label>紹介・依頼内容</label><textarea name="request_summary" required></textarea></div>
+                <div class="field field--full"><span class="help" data-linked-client-label>利用者が登録済みの場合は、上の検索で選択してください。</span></div>
+                <div class="field field--full"><button class="button button--secondary" type="submit">紹介案件を登録</button></div>
+              </form>
+              <p class="error-text" id="referral-error"></p>
+            </article>
+          </section>
+
+          <section class="section grid grid--2">
+            <article class="card">
+              <p class="eyebrow">NEW CLIENT</p>
+              <h2>新規利用者登録</h2>
+              <form id="new-client-form" class="form-grid">
+                <div class="field"><label>利用者氏名</label><input name="client_name" required></div>
+                <div class="field"><label>氏名カナ</label><input name="client_name_kana"></div>
+                <div class="field"><label>電話番号</label><input name="phone" type="tel"></div>
+                <div class="field"><label>生年月日</label><input name="birth_date" type="date"></div>
+                <div class="field"><label>要介護度</label><input name="care_level" placeholder="例：要介護2"></div>
+                <div class="field"><label>被保険者番号</label><input name="insurance_number"></div>
+                <div class="field field--full"><label>住所</label><input name="address"></div>
+                <div class="field field--full"><label><input name="force_create" type="checkbox"> 重複候補を確認したうえで新規登録する</label></div>
+                <div class="field field--full"><button class="button button--outline" type="submit">利用者を登録</button></div>
+              </form>
+              <p class="error-text" id="new-client-error"></p>
+              <div id="new-client-candidates" class="result-list"></div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">FAMILY CONTACT</p>
+              <h2>家族連絡先を追加</h2>
+              <form id="family-form" class="form-grid">
+                <div class="field"><label>家族氏名</label><input name="family_name" required></div>
+                <div class="field"><label>続柄</label><input name="relationship" placeholder="例：長男"></div>
+                <div class="field"><label>電話番号</label><input name="phone" type="tel"></div>
+                <div class="field"><label>メール</label><input name="email" type="email"></div>
+                <div class="field field--full"><label><input name="is_primary_contact" type="checkbox"> 主な連絡先にする</label></div>
+                <div class="field field--full"><button class="button button--outline" type="submit">家族を追加</button></div>
+              </form>
+              <p class="help">上の検索で利用者を選択してから登録します。</p>
+              <p class="error-text" id="family-error"></p>
+            </article>
+          </section>
+
+          <article class="card section">
+            <div class="split-heading">
+              <div><p class="eyebrow">OPEN INQUIRIES</p><h2>未完了の相談・受付</h2></div>
+              <button class="button button--outline button--small" id="reload-inquiries" type="button">再読込</button>
+            </div>
+            <div id="inquiry-list" class="inquiry-list">
+              <p class="help">管理認証後に読み込みます。</p>
+            </div>
+          </article>
         </section>
 
         <section class="panel" data-panel="plans" hidden>
@@ -121,6 +220,8 @@
   <div>Version: <span data-system-version></span></div>
 </footer>
 <script src="config.js"></script>
+<script src="api.js"></script>
 <script src="shared.js"></script>
+<script src="welfare.js"></script>
 </body>
 </html>

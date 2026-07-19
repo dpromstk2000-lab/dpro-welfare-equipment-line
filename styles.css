@@ -683,3 +683,157 @@ img {
   .hero-actions .button { width: auto; flex: 1 1 180px; }
   .split-heading { align-items: flex-start; flex-direction: column; }
 }
+
+
+/* STEP WELFARE-EQUIP-4 */
+.hero--compact {
+  padding-block: clamp(24px, 4vw, 38px);
+}
+
+.inquiry-layout {
+  align-items: start;
+}
+
+.honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.receipt-number {
+  display: grid;
+  gap: 4px;
+  margin: 20px 0;
+  padding: 18px;
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius-sm);
+  background: var(--primary-soft);
+}
+
+.receipt-number span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.receipt-number strong {
+  color: var(--primary-dark);
+  font-size: 24px;
+  overflow-wrap: anywhere;
+}
+
+.step-list {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.step-list li + li {
+  margin-top: 8px;
+}
+
+.selected-client-badge {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--surface-alt);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.selected-client-badge.is-selected {
+  color: var(--success);
+  background: #e1f2e8;
+}
+
+.result-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.result-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+}
+
+.result-card h3,
+.result-card p {
+  margin: 0;
+}
+
+.result-card p + p {
+  margin-top: 3px;
+}
+
+.inquiry-list {
+  display: grid;
+  gap: 14px;
+}
+
+.inquiry-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 20px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+}
+
+.inquiry-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.inquiry-row__main h3 {
+  margin: 8px 0 4px;
+}
+
+.inquiry-row__main p {
+  margin: 4px 0 0;
+}
+
+.inquiry-row__actions {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.inquiry-row__actions select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: white;
+}
+
+@media (max-width: 760px) {
+  .result-card,
+  .inquiry-row {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .result-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inquiry-row__actions {
+    grid-template-columns: 1fr;
+  }
+}

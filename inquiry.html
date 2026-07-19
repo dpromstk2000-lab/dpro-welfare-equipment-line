@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE 相談受付">
+  <title>福祉用具の相談｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html" aria-current="page">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
+      <a href="owner.html">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="hero hero--compact">
+    <p class="eyebrow">LINE CONSULTATION</p>
+    <h1>福祉用具の相談受付</h1>
+    <p>ご本人・ご家族・ケアマネジャーから相談できます。受付後、福祉用具専門相談員が内容を確認して連絡します。</p>
+  </section>
+
+  <section class="section grid grid--2 inquiry-layout">
+    <form class="card" id="public-inquiry-form" novalidate>
+      <p class="eyebrow">FORM</p>
+      <h2>相談内容を入力</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label for="contact-role">相談者</label>
+          <select id="contact-role" name="contact_role" required>
+            <option value="client">利用者本人</option>
+            <option value="family">ご家族</option>
+            <option value="care_manager">ケアマネジャー</option>
+            <option value="medical">医療・介護関係者</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="inquiry-type">相談の種類</label>
+          <select id="inquiry-type" name="inquiry_type" required>
+            <option value="new">新しく福祉用具を相談</option>
+            <option value="malfunction">不具合・故障</option>
+            <option value="exchange">交換相談</option>
+            <option value="add">追加相談</option>
+            <option value="return">返却相談</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="contact-name">相談者のお名前</label>
+          <input id="contact-name" name="contact_name" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="field">
+          <label for="client-name">利用者のお名前</label>
+          <input id="client-name" name="client_name" maxlength="120" placeholder="本人相談の場合は同じ名前">
+        </div>
+        <div class="field">
+          <label for="inquiry-phone">連絡先電話番号</label>
+          <input id="inquiry-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required>
+          <span class="help" id="inquiry-phone-help">ハイフンあり・全角・+81形式でも入力できます。</span>
+        </div>
+        <div class="field">
+          <label for="contact-method">希望する連絡方法</label>
+          <select id="contact-method" name="preferred_contact_method">
+            <option value="phone">電話</option>
+            <option value="line">LINE</option>
+            <option value="either">どちらでもよい</option>
+          </select>
+        </div>
+        <div class="field field--full">
+          <label for="inquiry-summary">現在困っていること・相談内容</label>
+          <textarea id="inquiry-summary" name="summary" maxlength="1800" required placeholder="例：歩行時にふらつきがあり、屋内で使える歩行器を相談したい"></textarea>
+        </div>
+        <div class="field honeypot" aria-hidden="true">
+          <label for="website">入力しないでください</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+      </div>
+      <div class="notice notice--info">
+        LINE上で商品を自動確定するものではありません。安全のため、状態や住環境を確認してから用具を提案します。
+      </div>
+      <p class="error-text" id="inquiry-error" aria-live="polite"></p>
+      <div class="button-row">
+        <button class="button button--primary" type="submit" id="inquiry-submit">相談を送信</button>
+        <a class="button button--outline" href="index.html">戻る</a>
+      </div>
+    </form>
+
+    <aside>
+      <article class="card" id="inquiry-success" hidden>
+        <p class="eyebrow">RECEIVED</p>
+        <h2>相談を受け付けました</h2>
+        <p id="inquiry-success-message"></p>
+        <div class="receipt-number">
+          <span>受付番号</span>
+          <strong id="inquiry-number"></strong>
+        </div>
+        <p class="help">受付番号は問い合わせ時に確認できるよう控えてください。</p>
+        <a class="button button--secondary" href="index.html">LINEメニューへ戻る</a>
+      </article>
+      <article class="card">
+        <p class="eyebrow">EMERGENCY</p>
+        <h2>転倒・けががある場合</h2>
+        <p>まず安全を確保し、必要に応じて119番や医療機関へ連絡してください。危険な用具は使用を中止してください。</p>
+      </article>
+      <article class="card section">
+        <p class="eyebrow">AFTER CONTACT</p>
+        <h2>受付後の流れ</h2>
+        <ol class="step-list">
+          <li>担当者が内容を確認</li>
+          <li>電話またはLINEで連絡</li>
+          <li>必要に応じて訪問・状態確認</li>
+          <li>用具候補と費用を説明</li>
+        </ol>
+      </article>
+    </aside>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="shared.js"></script>
+<script src="welfare.js"></script>
+</body>
+</html>
