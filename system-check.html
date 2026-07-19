@@ -72,7 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ["デモ管理コード", () => window.DPRO_CONFIG?.adminCode === "1234"],
     ["production_guard", () => window.DPRO_CONFIG?.productionGuard === true],
     ["電話番号正規化", () => window.DPRO?.normalizePhone("＋８１ ９０－１２３４－５６７８") === "09012345678"],
-    ["必須画面数", () => Object.keys(window.DPRO_CONFIG?.pages || {}).length === 6]
+    ["必須画面数", () => {
+      const pages = window.DPRO_CONFIG?.pages || {};
+      const required = [
+        "customer", "member", "owner", "ipad",
+        "staff", "systemCheck", "inquiry"
+      ];
+      return required.every((key) => Boolean(pages[key]))
+        && Object.keys(pages).length === required.length;
+    }]
   ];
   const execute = () => {
     target.innerHTML = checks.map(([label, test]) => {
