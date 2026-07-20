@@ -1,7 +1,7 @@
 window.DPRO_CONFIG = Object.freeze({
   systemName: "DPRO 福祉用具レンタル・販売 LINE",
   systemCode: "WELFARE-EQUIP",
-  version: "WELFARE-EQUIP-5-INVENTORY-ASSET-20260719",
+  version: "WELFARE-EQUIP-6-ASSESSMENT-PLAN-20260720",
   officeCode: "dpro_welfare_equipment_demo",
   officeName: "DPRO 福祉用具センター",
   adminCode: "1234",
@@ -16,6 +16,8 @@ window.DPRO_CONFIG = Object.freeze({
     ipad: "owner-ipad.html",
     staff: "staff.html",
     systemCheck: "system-check.html",
-    inquiry: "inquiry.html"
+    inquiry: "inquiry.html",
+    planning: "planning.html",
+    planPrint: "plan-print.html"
   }
 });

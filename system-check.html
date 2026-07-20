@@ -22,6 +22,7 @@
       <a href="inquiry.html">相談受付</a>
       <a href="owner.html">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html">アセスメント・計画</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html" aria-current="page">system-check</a>
     </nav>
@@ -31,7 +32,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェックと次の操作</h1>
-    <p>フロント画面、Worker、Supabase、RLS、非公開Storage、相談・利用者管理、商品・在庫管理をまとめて確認します。</p>
+    <p>フロント画面、Worker、Supabase、RLS、相談・利用者管理、商品・在庫管理、アセスメント・サービス計画をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">もう一度チェック</button>
       <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
@@ -51,15 +52,15 @@
     </p>
 
     <div class="next-action-box" id="next-action-box" hidden>
-      <h3>確認できる業務画面</h3>
+      <h3>STEP 6で使用できる業務画面</h3>
       <ol class="next-action-list">
-        <li><strong>商品マスター</strong><span>貸与・販売・選択制、価格、点検間隔を管理します。</span></li>
-        <li><strong>用具個体</strong><span>管理番号、シリアル、保管場所、現在状態を確認します。</span></li>
-        <li><strong>安全工程</strong><span>回収後は消毒・点検を経てから貸出可能へ戻します。</span></li>
+        <li><strong>アセスメント</strong><span>生活動作、住環境、リスク、本人・家族の希望を記録します。</span></li>
+        <li><strong>用具選定・計画</strong><span>選定理由、期待効果、使用方法、注意事項を作成します。</span></li>
+        <li><strong>比較説明・同意</strong><span>貸与・販売選択制の説明、計画同意、印刷まで行います。</span></li>
       </ol>
       <div class="button-row">
-        <a class="button button--primary" href="owner.html">オーナーPCを開く</a>
-        <a class="button button--secondary" href="inquiry.html?type=new">相談受付を開く</a>
+        <a class="button button--primary" href="planning.html">アセスメント・計画を開く</a>
+        <a class="button button--secondary" href="owner.html">オーナーPCを開く</a>
       </div>
       <p class="help">
         全項目OKの場合、今すぐ行う必須操作はありません。次の開発STEPへ進めます。
@@ -105,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const pages = window.DPRO_CONFIG?.pages || {};
       const required = [
         "customer", "member", "owner", "ipad",
-        "staff", "systemCheck", "inquiry"
+        "staff", "systemCheck", "inquiry", "planning", "planPrint"
       ];
       return required.every((key) => Boolean(pages[key]))
         && Object.keys(pages).length === required.length;

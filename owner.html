@@ -22,6 +22,7 @@
       <a href="inquiry.html">相談受付</a>
       <a href="owner.html" aria-current="page">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html">アセスメント・計画</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html">system-check</a>
     </nav>
@@ -184,8 +185,23 @@
           </article>
         </section>
 
-        <section class="panel" data-panel="plans" hidden>
-          <article class="card"><p class="eyebrow">PLAN</p><h2>計画・契約</h2><p>アセスメント、選定理由、貸与・販売比較、福祉用具サービス計画をSTEP 6で実装します。</p></article>
+        <section class="panel" data-panel="plans" hidden id="owner-planning-panel">
+          <section class="grid grid--3">
+            <article class="action-card"><span class="action-card__number">1</span><h3>アセスメント</h3><p>身体状況、生活動作、住環境、本人・家族の希望を記録します。</p></article>
+            <article class="action-card"><span class="action-card__number">2</span><h3>用具選定・計画</h3><p>選定理由、期待効果、使い方、注意事項を用具ごとに作成します。</p></article>
+            <article class="action-card"><span class="action-card__number">3</span><h3>説明・同意・印刷</h3><p>貸与・販売比較、同意、有効化、計画書印刷まで行います。</p></article>
+          </section>
+          <article class="card section">
+            <div class="split-heading">
+              <div><p class="eyebrow">PLAN WORKSPACE</p><h2>専門相談員の計画作成画面</h2></div>
+              <a class="button button--primary" href="planning.html">アセスメント・計画を開く</a>
+            </div>
+            <p>PCとiPadのどちらでも同じデータを使用します。完了済みアセスメントと有効中計画は直接編集できません。</p>
+          </article>
+          <article class="card section">
+            <div class="split-heading"><div><p class="eyebrow">RECENT PLANS</p><h2>最近の計画</h2></div><button class="button button--outline button--small" id="reload-owner-plans" type="button">再読込</button></div>
+            <div id="owner-plan-list" class="plan-overview-list"><p class="help">管理認証後に読み込みます。</p></div>
+          </article>
         </section>
 
         <section class="panel" data-panel="assets" hidden id="inventory-panel">
@@ -386,5 +402,6 @@
 <script src="shared.js"></script>
 <script src="welfare.js"></script>
 <script src="inventory.js"></script>
+<script src="planning.js"></script>
 </body>
 </html>

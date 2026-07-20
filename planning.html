@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="福祉用具アセスメント・選定・サービス計画">
+  <title>アセスメント・サービス計画｜DPRO 福祉用具</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html" aria-current="page">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
+      <a href="owner.html">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html" aria-current="page">アセスメント・計画</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">SPECIALIST LOGIN</p>
+    <h1>アセスメント・サービス計画</h1>
+    <p>管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code aria-label="管理コード" placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error aria-live="polite"></p>
+  </section>
+
+  <section data-protected-area hidden id="planning-workspace">
+    <section class="hero hero--compact">
+      <p class="eyebrow">ASSESSMENT & PLAN</p>
+      <h1>状態と生活課題から、根拠のある福祉用具計画を作成</h1>
+      <p>利用者選択、案件、アセスメント、用具選定、貸与・販売説明、同意、印刷まで一つの画面で進めます。</p>
+    </section>
+
+    <section class="section planning-progress" aria-label="作成手順">
+      <div data-plan-step="client"><b>1</b><span>利用者</span></div>
+      <div data-plan-step="assessment"><b>2</b><span>アセスメント</span></div>
+      <div data-plan-step="plan"><b>3</b><span>計画</span></div>
+      <div data-plan-step="items"><b>4</b><span>用具選定</span></div>
+      <div data-plan-step="agreement"><b>5</b><span>説明・同意</span></div>
+    </section>
+
+    <section class="section card">
+      <div class="split-heading">
+        <div><p class="eyebrow">CLIENT</p><h2>利用者を検索・選択</h2></div>
+        <span class="selected-client-badge" id="planning-client-badge">利用者未選択</span>
+      </div>
+      <form id="planning-client-search" class="form-grid">
+        <div class="field"><label>氏名</label><input name="name"></div>
+        <div class="field"><label>電話番号</label><input name="phone" type="tel" inputmode="tel"></div>
+        <div class="field"><label>生年月日</label><input name="birth_date" type="date"></div>
+        <div class="field"><label>被保険者番号</label><input name="insurance_number"></div>
+        <div class="field field--full button-row">
+          <button class="button button--primary" type="submit">検索する</button>
+          <button class="button button--outline" type="reset" id="planning-clear-client">選択解除</button>
+        </div>
+      </form>
+      <p class="error-text" id="planning-client-error"></p>
+      <div id="planning-client-results" class="result-list"></div>
+    </section>
+
+    <section class="section planning-current" id="planning-current" hidden>
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">CURRENT WORK</p><h2 id="planning-current-client">利用者</h2></div>
+          <div class="button-row button-row--compact">
+            <button class="button button--secondary button--small" id="ensure-case" type="button">案件を準備</button>
+            <button class="button button--outline button--small" id="reload-workspace" type="button">再読込</button>
+          </div>
+        </div>
+        <div class="planning-status-grid">
+          <div><span>案件</span><strong id="planning-case-status">未作成</strong></div>
+          <div><span>アセスメント</span><strong id="planning-assessment-status">未作成</strong></div>
+          <div><span>計画</span><strong id="planning-plan-status">未作成</strong></div>
+        </div>
+        <p class="error-text" id="planning-workspace-error"></p>
+      </article>
+    </section>
+
+    <section class="section grid grid--2" id="assessment-section" hidden>
+      <article class="card planning-form-card">
+        <div class="split-heading"><div><p class="eyebrow">ASSESSMENT</p><h2>アセスメント記録</h2></div><button class="button button--outline button--small" id="new-assessment" type="button" hidden>新しいアセスメント</button></div>
+        <form id="assessment-form" class="form-grid">
+          <div class="field"><label>実施日時</label><input name="assessed_at" type="datetime-local" required></div>
+          <div class="field"><label>担当相談員</label><select name="assessed_by" data-planning-staff required><option value="">選択</option></select></div>
+          <div class="field"><label>身長（cm）</label><input name="height_cm" type="number" min="30" max="250" step="0.1"></div>
+          <div class="field"><label>体重（kg）</label><input name="weight_kg" type="number" min="5" max="400" step="0.1"></div>
+          <div class="field field--full"><label>移動状況</label><textarea name="mobility" placeholder="屋内・屋外の移動方法、介助量"></textarea></div>
+          <div class="field"><label>移乗</label><textarea name="transfer_status"></textarea></div>
+          <div class="field"><label>寝起き</label><textarea name="sleeping_status"></textarea></div>
+          <div class="field"><label>入浴</label><textarea name="bathing_status"></textarea></div>
+          <div class="field"><label>排泄</label><textarea name="toileting_status"></textarea></div>
+          <div class="field field--full"><label>介護者の状況</label><textarea name="caregiver_status"></textarea></div>
+
+          <fieldset class="field field--full planning-check-fieldset">
+            <legend>住環境</legend>
+            <label><input type="checkbox" name="entrance_step"> 玄関・室内に段差</label>
+            <label><input type="checkbox" name="stairs"> 階段あり</label>
+            <label><input type="checkbox" name="narrow_corridor"> 廊下・出入口が狭い</label>
+            <label><input type="checkbox" name="elevator"> エレベーターあり</label>
+            <label><input type="checkbox" name="carrying_route_issue"> 搬入経路に注意</label>
+          </fieldset>
+
+          <fieldset class="field field--full planning-check-fieldset">
+            <legend>リスク・注意</legend>
+            <label><input type="checkbox" name="fall_risk"> 転倒リスク</label>
+            <label><input type="checkbox" name="pressure_ulcer_risk"> 褥瘡リスク</label>
+            <label><input type="checkbox" name="entrapment_risk"> 挟み込みリスク</label>
+            <label><input type="checkbox" name="caregiver_burden"> 介助負担</label>
+            <label><input type="checkbox" name="cognitive_risk"> 認知面の注意</label>
+          </fieldset>
+
+          <div class="field field--full"><label>生活上の課題</label><textarea name="living_challenges" required></textarea></div>
+          <div class="field field--full"><label>利用者・家族の希望</label><textarea name="client_wishes" required></textarea></div>
+          <div class="field field--full"><label>用具選定時の注意</label><textarea name="selection_cautions"></textarea></div>
+          <div class="field field--full"><label>総合評価</label><textarea name="assessment_summary" required></textarea></div>
+          <div class="field field--full button-row">
+            <button class="button button--secondary" type="submit">下書きを保存</button>
+            <button class="button button--primary" type="button" id="complete-assessment">アセスメントを完了</button>
+          </div>
+        </form>
+        <p class="error-text" id="assessment-error"></p>
+      </article>
+
+      <aside class="card planning-help-card">
+        <p class="eyebrow">CHECK POINT</p>
+        <h2>現場確認の要点</h2>
+        <ul class="compact-list">
+          <li>病名だけで用具を決めず、生活動作と環境を確認</li>
+          <li>本人の自立と介護者負担の両方を評価</li>
+          <li>搬入経路、段差、幅、床材を確認</li>
+          <li>試用時の適合と本人の希望を記録</li>
+          <li>完了後は改ざん防止のため直接編集不可</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section" id="plan-section" hidden>
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">SERVICE PLAN</p><h2>福祉用具サービス計画</h2></div>
+          <div class="button-row button-row--compact">
+            <button class="button button--outline button--small" id="revise-plan" type="button" hidden>有効計画を改訂</button>
+            <button class="button button--outline button--small" id="print-plan" type="button" hidden>計画書を印刷</button>
+          </div>
+        </div>
+        <form id="plan-form" class="form-grid">
+          <div class="field"><label>計画日</label><input name="plan_date" type="date" required></div>
+          <div class="field"><label>利用開始日</label><input name="service_start_date" type="date" required></div>
+          <div class="field"><label>次回モニタリング予定</label><input name="monitoring_due_date" type="date" required></div>
+          <div class="field"><label>作成担当</label><select name="created_by" data-planning-staff required><option value="">選択</option></select></div>
+          <div class="field field--full"><label>利用者・家族の希望</label><textarea name="client_wishes"></textarea></div>
+          <div class="field field--full"><label>生活上の課題</label><textarea name="living_challenges"></textarea></div>
+          <div class="field field--full"><label>計画目標</label><textarea name="goals" required></textarea></div>
+          <div class="field field--full"><label>サービス内容の概要</label><textarea name="service_summary" required></textarea></div>
+          <div class="field field--full button-row">
+            <button class="button button--primary" type="submit">計画を保存</button>
+          </div>
+        </form>
+        <p class="error-text" id="plan-error"></p>
+      </article>
+    </section>
+
+    <section class="section grid grid--2" id="plan-items-section" hidden>
+      <article class="card">
+        <p class="eyebrow">EQUIPMENT SELECTION</p>
+        <h2>計画へ用具を追加</h2>
+        <form id="plan-item-form" class="form-grid">
+          <div class="field field--full"><label>商品</label><select name="product_model_id" data-planning-product required><option value="">選択</option></select></div>
+          <div class="field"><label>提供区分</label><select name="service_type"><option value="rental">貸与</option><option value="sale">販売</option><option value="self_pay">自費</option></select></div>
+          <div class="field"><label>数量</label><input name="quantity" type="number" value="1" min="1" max="99"></div>
+          <div class="field field--full"><label>選定理由</label><textarea name="selection_reason" required></textarea></div>
+          <div class="field field--full"><label>期待される効果</label><textarea name="expected_effect" required></textarea></div>
+          <div class="field field--full"><label>具体的な使用方法</label><textarea name="usage_method" required></textarea></div>
+          <div class="field field--full"><label>注意事項</label><textarea name="caution_note"></textarea></div>
+          <div class="field field--full"><label>試用・適合確認結果</label><textarea name="trial_result"></textarea></div>
+          <div class="field field--full"><label>利用者の希望</label><textarea name="client_preference"></textarea></div>
+          <div class="field field--full"><button class="button button--secondary" type="submit">用具を追加</button></div>
+        </form>
+        <p class="error-text" id="plan-item-error"></p>
+      </article>
+
+      <article class="card">
+        <div class="split-heading"><div><p class="eyebrow">SELECTED ITEMS</p><h2>計画に含む用具</h2></div><span class="status status--info" id="plan-item-count">0件</span></div>
+        <div id="plan-item-list" class="plan-item-list"></div>
+      </article>
+    </section>
+
+    <section class="section grid grid--2" id="agreement-section" hidden>
+      <article class="card">
+        <p class="eyebrow">RENTAL / SALE EXPLANATION</p>
+        <h2>貸与・販売選択制の説明</h2>
+        <form id="selection-explanation-form" class="form-grid">
+          <div class="field field--full"><label>対象用具</label><select name="plan_item_id" id="selection-plan-item"><option value="">選択制用具なし</option></select></div>
+          <div class="field"><label>説明担当</label><select name="explained_by" data-planning-staff><option value="">選択</option></select></div>
+          <div class="field"><label>利用者の選択</label><select name="client_choice"><option value="pending">検討中</option><option value="rental">貸与</option><option value="sale">販売</option><option value="not_applicable">対象外</option></select></div>
+          <div class="field field--full"><label>貸与の説明</label><textarea name="rental_explanation"></textarea></div>
+          <div class="field field--full"><label>販売の説明</label><textarea name="sale_explanation"></textarea></div>
+          <div class="field field--full"><label>費用比較</label><textarea name="cost_comparison"></textarea></div>
+          <div class="field field--full"><label>ケアマネジャー等の意見</label><textarea name="care_manager_opinion"></textarea></div>
+          <div class="field field--full"><label>選択理由</label><textarea name="choice_reason"></textarea></div>
+          <div class="field"><label>確認者氏名</label><input name="confirmed_by_name"></div>
+          <div class="field checkbox-field"><label><input name="agreed" type="checkbox"> 説明内容を確認済み</label></div>
+          <div class="field field--full"><button class="button button--secondary" type="submit">説明記録を保存</button></div>
+        </form>
+        <p class="error-text" id="selection-explanation-error"></p>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">AGREEMENT</p>
+        <h2>計画の同意・有効化</h2>
+        <form id="activate-plan-form" class="form-grid">
+          <div class="field"><label>同意者氏名</label><input name="agreed_by_name" required></div>
+          <div class="field"><label>本人との関係</label><input name="agreed_role" placeholder="本人、長男など"></div>
+          <div class="field"><label>確認担当</label><select name="staff_id" data-planning-staff><option value="">選択</option></select></div>
+          <div class="field field--full"><label>同意方法・補足</label><textarea name="agreement_note" placeholder="書面で説明し同意を確認、家族同席など"></textarea></div>
+          <div class="field field--full"><button class="button button--primary" type="submit">計画を有効化</button></div>
+        </form>
+        <p class="help">有効化後は直接変更できません。変更時は「改訂」を作成します。</p>
+        <p class="error-text" id="activate-plan-error"></p>
+      </article>
+    </section>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="shared.js"></script>
+<script src="planning.js"></script>
+</body>
+</html>

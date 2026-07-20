@@ -28,34 +28,20 @@
   </div>
 </header>
 <main class="page">
-  <section class="hero">
-    <p class="eyebrow">SPECIALIST IPAD</p>
-    <h1>本日の訪問と記録</h1>
-    <p>アセスメント、商品選定、適合確認、モニタリングをタッチ操作しやすい画面で行います。</p>
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">SPECIALIST LOGIN</p><h1>専門相談員iPad</h1><p>管理コードを入力してください。</p>
+    <div class="admin-code-row"><input type="password" inputmode="numeric" data-admin-code placeholder="管理コード"><button class="button button--primary" data-admin-login>開く</button><button class="button button--outline" data-admin-clear>削除</button></div>
+    <p class="help">デモ管理コード：1234</p><p class="error-text" data-admin-error></p>
   </section>
-
-  <section class="section grid grid--3">
-    <a class="action-card" href="#today"><span class="action-card__number">07</span><h3>本日の訪問</h3><p>7件の予定があります。</p></a>
-    <button class="action-card" data-demo-action="利用者検索を開始するデモです。"><span class="action-card__number">検</span><h3>利用者検索</h3><p>氏名・電話番号・利用者番号から検索します。</p></button>
-    <button class="action-card" data-demo-action="新規アセスメントを開始するデモです。"><span class="action-card__number">新</span><h3>新規アセスメント</h3><p>住環境と生活課題を記録します。</p></button>
-  </section>
-
-  <section class="section card" id="today">
-    <div class="split-heading"><div><p class="eyebrow">TODAY</p><h2>訪問予定</h2></div><span class="status status--info">2026年7月19日</span></div>
-    <div data-visit-list></div>
-  </section>
-
-  <section class="section grid grid--2">
-    <article class="card">
-      <p class="eyebrow">ASSESSMENT</p><h2>現場で記録する内容</h2>
-      <ul class="compact-list"><li>生活上の困りごと</li><li>移動・移乗・寝起き</li><li>住環境と搬入経路</li><li>介護者の状況</li><li>用具候補と選定理由</li></ul>
-      <button class="button button--primary" data-demo-action="アセスメント入力画面を開くデモです。">記録を開始</button>
-    </article>
-    <article class="card">
-      <p class="eyebrow">MONITORING</p><h2>モニタリング</h2>
-      <ul class="compact-list"><li>使用状況</li><li>目標達成状況</li><li>身体・住環境の変化</li><li>適合・不具合</li><li>継続・変更・回収判断</li></ul>
-      <button class="button button--secondary" data-demo-action="モニタリング入力画面を開くデモです。">記録を開始</button>
-    </article>
+  <section data-protected-area hidden>
+    <section class="hero"><p class="eyebrow">SPECIALIST IPAD</p><h1>訪問先でアセスメントと計画を記録</h1><p>利用者検索、状態確認、用具選定、説明・同意までタッチ操作で進めます。</p><div class="hero-actions"><a class="button button--primary" href="planning.html">アセスメント・計画を開く</a><a class="button button--secondary" href="#today">本日の訪問</a></div></section>
+    <section class="section grid grid--3">
+      <a class="action-card" href="planning.html"><span class="action-card__number">1</span><h3>利用者を選択</h3><p>氏名、電話番号、生年月日から検索します。</p></a>
+      <a class="action-card" href="planning.html"><span class="action-card__number">2</span><h3>現場アセスメント</h3><p>動作、住環境、リスク、希望を記録します。</p></a>
+      <a class="action-card" href="planning.html"><span class="action-card__number">3</span><h3>計画・説明</h3><p>用具選定、貸与・販売説明、同意を記録します。</p></a>
+    </section>
+    <section class="section card" id="today"><div class="split-heading"><div><p class="eyebrow">TODAY</p><h2>訪問予定</h2></div><span class="status status--info">本日</span></div><div data-visit-list></div></section>
+    <section class="section notice notice--info"><strong>現場記録の原則</strong><br>完了済みアセスメントと有効中計画は直接書き換えず、変化がある場合は新規アセスメントまたは計画改訂を作成します。</section>
   </section>
 </main>
 <footer class="footer">

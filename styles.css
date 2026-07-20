@@ -1170,3 +1170,412 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* STEP WELFARE-EQUIP-6：アセスメント・サービス計画 */
+.planning-progress {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.planning-progress > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 58px;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 13px;
+  color: var(--muted);
+  background: white;
+  font-weight: 800;
+}
+
+.planning-progress b {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--muted);
+  background: var(--surface-alt);
+}
+
+.planning-progress .is-current {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+.planning-progress .is-current b {
+  color: white;
+  background: var(--accent);
+}
+
+.planning-progress .is-complete {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+}
+
+.planning-progress .is-complete b {
+  color: white;
+  background: var(--primary);
+}
+
+.button-row--compact {
+  margin-top: 0;
+}
+
+.planning-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 17px;
+}
+
+.planning-status-grid > div {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
+.planning-status-grid span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.planning-status-grid strong {
+  color: var(--primary-dark);
+  overflow-wrap: anywhere;
+}
+
+.planning-form-card textarea {
+  min-height: 90px;
+}
+
+.planning-check-fieldset {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+}
+
+.planning-check-fieldset legend {
+  padding: 0 8px;
+  font-weight: 900;
+}
+
+.planning-check-fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  background: var(--surface-alt);
+}
+
+.planning-check-fieldset input {
+  width: 21px;
+  min-height: 21px;
+}
+
+.planning-help-card {
+  align-self: start;
+  position: sticky;
+  top: 100px;
+}
+
+.plan-item-list,
+.plan-overview-list {
+  display: grid;
+  gap: 12px;
+}
+
+.plan-item-card {
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface-alt);
+}
+
+.plan-item-card__head,
+.plan-overview-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.plan-item-card__head h3,
+.plan-item-card__head p,
+.plan-overview-row h3,
+.plan-overview-row p {
+  margin: 0;
+}
+
+.plan-item-card__head > div:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.plan-item-card dl {
+  display: grid;
+  grid-template-columns: 92px minmax(0,1fr);
+  gap: 7px 12px;
+  margin: 14px 0;
+}
+
+.plan-item-card dt {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.plan-item-card dd {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.plan-overview-row {
+  align-items: center;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
+.plan-overview-row > div:last-child {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+/* 計画書印刷 */
+.plan-print-body {
+  background: #ececec;
+}
+
+.print-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
+
+.plan-document {
+  padding: 24px 12px 60px;
+}
+
+.plan-print-sheet {
+  position: relative;
+  width: min(1120px, 100%);
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 16mm 13mm;
+  overflow: hidden;
+  color: #111;
+  background: white;
+  box-shadow: 0 5px 24px rgba(0,0,0,.16);
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.plan-draft-watermark {
+  position: absolute;
+  top: 45%;
+  left: 12%;
+  z-index: 0;
+  transform: rotate(-25deg);
+  color: rgba(180,0,0,.09);
+  font-size: 70px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.plan-print-sheet > *:not(.plan-draft-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.plan-print-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #145d66;
+}
+
+.plan-print-header h1 {
+  margin: 0;
+  font-size: 25px;
+  letter-spacing: .08em;
+}
+
+.plan-print-brand {
+  margin: 0 0 2px;
+  color: #145d66;
+  font-weight: 900;
+}
+
+.plan-number-box {
+  display: grid;
+  min-width: 210px;
+  padding: 8px 10px;
+  border: 1px solid #555;
+  text-align: right;
+}
+
+.plan-info-table,
+.plan-item-table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.plan-info-table th,
+.plan-info-table td,
+.plan-item-table th,
+.plan-item-table td {
+  padding: 6px 7px;
+  border: 1px solid #555;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.plan-info-table th {
+  width: 13%;
+  background: #e5f0ed;
+  text-align: left;
+}
+
+.plan-item-table {
+  font-size: 10px;
+}
+
+.plan-item-table th {
+  background: #e5f0ed;
+}
+
+.plan-item-table th:first-child { width: 34px; }
+.plan-item-table th:nth-child(2) { width: 17%; }
+.plan-item-table th:nth-child(3) { width: 48px; }
+
+.plan-print-section {
+  margin-top: 14px;
+  break-inside: avoid;
+}
+
+.plan-print-section h2 {
+  margin: 0 0 7px;
+  padding: 5px 8px;
+  border-left: 6px solid #145d66;
+  background: #eff5f3;
+  font-size: 15px;
+}
+
+.plan-print-dl {
+  display: grid;
+  grid-template-columns: 130px minmax(0,1fr);
+  margin: 0;
+  border: 1px solid #555;
+}
+
+.plan-print-dl dt,
+.plan-print-dl dd {
+  margin: 0;
+  padding: 7px;
+  border-bottom: 1px solid #aaa;
+  white-space: pre-wrap;
+}
+
+.plan-print-dl dt {
+  background: #f2f5f4;
+  font-weight: 900;
+}
+
+.agreement-lines {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.agreement-lines > div {
+  display: grid;
+  gap: 5px;
+  min-height: 70px;
+  padding: 8px;
+  border: 1px solid #555;
+}
+
+.agreement-lines span {
+  font-size: 10px;
+}
+
+.agreement-note {
+  white-space: pre-wrap;
+}
+
+.plan-print-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 7px;
+  border-top: 1px solid #777;
+  font-size: 10px;
+}
+
+@media (max-width: 920px) {
+  .planning-progress { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .planning-check-fieldset { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .planning-help-card { position: static; }
+}
+
+@media (max-width: 680px) {
+  .planning-progress { grid-template-columns: 1fr; }
+  .planning-status-grid { grid-template-columns: 1fr; }
+  .planning-check-fieldset { grid-template-columns: 1fr; }
+  .plan-item-card__head,
+  .plan-overview-row { flex-direction: column; }
+  .plan-overview-row > div:last-child { justify-items: start; }
+  .plan-print-sheet { padding: 14px; font-size: 11px; }
+  .plan-print-header { flex-direction: column; }
+  .plan-number-box { min-width: 0; width: 100%; text-align: left; }
+  .agreement-lines { grid-template-columns: 1fr; }
+}
+
+@media print {
+  @page { size: A4 landscape; margin: 8mm; }
+  body.plan-print-body { background: white; }
+  .print-toolbar { display: none !important; }
+  .plan-document { padding: 0; }
+  .plan-print-sheet {
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    font-size: 9.5px;
+  }
+  .plan-print-header h1 { font-size: 21px; }
+  .plan-item-table { font-size: 8px; }
+  .plan-print-section { break-inside: avoid; }
+}
