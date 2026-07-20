@@ -24,6 +24,7 @@
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="planning.html">アセスメント・計画</a>
       <a href="contract.html">契約・納品</a>
+      <a href="aftercare.html">モニタリング・保守</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html" aria-current="page">system-check</a>
     </nav>
@@ -33,7 +34,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェックと次の操作</h1>
-    <p>フロント画面、Worker、Supabase、RLS、相談・計画、契約・同意、個体割当、納品設置、貸与開始をまとめて確認します。</p>
+    <p>フロント画面、Worker、Supabase、RLS、相談・計画・契約に加え、モニタリング、修理、交換、回収、消毒・点検をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">もう一度チェック</button>
       <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
@@ -53,14 +54,14 @@
     </p>
 
     <div class="next-action-box" id="next-action-box" hidden>
-      <h3>STEP 7で使用できる業務画面</h3>
+      <h3>STEP 8で使用できる業務画面</h3>
       <ol class="next-action-list">
-        <li><strong>契約・利用者同意</strong><span>有効計画から契約明細を作り、説明確認と署名を記録します。</span></li>
-        <li><strong>用具個体割当・納品準備</strong><span>貸出可能個体を予約し、配送担当・車両・30分単位の予定を設定します。</span></li>
-        <li><strong>設置確認・貸与開始</strong><span>積込、到着、適合、安全説明、受領確認後に貸与を開始します。</span></li>
+        <li><strong>定期モニタリング</strong><span>期限、訪問予定、用具ごとの利用・適合・不具合を記録します。</span></li>
+        <li><strong>修理・交換・回収</strong><span>安全確保、代替個体、30分単位の訪問予定、回収状態を管理します。</span></li>
+        <li><strong>消毒・点検・再貸出</strong><span>回収後は消毒・点検を完了するまで貸出可能へ戻しません。</span></li>
       </ol>
       <div class="button-row">
-        <a class="button button--primary" href="contract.html">契約・納品準備を開く</a>
+        <a class="button button--primary" href="aftercare.html">モニタリング・保守を開く</a>
         <a class="button button--secondary" href="staff.html">配送・設置画面を開く</a>
       </div>
       <p class="help">
@@ -108,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const required = [
         "customer", "member", "owner", "ipad",
         "staff", "systemCheck", "inquiry", "planning", "planPrint",
-        "contract", "contractPrint"
+        "contract", "contractPrint", "aftercare"
       ];
       return required.every((key) => Boolean(pages[key]))
         && Object.keys(pages).length === required.length;

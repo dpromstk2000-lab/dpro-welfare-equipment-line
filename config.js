@@ -1,7 +1,7 @@
 window.DPRO_CONFIG = Object.freeze({
   systemName: "DPRO 福祉用具レンタル・販売 LINE",
   systemCode: "WELFARE-EQUIP",
-  version: "WELFARE-EQUIP-7-R2-DYNAMIC-HEADER-NAV-20260720",
+  version: "WELFARE-EQUIP-8-AFTERCARE-20260720",
   officeCode: "dpro_welfare_equipment_demo",
   officeName: "DPRO 福祉用具センター",
   adminCode: "1234",
@@ -20,6 +20,7 @@ window.DPRO_CONFIG = Object.freeze({
     planning: "planning.html",
     planPrint: "plan-print.html",
     contract: "contract.html",
-    contractPrint: "contract-print.html"
+    contractPrint: "contract-print.html",
+    aftercare: "aftercare.html"
   }
 });

@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE モニタリング・修理・交換・回収管理">
+  <title>モニタリング・保守｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
+      <a href="owner.html">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html">アセスメント・計画</a>
+      <a href="contract.html">契約・納品</a>
+      <a href="aftercare.html" aria-current="page">モニタリング・保守</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">AFTERCARE LOGIN</p>
+    <h1>モニタリング・保守管理</h1>
+    <p>管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error></p>
+  </section>
+
+  <section data-protected-area hidden>
+    <section class="hero">
+      <p class="eyebrow">MONITORING & AFTERCARE</p>
+      <h1>利用開始後の安全と継続利用を一画面で管理</h1>
+      <p>定期モニタリング、不具合、修理、代替交換、回収、消毒、点検、再貸出までを正しい順序で記録します。</p>
+      <div class="hero-actions">
+        <a class="button button--primary" href="#aftercare-client-section">利用者を選択</a>
+        <a class="button button--secondary" href="#processing-panel">回収後処理を確認</a>
+      </div>
+    </section>
+
+    <section class="section aftercare-metrics">
+      <article class="card metric"><span>期限接近</span><strong data-aftercare-count="monitoring_due_within_14_days">－</strong><span>件</span></article>
+      <article class="card metric"><span>期限超過</span><strong data-aftercare-count="monitoring_overdue">－</strong><span>件</span></article>
+      <article class="card metric"><span>対応中依頼</span><strong data-aftercare-count="open_service_requests">－</strong><span>件</span></article>
+      <article class="card metric"><span>緊急対応</span><strong data-aftercare-count="emergency_requests">－</strong><span>件</span></article>
+      <article class="card metric"><span>修理中</span><strong data-aftercare-count="open_repairs">－</strong><span>件</span></article>
+      <article class="card metric"><span>回収後処理</span><strong data-aftercare-count="processing_assets">－</strong><span>台</span></article>
+    </section>
+
+    <section class="section aftercare-flow">
+      <article><span>1</span><strong>モニタリング</strong><small>適合・利用状況</small></article>
+      <article><span>2</span><strong>対応判断</strong><small>継続・修理・交換</small></article>
+      <article><span>3</span><strong>訪問対応</strong><small>修理・交換・回収</small></article>
+      <article><span>4</span><strong>回収後処理</strong><small>消毒・点検</small></article>
+      <article><span>5</span><strong>再貸出可能</strong><small>安全確認済み</small></article>
+    </section>
+
+    <section class="section grid grid--2" id="aftercare-client-section">
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">CLIENT</p><h2>利用者を検索</h2></div>
+          <span class="selected-client-badge" id="aftercare-client-badge">利用者未選択</span>
+        </div>
+        <form id="aftercare-client-search" class="form-grid">
+          <div class="field"><label>氏名</label><input name="name"></div>
+          <div class="field"><label>電話番号</label><input name="phone" type="tel"></div>
+          <div class="field"><label>生年月日</label><input name="birth_date" type="date"></div>
+          <div class="field"><label>被保険者番号</label><input name="insurance_number"></div>
+          <div class="field field--full"><button class="button button--primary" type="submit">検索</button></div>
+        </form>
+        <p class="error-text" id="aftercare-client-error"></p>
+        <div id="aftercare-client-results" class="result-list"></div>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">SAFETY FIRST</p>
+        <h2>転倒・けが・重大破損時</h2>
+        <div class="notice notice--danger">
+          <strong>用具の使用を中止し、安全を確保してください。</strong><br>
+          必要に応じて119番・医療機関・管理者へ連絡し、緊急度と初動対応を必ず記録します。
+        </div>
+        <ul class="compact-list">
+          <li>けが・転倒時は使用中止指示が必須</li>
+          <li>緊急依頼から事故記録を自動作成</li>
+          <li>異なる商品へ変更する場合は計画改訂が必要</li>
+          <li>回収用具は消毒・点検前に再貸出不可</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="aftercare-workspace" hidden>
+      <div class="aftercare-tabs" role="tablist">
+        <button class="is-active" type="button" data-aftercare-tab="monitoring">モニタリング</button>
+        <button type="button" data-aftercare-tab="requests">不具合・対応依頼</button>
+        <button type="button" data-aftercare-tab="operations">修理・交換・回収</button>
+        <button type="button" data-aftercare-tab="processing">消毒・点検</button>
+        <button type="button" data-aftercare-tab="visits">訪問予定</button>
+      </div>
+
+      <section data-aftercare-panel="monitoring">
+        <section class="grid grid--2">
+          <article class="card">
+            <div class="split-heading"><div><p class="eyebrow">MONITORING TASK</p><h2>期限・予定管理</h2></div><button class="button button--outline button--small" id="reload-aftercare" type="button">再読込</button></div>
+            <div id="monitoring-task-list" class="monitoring-task-list"></div>
+            <form id="monitoring-task-form" class="form-grid section">
+              <div class="field field--full"><label>有効計画</label><select name="plan_id" data-aftercare-plan required><option value="">選択してください</option></select></div>
+              <div class="field"><label>期限</label><input name="due_date" type="date" required></div>
+              <div class="field"><label>優先度</label><select name="priority"><option value="normal">通常</option><option value="high">高</option><option value="emergency">緊急</option><option value="low">低</option></select></div>
+              <div class="field"><label>担当</label><select name="staff_id" data-aftercare-staff><option value="">未選択</option></select></div>
+              <div class="field field--full"><label>メモ</label><textarea name="note"></textarea></div>
+              <div class="field field--full"><button class="button button--secondary" type="submit">期限タスクを準備</button></div>
+            </form>
+            <p class="error-text" id="monitoring-task-error"></p>
+          </article>
+
+          <article class="card" id="monitoring-schedule-card">
+            <p class="eyebrow">VISIT SCHEDULE</p>
+            <h2>モニタリング訪問を設定</h2>
+            <p id="selected-monitoring-task-label">タスクを選択してください。</p>
+            <form id="monitoring-schedule-form" class="form-grid" hidden>
+              <div class="field"><label>開始日時</label><input name="start_at" type="datetime-local" step="1800" required></div>
+              <div class="field"><label>終了日時</label><input name="end_at" type="datetime-local" step="1800" required></div>
+              <div class="field field--full"><label>訪問先住所</label><input name="address"></div>
+              <div class="field"><label>担当</label><select name="staff_id" data-aftercare-staff required><option value="">選択してください</option></select></div>
+              <div class="field"><label>車両</label><select name="vehicle_id" data-aftercare-vehicle><option value="">未選択</option></select></div>
+              <div class="field field--full"><label>訪問メモ</label><textarea name="note"></textarea></div>
+              <div class="field field--full"><button class="button button--primary" type="submit">30分単位で訪問予定を作成</button></div>
+            </form>
+            <p class="error-text" id="monitoring-schedule-error"></p>
+          </article>
+        </section>
+
+        <article class="card section" id="monitoring-complete-card">
+          <p class="eyebrow">COMPLETE MONITORING</p>
+          <h2>モニタリング結果を記録</h2>
+          <p id="monitoring-complete-label">完了するタスクを選択してください。</p>
+          <form id="monitoring-complete-form" hidden>
+            <div class="form-grid">
+              <div class="field"><label>区分</label><select name="monitoring_type"><option value="regular">定期</option><option value="initial">初回</option><option value="change">状態変化</option><option value="emergency">緊急</option></select></div>
+              <div class="field"><label>判定</label><select name="decision"><option value="continue">継続</option><option value="repair">修理</option><option value="change">交換</option><option value="add">追加</option><option value="return">返却</option><option value="pending">保留</option></select></div>
+              <div class="field"><label>次回期限</label><input name="next_due_date" type="date"></div>
+              <div class="field"><label>記録担当</label><select name="staff_id" data-aftercare-staff required><option value="">選択してください</option></select></div>
+              <div class="field field--full"><label>利用状況</label><textarea name="usage_status"></textarea></div>
+              <div class="field field--full"><label>目標達成状況</label><textarea name="goal_status"></textarea></div>
+              <div class="field"><label>身体状況の変化</label><textarea name="physical_change"></textarea></div>
+              <div class="field"><label>住環境の変化</label><textarea name="environment_change"></textarea></div>
+              <div class="field"><label>適合状況</label><textarea name="fit_status"></textarea></div>
+              <div class="field"><label>不具合状況</label><textarea name="malfunction_status"></textarea></div>
+              <div class="field field--full checkbox-field"><label><input type="checkbox" name="care_manager_reported"> ケアマネジャーへ報告済み</label></div>
+              <div class="field field--full"><label>総合メモ</label><textarea name="note"></textarea></div>
+            </div>
+            <h3>利用中用具ごとの確認</h3>
+            <div id="monitoring-item-list" class="monitoring-item-list"></div>
+            <p class="help">「問題あり」にした用具は、判定に応じて対応依頼を自動作成します。</p>
+            <button class="button button--primary" type="submit">モニタリングを完了</button>
+          </form>
+          <p class="error-text" id="monitoring-complete-error"></p>
+        </article>
+
+        <article class="card section">
+          <p class="eyebrow">HISTORY</p><h2>モニタリング履歴</h2>
+          <div id="monitoring-history" class="monitoring-history"></div>
+        </article>
+      </section>
+
+      <section data-aftercare-panel="requests" hidden>
+        <section class="grid grid--2">
+          <article class="card">
+            <p class="eyebrow">NEW SERVICE REQUEST</p><h2>不具合・交換・返却相談を登録</h2>
+            <form id="service-request-form" class="form-grid">
+              <div class="field field--full"><label>対象用具</label><select name="rental_period_id" data-active-rental><option value="">用具指定なし</option></select></div>
+              <div class="field"><label>依頼区分</label><select name="request_type"><option value="malfunction">不具合</option><option value="exchange">交換</option><option value="return">返却</option><option value="add">追加</option><option value="usage_question">使用方法</option><option value="other">その他</option></select></div>
+              <div class="field"><label>緊急度</label><select name="urgency"><option value="normal">通常</option><option value="high">高</option><option value="emergency">緊急</option><option value="low">低</option></select></div>
+              <div class="field"><label>受付元</label><select name="source"><option value="phone">電話</option><option value="visit">訪問</option><option value="care_manager">ケアマネジャー</option><option value="staff">スタッフ</option><option value="other">その他</option></select></div>
+              <div class="field"><label>申出者</label><input name="reported_by_name"></div>
+              <div class="field"><label>連絡先</label><input name="contact_phone" type="tel"></div>
+              <div class="field"><label>発生日時</label><input name="occurred_at" type="datetime-local"></div>
+              <div class="field"><label>対応期限</label><input name="due_at" type="datetime-local"></div>
+              <div class="field field--full"><label>内容</label><textarea name="summary" required></textarea></div>
+              <div class="field checkbox-field"><label><input type="checkbox" name="injury_or_fall"> 転倒・けがあり</label></div>
+              <div class="field checkbox-field"><label><input type="checkbox" name="stop_use_instructed"> 使用中止を指示した</label></div>
+              <div class="field field--full"><label>安全確保・初動対応</label><textarea name="safety_action"></textarea></div>
+              <div class="field"><label>担当</label><select name="staff_id" data-aftercare-staff><option value="">未割当</option></select></div>
+              <div class="field field--full"><button class="button button--primary" type="submit">対応依頼を登録</button></div>
+            </form>
+            <p class="error-text" id="service-request-error"></p>
+          </article>
+
+          <article class="card">
+            <div class="split-heading"><div><p class="eyebrow">OPEN REQUESTS</p><h2>対応依頼一覧</h2></div><span class="status status--info" id="selected-request-badge">未選択</span></div>
+            <div id="service-request-list" class="service-request-list"></div>
+          </article>
+        </section>
+      </section>
+
+      <section data-aftercare-panel="operations" hidden>
+        <section class="grid grid--3">
+          <article class="card operation-card">
+            <p class="eyebrow">REPAIR</p><h2>修理開始</h2>
+            <form id="repair-start-form" class="form-grid">
+              <div class="field"><label>修理区分</label><select name="repair_type"><option value="onsite">訪問修理</option><option value="depot">持帰り修理</option><option value="manufacturer">メーカー修理</option></select></div>
+              <div class="field"><label>完了予定</label><input name="expected_completion_date" type="date"></div>
+              <div class="field field--full"><label>不具合内容</label><textarea name="issue_detail" required></textarea></div>
+              <div class="field field--full"><label>修理先</label><input name="vendor_name"></div>
+              <div class="field field--full"><label>担当</label><select name="staff_id" data-aftercare-staff required><option value="">選択してください</option></select></div>
+              <div class="field field--full"><button class="button button--secondary" type="submit">修理記録を開始</button></div>
+            </form>
+            <p class="error-text" id="repair-start-error"></p>
+          </article>
+
+          <article class="card operation-card">
+            <p class="eyebrow">EXCHANGE</p><h2>代替交換を予定</h2>
+            <form id="exchange-form" class="form-grid">
+              <div class="field field--full"><label>交換元の貸与用具</label><select name="old_rental_period_id" data-active-rental required><option value="">選択してください</option></select></div>
+              <div class="field field--full"><label>交換先個体</label><select name="new_asset_id" id="exchange-new-asset" required><option value="">先に交換元を選択</option></select></div>
+              <div class="field"><label>開始日時</label><input name="start_at" type="datetime-local" step="1800" required></div>
+              <div class="field"><label>終了日時</label><input name="end_at" type="datetime-local" step="1800" required></div>
+              <div class="field field--full"><label>訪問先</label><input name="address"></div>
+              <div class="field"><label>担当</label><select name="staff_id" data-aftercare-staff required><option value="">選択してください</option></select></div>
+              <div class="field"><label>車両</label><select name="vehicle_id" data-aftercare-vehicle><option value="">未選択</option></select></div>
+              <div class="field field--full"><label>交換理由</label><textarea name="reason" required></textarea></div>
+              <div class="field field--full"><button class="button button--secondary" type="submit">交換予定を作成</button></div>
+            </form>
+            <p class="error-text" id="exchange-error"></p>
+          </article>
+
+          <article class="card operation-card">
+            <p class="eyebrow">RETURN</p><h2>回収予定を作成</h2>
+            <form id="return-form" class="form-grid">
+              <div class="field field--full"><label>回収する用具</label><div id="return-rental-checks" class="return-rental-checks"></div></div>
+              <div class="field"><label>回収区分</label><select name="return_type"><option value="full">全返却</option><option value="partial">一部返却</option></select></div>
+              <div class="field"><label>理由コード</label><select name="reason_code"><option value="service_end">利用終了</option><option value="hospitalization">入院</option><option value="move">転居</option><option value="change">用具変更</option><option value="other">その他</option></select></div>
+              <div class="field"><label>開始日時</label><input name="start_at" type="datetime-local" step="1800" required></div>
+              <div class="field"><label>終了日時</label><input name="end_at" type="datetime-local" step="1800" required></div>
+              <div class="field field--full"><label>訪問先</label><input name="address"></div>
+              <div class="field"><label>担当</label><select name="staff_id" data-aftercare-staff required><option value="">選択してください</option></select></div>
+              <div class="field"><label>車両</label><select name="vehicle_id" data-aftercare-vehicle><option value="">未選択</option></select></div>
+              <div class="field"><label>依頼者</label><input name="requested_by_name"></div>
+              <div class="field field--full"><label>回収理由</label><textarea name="reason" required></textarea></div>
+              <div class="field field--full"><button class="button button--secondary" type="submit">回収予定を作成</button></div>
+            </form>
+            <p class="error-text" id="return-error"></p>
+          </article>
+        </section>
+
+        <section class="grid grid--3 section">
+          <article class="card"><p class="eyebrow">REPAIRS</p><h2>修理進捗</h2><div id="repair-list" class="repair-list"></div></article>
+          <article class="card"><p class="eyebrow">EXCHANGES</p><h2>交換予定</h2><div id="exchange-list" class="exchange-list"></div></article>
+          <article class="card"><p class="eyebrow">RETURNS</p><h2>回収予定</h2><div id="return-list" class="return-list"></div></article>
+        </section>
+      </section>
+
+      <section data-aftercare-panel="processing" hidden id="processing-panel">
+        <article class="card">
+          <div class="split-heading"><div><p class="eyebrow">RECOVERY PROCESS</p><h2>回収後の消毒・点検・修理</h2></div><button class="button button--outline button--small" id="reload-processing" type="button">再読込</button></div>
+          <div class="lifecycle-flow section">
+            <span>回収済み</span><b>→</b><span>消毒</span><b>→</b><span>点検</span><b>→</b><span>貸出可能</span>
+          </div>
+          <p class="help">回収後の消毒合格記録がない用具は、点検合格だけでは貸出可能へ戻りません。</p>
+          <div id="processing-asset-list" class="processing-asset-list"></div>
+        </article>
+      </section>
+
+      <section data-aftercare-panel="visits" hidden>
+        <article class="card">
+          <div class="split-heading"><div><p class="eyebrow">FIELD VISITS</p><h2>モニタリング・修理・交換・回収予定</h2></div><button class="button button--outline button--small" id="reload-aftercare-visits" type="button">再読込</button></div>
+          <form id="aftercare-visit-filter" class="form-grid">
+            <div class="field"><label>日付</label><input name="date_from" type="date"></div>
+            <div class="field field--full"><button class="button button--secondary" type="submit">表示</button></div>
+          </form>
+          <div id="aftercare-visit-list" class="aftercare-visit-list"></div>
+        </article>
+      </section>
+    </section>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="shared.js"></script>
+<script src="aftercare.js"></script>
+</body>
+</html>

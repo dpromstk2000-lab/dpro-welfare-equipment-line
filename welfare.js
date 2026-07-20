@@ -466,12 +466,12 @@
       const allOk = frontOk && backendOk;
 
       if (allOk) {
-        title.textContent = "全項目OKです。STEP 7のシステム検査は完了しています";
+        title.textContent = "全項目OKです。STEP 8のシステム検査は完了しています";
         badge.textContent = "全項目OK";
         badge.className =
           "status status--success completion-panel__status";
         message.textContent =
-          "設定や接続に異常はありません。契約・利用者同意、用具個体割当、納品設置、貸与開始までの基盤も正常です。";
+          "設定や接続に異常はありません。モニタリング、修理、交換、回収、消毒・点検、再貸出管理までの基盤も正常です。";
         nextActions.hidden = false;
         return;
       }
@@ -516,6 +516,7 @@
           ["商品・在庫・用具個体管理", data.inventory_workflow?.ok],
           ["アセスメント・用具選定・サービス計画", data.planning_workflow?.ok],
           ["契約・同意・個体割当・納品・貸与開始", data.fulfillment_workflow?.ok],
+          ["モニタリング・修理・交換・回収・消毒点検", data.aftercare_workflow?.ok],
         ];
         const backendOk = items.every(([, ok]) => Boolean(ok));
 
