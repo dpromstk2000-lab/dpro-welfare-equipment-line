@@ -1,7 +1,7 @@
 window.DPRO_CONFIG = Object.freeze({
   systemName: "DPRO 福祉用具レンタル・販売 LINE",
   systemCode: "WELFARE-EQUIP",
-  version: "WELFARE-EQUIP-9-BILLING-PAYMENT-20260720",
+  version: "WELFARE-EQUIP-9-R1-BILLING-ACTION-GUIDE-20260720",
   officeCode: "dpro_welfare_equipment_demo",
   officeName: "DPRO 福祉用具センター",
   adminCode: "1234",
