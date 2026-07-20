@@ -23,6 +23,7 @@
       <a href="owner.html">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="planning.html">アセスメント・計画</a>
+      <a href="contract.html">契約・納品</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html" aria-current="page">system-check</a>
     </nav>
@@ -32,7 +33,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェックと次の操作</h1>
-    <p>フロント画面、Worker、Supabase、RLS、相談・利用者管理、商品・在庫管理、アセスメント・サービス計画をまとめて確認します。</p>
+    <p>フロント画面、Worker、Supabase、RLS、相談・計画、契約・同意、個体割当、納品設置、貸与開始をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">もう一度チェック</button>
       <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
@@ -52,15 +53,15 @@
     </p>
 
     <div class="next-action-box" id="next-action-box" hidden>
-      <h3>STEP 6で使用できる業務画面</h3>
+      <h3>STEP 7で使用できる業務画面</h3>
       <ol class="next-action-list">
-        <li><strong>アセスメント</strong><span>生活動作、住環境、リスク、本人・家族の希望を記録します。</span></li>
-        <li><strong>用具選定・計画</strong><span>選定理由、期待効果、使用方法、注意事項を作成します。</span></li>
-        <li><strong>比較説明・同意</strong><span>貸与・販売選択制の説明、計画同意、印刷まで行います。</span></li>
+        <li><strong>契約・利用者同意</strong><span>有効計画から契約明細を作り、説明確認と署名を記録します。</span></li>
+        <li><strong>用具個体割当・納品準備</strong><span>貸出可能個体を予約し、配送担当・車両・30分単位の予定を設定します。</span></li>
+        <li><strong>設置確認・貸与開始</strong><span>積込、到着、適合、安全説明、受領確認後に貸与を開始します。</span></li>
       </ol>
       <div class="button-row">
-        <a class="button button--primary" href="planning.html">アセスメント・計画を開く</a>
-        <a class="button button--secondary" href="owner.html">オーナーPCを開く</a>
+        <a class="button button--primary" href="contract.html">契約・納品準備を開く</a>
+        <a class="button button--secondary" href="staff.html">配送・設置画面を開く</a>
       </div>
       <p class="help">
         全項目OKの場合、今すぐ行う必須操作はありません。次の開発STEPへ進めます。
@@ -106,7 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const pages = window.DPRO_CONFIG?.pages || {};
       const required = [
         "customer", "member", "owner", "ipad",
-        "staff", "systemCheck", "inquiry", "planning", "planPrint"
+        "staff", "systemCheck", "inquiry", "planning", "planPrint",
+        "contract", "contractPrint"
       ];
       return required.every((key) => Boolean(pages[key]))
         && Object.keys(pages).length === required.length;

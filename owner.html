@@ -23,6 +23,7 @@
       <a href="owner.html" aria-current="page">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="planning.html">アセスメント・計画</a>
+      <a href="contract.html">契約・納品</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html">system-check</a>
     </nav>
@@ -186,15 +187,19 @@
         </section>
 
         <section class="panel" data-panel="plans" hidden id="owner-planning-panel">
-          <section class="grid grid--3">
+          <section class="grid grid--4">
             <article class="action-card"><span class="action-card__number">1</span><h3>アセスメント</h3><p>身体状況、生活動作、住環境、本人・家族の希望を記録します。</p></article>
             <article class="action-card"><span class="action-card__number">2</span><h3>用具選定・計画</h3><p>選定理由、期待効果、使い方、注意事項を用具ごとに作成します。</p></article>
-            <article class="action-card"><span class="action-card__number">3</span><h3>説明・同意・印刷</h3><p>貸与・販売比較、同意、有効化、計画書印刷まで行います。</p></article>
+            <article class="action-card"><span class="action-card__number">3</span><h3>計画同意・有効化</h3><p>貸与・販売比較説明、計画同意、計画書印刷まで行います。</p></article>
+            <a class="action-card" href="contract.html"><span class="action-card__number">4</span><h3>契約・納品</h3><p>契約署名、用具個体割当、納品設置、貸与開始へ進みます。</p></a>
           </section>
           <article class="card section">
             <div class="split-heading">
               <div><p class="eyebrow">PLAN WORKSPACE</p><h2>専門相談員の計画作成画面</h2></div>
-              <a class="button button--primary" href="planning.html">アセスメント・計画を開く</a>
+              <div class="button-row button-row--compact">
+                <a class="button button--primary" href="planning.html">アセスメント・計画</a>
+                <a class="button button--secondary" href="contract.html">契約・納品準備</a>
+              </div>
             </div>
             <p>PCとiPadのどちらでも同じデータを使用します。完了済みアセスメントと有効中計画は直接編集できません。</p>
           </article>
@@ -371,7 +376,19 @@
         </section>
 
         <section class="panel" data-panel="visits" hidden>
-          <article class="card"><p class="eyebrow">VISITS</p><h2>訪問・配送予定</h2><div data-visit-list></div></article>
+          <article class="card">
+            <div class="split-heading">
+              <div><p class="eyebrow">VISITS</p><h2>訪問・配送予定</h2></div>
+              <a class="button button--primary button--small" href="staff.html">配送・設置画面</a>
+            </div>
+            <div data-visit-list></div>
+          </article>
+          <article class="card section">
+            <p class="eyebrow">DELIVERY CONTROL</p>
+            <h2>納品完了で貸与開始</h2>
+            <p>積込、到着、設置適合、安全説明、受領確認が揃うまで貸与中へ変更されません。</p>
+            <a class="button button--secondary" href="contract.html">契約・納品準備を開く</a>
+          </article>
         </section>
 
         <section class="panel" data-panel="monitoring" hidden>

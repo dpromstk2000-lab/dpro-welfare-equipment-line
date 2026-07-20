@@ -1579,3 +1579,321 @@ img {
   .plan-item-table { font-size: 8px; }
   .plan-print-section { break-inside: avoid; }
 }
+
+
+/* STEP WELFARE-EQUIP-7：契約・個体割当・納品設置 */
+.contract-progress,
+.delivery-safety-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.contract-progress article,
+.delivery-safety-flow article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  min-height: 82px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.contract-progress article > span,
+.delivery-safety-flow article > span {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: white;
+  background: var(--muted);
+  font-weight: 900;
+}
+
+.contract-progress article strong,
+.delivery-safety-flow article strong {
+  font-size: 16px;
+}
+
+.contract-progress article small,
+.delivery-safety-flow article small {
+  color: var(--muted);
+}
+
+.contract-progress article.is-complete {
+  border-color: #9ccdb4;
+  background: #edf9f2;
+}
+
+.contract-progress article.is-complete > span {
+  background: var(--success);
+}
+
+.contract-plan-list,
+.contract-item-list,
+.contract-overview-list,
+.delivery-overview-list,
+.delivery-task-list,
+.delivery-item-list,
+.installation-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.contract-plan-card,
+.contract-item-card,
+.contract-overview-row,
+.delivery-overview-row,
+.delivery-task-card,
+.delivery-item-row,
+.installation-form {
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-alt);
+}
+
+.contract-plan-card,
+.contract-overview-row,
+.delivery-task-card,
+.delivery-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.contract-plan-card.is-selected,
+.delivery-task-card.is-selected {
+  border: 2px solid var(--primary);
+  background: var(--primary-soft);
+}
+
+.contract-plan-card h3,
+.contract-plan-card p,
+.contract-overview-row h3,
+.contract-overview-row p,
+.delivery-task-card h3,
+.delivery-task-card p,
+.delivery-item-row h3,
+.delivery-item-row p,
+.contract-item-card h3,
+.contract-item-card p {
+  margin: 0;
+}
+
+.contract-plan-card p + p,
+.contract-overview-row p + p,
+.delivery-task-card p + p,
+.delivery-item-row p + p,
+.contract-item-card p + p {
+  margin-top: 4px;
+}
+
+.contract-summary-grid,
+.delivery-detail-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 11px;
+  margin-top: 16px;
+}
+
+.contract-summary-grid > div,
+.delivery-detail-summary > div {
+  display: grid;
+  gap: 5px;
+  min-height: 78px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
+.contract-summary-grid span,
+.delivery-detail-summary span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contract-summary-grid strong,
+.delivery-detail-summary strong {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.contract-item-card__head,
+.installation-form__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.assigned-assets {
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 12px;
+  background: white;
+}
+
+.assigned-assets h4 {
+  margin: 0 0 9px;
+}
+
+.assigned-asset-row,
+.delivery-overview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.assigned-asset-row + .assigned-asset-row {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.asset-assignment-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.asset-assignment-form select {
+  min-height: 46px;
+  padding: 9px 11px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: white;
+}
+
+.contract-consent-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.contract-consent-checks label,
+.installation-check-grid label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--surface-alt);
+  font-weight: 700;
+}
+
+.contract-consent-checks input,
+.installation-check-grid input {
+  width: 21px;
+  min-height: 21px;
+}
+
+.contract-overview-row__actions,
+.delivery-task-card__actions {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.delivery-layout {
+  align-items: start;
+}
+
+.delivery-task-card__actions {
+  min-width: 118px;
+}
+
+.delivery-item-row.is-loaded {
+  border-color: #9ccdb4;
+  background: #edf9f2;
+}
+
+.installation-form {
+  display: grid;
+  gap: 13px;
+}
+
+.installation-check-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.print-delivery-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.7fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #bbb;
+}
+
+.contract-print-document {
+  max-width: 210mm;
+}
+
+@media (max-width: 1080px) {
+  .contract-progress,
+  .delivery-safety-flow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contract-summary-grid,
+  .delivery-detail-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .contract-progress,
+  .delivery-safety-flow,
+  .contract-summary-grid,
+  .delivery-detail-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .contract-plan-card,
+  .contract-overview-row,
+  .delivery-task-card,
+  .delivery-item-row,
+  .contract-item-card__head,
+  .installation-form__head,
+  .assigned-asset-row,
+  .delivery-overview-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contract-overview-row__actions,
+  .delivery-task-card__actions {
+    justify-items: stretch;
+    min-width: 0;
+  }
+
+  .asset-assignment-form,
+  .contract-consent-checks,
+  .installation-check-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .print-delivery-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .contract-print-document {
+    width: 100%;
+    max-width: none;
+  }
+}

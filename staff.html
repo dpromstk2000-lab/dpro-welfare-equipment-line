@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#145d66">
-  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE デモ画面">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE 配送・設置スタッフ">
   <title>配送・設置スタッフ｜DPRO 福祉用具レンタル・販売 LINE</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,47 +20,123 @@
       <a href="index.html">LINE利用者</a>
       <a href="member.html">会員画面</a>
       <a href="inquiry.html">相談受付</a>
-      <a href="owner.html">オーナーPC</a>
+      <a href="owner.html" aria-current="page">オーナーPC</a>
       <a href="owner-ipad.html">相談員iPad</a>
       <a href="planning.html">アセスメント・計画</a>
-      <a href="staff.html" aria-current="page">配送スタッフ</a>
+      <a href="contract.html">契約・納品</a>
+      <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html">system-check</a>
     </nav>
   </div>
 </header>
 <main class="page">
-  <section class="hero">
-    <p class="eyebrow">DELIVERY STAFF</p>
-    <h1>配送・設置・回収</h1>
-    <p>今日の訪問先、搬入用具、設置確認、写真、回収品をスマートフォンで記録します。</p>
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">DELIVERY LOGIN</p>
+    <h1>配送・設置スタッフ画面</h1>
+    <p>デモ管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error></p>
   </section>
 
-  <section class="section card">
-    <div class="split-heading"><div><p class="eyebrow">TODAY</p><h2>高橋スタッフの予定</h2></div><span class="status status--info">2件</span></div>
-    <article class="item-card">
-      <div><p class="eyebrow">13:30 納品・設置</p><h3>鈴木 春江 様</h3><p>特殊寝台 AS-2084 / サイドレール2本</p></div>
-      <div class="item-card__meta"><span class="status status--warning">未着手</span><button class="button button--primary button--small" data-demo-action="納品作業を開始するデモです。">作業開始</button></div>
-    </article>
-    <article class="item-card">
-      <div><p class="eyebrow">15:30 回収</p><h3>井上 勇 様</h3><p>歩行器 AS-3009</p></div>
-      <div class="item-card__meta"><span class="status status--warning">未着手</span><button class="button button--primary button--small" data-demo-action="回収作業を開始するデモです。">作業開始</button></div>
-    </article>
-  </section>
+  <section data-protected-area hidden>
+    <section class="hero">
+      <p class="eyebrow">DELIVERY & INSTALLATION</p>
+      <h1>積込・配送・設置・貸与開始</h1>
+      <p>納品明細と用具管理番号を確認し、積込、到着、設置確認、受領確認の順で作業します。</p>
+    </section>
 
-  <section class="section grid grid--2">
-    <article class="card">
-      <p class="eyebrow">INSTALL CHECK</p><h2>納品時チェック</h2>
-      <ul class="compact-list"><li>用具管理番号</li><li>設置場所と安定性</li><li>身体との適合</li><li>使用方法と安全説明</li><li>設置写真</li><li>利用者・家族確認</li></ul>
-    </article>
-    <article class="card">
-      <p class="eyebrow">RETURN CHECK</p><h2>回収時チェック</h2>
-      <ul class="compact-list"><li>回収用具と付属品</li><li>破損・汚損</li><li>事故・不具合の有無</li><li>回収写真</li><li>回収後は未消毒状態へ</li></ul>
-    </article>
-  </section>
+    <section class="section delivery-safety-flow">
+      <article><span>1</span><strong>積込確認</strong><small>全商品・個体番号</small></article>
+      <article><span>2</span><strong>出発</strong><small>配送開始</small></article>
+      <article><span>3</span><strong>到着</strong><small>利用者宅</small></article>
+      <article><span>4</span><strong>設置確認</strong><small>適合・安定・説明</small></article>
+      <article><span>5</span><strong>納品完了</strong><small>貸与開始</small></article>
+    </section>
 
-  <section class="section notice notice--danger">
-    <strong>安全上の注意</strong><br>
-    重大な破損、転倒、けががある場合は、作業完了だけで終了せず、管理者へ緊急報告してください。
+    <section class="section grid grid--2 delivery-layout">
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">DELIVERY LIST</p><h2>納品予定</h2></div>
+          <button class="button button--outline button--small" id="reload-deliveries" type="button">再読込</button>
+        </div>
+        <form id="delivery-filter-form" class="form-grid">
+          <div class="field"><label>日付</label><input name="date_from" type="date"></div>
+          <div class="field"><label>状態</label>
+            <select name="status">
+              <option value="">すべて</option>
+              <option value="planned">予定</option>
+              <option value="loading">積込中</option>
+              <option value="in_transit">配送中</option>
+              <option value="arrived">到着</option>
+              <option value="completed">完了</option>
+            </select>
+          </div>
+          <div class="field field--full"><button class="button button--secondary" type="submit">表示</button></div>
+        </form>
+        <p class="error-text" id="delivery-list-error"></p>
+        <div id="delivery-list" class="delivery-task-list"></div>
+      </article>
+
+      <article class="card" id="delivery-detail-card">
+        <p class="eyebrow">CURRENT DELIVERY</p>
+        <h2 id="delivery-detail-title">納品予定を選択してください</h2>
+        <div id="delivery-detail-summary" class="delivery-detail-summary"></div>
+        <div id="delivery-status-actions" class="button-row" hidden></div>
+        <p class="error-text" id="delivery-detail-error"></p>
+      </article>
+    </section>
+
+    <section class="section" id="delivery-work-section" hidden>
+      <section class="grid grid--2">
+        <article class="card">
+          <p class="eyebrow">LOADING CHECK</p>
+          <h2>積込明細</h2>
+          <p class="help">すべての明細を積込済みにしてから出発します。</p>
+          <div id="delivery-item-list" class="delivery-item-list"></div>
+        </article>
+
+        <article class="card">
+          <p class="eyebrow">INSTALLATION CHECK</p>
+          <h2>設置・適合・安全説明</h2>
+          <p class="help">到着後、貸与用具ごとに確認します。</p>
+          <div id="installation-list" class="installation-list"></div>
+        </article>
+      </section>
+
+      <section class="section grid grid--2">
+        <article class="card">
+          <p class="eyebrow">COMPLETE DELIVERY</p>
+          <h2>受領確認・納品完了</h2>
+          <form id="delivery-complete-form" class="form-grid">
+            <div class="field"><label>受領者氏名</label><input name="recipient_name" required></div>
+            <div class="field"><label>確認方法</label><select name="confirmation_method"><option value="paper">書面</option><option value="electronic">電子</option><option value="family">家族確認</option><option value="other">その他</option></select></div>
+            <div class="field"><label>完了担当</label><select name="staff_id" data-delivery-work-staff required><option value="">選択してください</option></select></div>
+            <div class="field field--full"><label>完了メモ</label><textarea name="completion_note"></textarea></div>
+            <div class="field field--full"><button class="button button--primary" type="submit">納品を完了し貸与を開始</button></div>
+          </form>
+          <p class="error-text" id="delivery-complete-error"></p>
+        </article>
+
+        <article class="card">
+          <p class="eyebrow">SAFETY</p>
+          <h2>完了できない条件</h2>
+          <ul class="compact-list">
+            <li>積込未確認の商品がある</li>
+            <li>到着処理が完了していない</li>
+            <li>身体適合・安定性が未確認</li>
+            <li>使用方法・安全説明が未完了</li>
+            <li>取扱説明書・付属品が未確認</li>
+            <li>販売在庫が不足している</li>
+          </ul>
+          <div class="notice notice--danger">重大な破損、転倒、けががある場合は完了せず、管理者へ緊急報告してください。</div>
+        </article>
+      </section>
+    </section>
   </section>
 </main>
 <footer class="footer">
@@ -70,5 +146,6 @@
 <script src="config.js"></script>
 <script src="api.js"></script>
 <script src="shared.js"></script>
+<script src="staff.js"></script>
 </body>
 </html>

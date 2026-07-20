@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE 契約・用具割当・納品準備">
+  <title>契約・納品準備｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
+      <a href="owner.html" aria-current="page">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html">アセスメント・計画</a>
+      <a href="contract.html" aria-current="page">契約・納品</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">CONTRACT LOGIN</p>
+    <h1>契約・納品準備</h1>
+    <p>デモ管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error></p>
+  </section>
+
+  <section data-protected-area hidden>
+    <section class="hero">
+      <p class="eyebrow">CONTRACT & FULFILLMENT</p>
+      <h1>契約から納品開始までを順番に管理</h1>
+      <p>有効なサービス計画から契約を作成し、説明・同意、用具個体割当、納品予定を安全な順序で進めます。</p>
+    </section>
+
+    <section class="section contract-progress">
+      <article data-contract-step="plan"><span>1</span><strong>計画選択</strong><small>有効計画</small></article>
+      <article data-contract-step="contract"><span>2</span><strong>契約作成</strong><small>明細自動作成</small></article>
+      <article data-contract-step="consent"><span>3</span><strong>説明・同意</strong><small>契約有効化</small></article>
+      <article data-contract-step="assignment"><span>4</span><strong>個体割当</strong><small>二重貸出防止</small></article>
+      <article data-contract-step="delivery"><span>5</span><strong>納品予定</strong><small>配送へ引継ぎ</small></article>
+    </section>
+
+    <section class="section grid grid--2">
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">CLIENT</p><h2>利用者を検索</h2></div>
+          <span class="selected-client-badge" id="contract-client-badge">利用者未選択</span>
+        </div>
+        <form id="contract-client-search" class="form-grid">
+          <div class="field"><label>氏名</label><input name="name"></div>
+          <div class="field"><label>電話番号</label><input name="phone" type="tel"></div>
+          <div class="field"><label>生年月日</label><input name="birth_date" type="date"></div>
+          <div class="field"><label>被保険者番号</label><input name="insurance_number"></div>
+          <div class="field field--full"><button class="button button--primary" type="submit">検索</button></div>
+        </form>
+        <p class="error-text" id="contract-client-error"></p>
+        <div id="contract-client-results" class="result-list"></div>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">ACTIVE PLAN</p>
+        <h2>契約元の有効計画</h2>
+        <p class="help">アセスメント・用具選定・同意まで完了した有効計画だけ表示します。</p>
+        <div id="contract-plan-list" class="contract-plan-list">
+          <div class="notice notice--info">先に利用者を選択してください。</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section grid grid--2" id="contract-create-section" hidden>
+      <article class="card">
+        <p class="eyebrow">CREATE CONTRACT</p>
+        <h2>計画から契約を作成</h2>
+        <form id="contract-create-form" class="form-grid">
+          <div class="field field--full"><label>選択中の計画</label><input id="selected-plan-label" readonly></div>
+          <div class="field"><label>契約開始日</label><input name="start_date" type="date" required></div>
+          <div class="field"><label>契約終了日</label><input name="end_date" type="date"></div>
+          <div class="field field--full"><label>作成担当</label><select name="staff_id" data-contract-staff required><option value="">選択してください</option></select></div>
+          <div class="field field--full"><button class="button button--primary" type="submit">契約下書きを作成</button></div>
+        </form>
+        <p class="error-text" id="contract-create-error"></p>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">RULE</p>
+        <h2>契約前の自動確認</h2>
+        <ul class="compact-list">
+          <li>計画が有効中であること</li>
+          <li>同じ計画に重複契約がないこと</li>
+          <li>計画用具を契約明細へ自動コピー</li>
+          <li>署名前は契約明細の確認・修正が可能</li>
+          <li>署名後の明細改ざんをデータベースで防止</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="contract-detail-section" hidden>
+      <article class="card">
+        <div class="split-heading">
+          <div>
+            <p class="eyebrow">CURRENT CONTRACT</p>
+            <h2 id="contract-detail-title">契約</h2>
+          </div>
+          <div class="button-row button-row--compact">
+            <button class="button button--outline button--small" id="reload-contract" type="button">再読込</button>
+            <button class="button button--secondary button--small" id="print-contract" type="button">契約確認書を印刷</button>
+          </div>
+        </div>
+        <div class="contract-summary-grid" id="contract-summary"></div>
+        <p class="error-text" id="contract-detail-error"></p>
+      </article>
+
+      <section class="section grid grid--2">
+        <article class="card">
+          <p class="eyebrow">CONTRACT ITEMS</p>
+          <h2>契約明細・用具個体割当</h2>
+          <div id="contract-item-list" class="contract-item-list"></div>
+        </article>
+
+        <article class="card" id="contract-consent-card">
+          <p class="eyebrow">EXPLANATION & CONSENT</p>
+          <h2>契約説明・利用者同意</h2>
+          <form id="contract-consent-form" class="form-grid">
+            <div class="field"><label>署名者氏名</label><input name="signer_name" required></div>
+            <div class="field"><label>署名者区分</label><input name="signer_role" placeholder="本人・家族・代理人"></div>
+            <div class="field"><label>続柄</label><input name="signer_relationship"></div>
+            <div class="field"><label>同意方法</label><select name="agreement_method"><option value="paper">書面</option><option value="electronic">電子</option><option value="family">家族確認</option><option value="other">その他</option></select></div>
+            <fieldset class="field field--full contract-consent-checks">
+              <legend>説明・確認項目</legend>
+              <label><input type="checkbox" name="important_matters_explained"> 重要事項を説明した</label>
+              <label><input type="checkbox" name="privacy_explained"> 個人情報の取扱いを説明した</label>
+              <label><input type="checkbox" name="cancellation_explained"> 変更・解約条件を説明した</label>
+              <label><input type="checkbox" name="rental_terms_explained"> 貸与条件・月額・交換対応を説明した</label>
+              <label><input type="checkbox" name="sale_terms_explained"> 販売条件・返品・修理対応を説明した</label>
+              <label><input type="checkbox" name="copy_received"> 契約控えを交付した</label>
+            </fieldset>
+            <div class="field field--full"><label>同意メモ</label><textarea name="consent_note"></textarea></div>
+            <div class="field field--full"><label>説明担当</label><select name="staff_id" data-contract-staff required><option value="">選択してください</option></select></div>
+            <div class="field field--full"><button class="button button--primary" type="submit">同意を記録して契約を有効化</button></div>
+          </form>
+          <p class="error-text" id="contract-consent-error"></p>
+          <div id="contract-consent-complete" class="notice notice--success" hidden></div>
+        </article>
+      </section>
+
+      <section class="section grid grid--2">
+        <article class="card">
+          <p class="eyebrow">DELIVERY SCHEDULE</p>
+          <h2>納品・設置予定を作成</h2>
+          <form id="contract-delivery-form" class="form-grid">
+            <div class="field"><label>開始日時</label><input name="start_at" type="datetime-local" step="1800" required></div>
+            <div class="field"><label>終了日時</label><input name="end_at" type="datetime-local" step="1800" required></div>
+            <div class="field field--full"><label>納品住所</label><input name="address"></div>
+            <div class="field"><label>車両</label><select name="vehicle_id" data-contract-vehicle><option value="">未選択</option></select></div>
+            <div class="field"><label>配送担当</label><select name="staff_id" data-delivery-staff required><option value="">選択してください</option></select></div>
+            <div class="field field--full"><label>納品メモ</label><textarea name="note"></textarea></div>
+            <div class="field field--full"><button class="button button--secondary" type="submit">納品予定を作成</button></div>
+          </form>
+          <p class="error-text" id="contract-delivery-error"></p>
+        </article>
+
+        <article class="card">
+          <div class="split-heading"><div><p class="eyebrow">DELIVERY HISTORY</p><h2>納品状況</h2></div><a class="button button--outline button--small" href="staff.html">配送画面を開く</a></div>
+          <div id="contract-delivery-list" class="delivery-overview-list"></div>
+        </article>
+      </section>
+    </section>
+
+    <section class="section card">
+      <div class="split-heading"><div><p class="eyebrow">RECENT CONTRACTS</p><h2>最近の契約</h2></div><button class="button button--outline button--small" id="reload-contracts" type="button">再読込</button></div>
+      <div id="recent-contract-list" class="contract-overview-list"></div>
+    </section>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="shared.js"></script>
+<script src="contract.js"></script>
+</body>
+</html>
