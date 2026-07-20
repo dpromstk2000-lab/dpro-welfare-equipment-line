@@ -25,6 +25,7 @@
       <a href="planning.html">アセスメント・計画</a>
       <a href="contract.html">契約・納品</a>
       <a href="aftercare.html">モニタリング・保守</a>
+      <a href="billing.html">請求・入金</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html" aria-current="page">system-check</a>
     </nav>
@@ -34,7 +35,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェックと次の操作</h1>
-    <p>フロント画面、Worker、Supabase、RLS、相談・計画・契約に加え、モニタリング、修理、交換、回収、消毒・点検をまとめて確認します。</p>
+    <p>フロント画面、Worker、Supabase、RLS、相談・計画・契約・保守に加え、月次請求、保険請求準備、入金、未収金をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">もう一度チェック</button>
       <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
@@ -54,7 +55,7 @@
     </p>
 
     <div class="next-action-box" id="next-action-box" hidden>
-      <h3>STEP 8で使用できる業務画面</h3>
+      <h3>STEP 9で使用できる業務画面</h3>
       <ol class="next-action-list">
         <li><strong>定期モニタリング</strong><span>期限、訪問予定、用具ごとの利用・適合・不具合を記録します。</span></li>
         <li><strong>修理・交換・回収</strong><span>安全確保、代替個体、30分単位の訪問予定、回収状態を管理します。</span></li>
@@ -109,7 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const required = [
         "customer", "member", "owner", "ipad",
         "staff", "systemCheck", "inquiry", "planning", "planPrint",
-        "contract", "contractPrint", "aftercare"
+        "contract", "contractPrint", "aftercare",
+        "billing", "billingPrint"
       ];
       return required.every((key) => Boolean(pages[key]))
         && Object.keys(pages).length === required.length;

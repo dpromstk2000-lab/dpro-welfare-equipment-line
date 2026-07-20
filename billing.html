@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE 請求・入金・未収金管理">
+  <title>請求・入金管理｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
+      <a href="owner.html" aria-current="page">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html">アセスメント・計画</a>
+      <a href="contract.html">契約・納品</a>
+      <a href="aftercare.html">モニタリング・保守</a>
+      <a href="billing.html" aria-current="page">請求・入金</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">BILLING LOGIN</p>
+    <h1>請求・入金管理</h1>
+    <p>デモ管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error></p>
+  </section>
+
+  <section data-protected-area hidden>
+    <section class="hero">
+      <p class="eyebrow">BILLING & PAYMENT</p>
+      <h1>月次請求・保険請求準備・入金を一元管理</h1>
+      <p>貸与・販売の請求、利用者負担、商品別上限価格、請求前検証、請求書、領収書、未収金をまとめて管理します。</p>
+    </section>
+
+    <section class="section billing-flow">
+      <article><span>1</span><strong>請求生成</strong><small>貸与・販売明細</small></article>
+      <article><span>2</span><strong>エラー検証</strong><small>保険・価格・合計</small></article>
+      <article><span>3</span><strong>締め処理</strong><small>明細編集を防止</small></article>
+      <article><span>4</span><strong>請求発行</strong><small>請求書・確認CSV</small></article>
+      <article><span>5</span><strong>入金管理</strong><small>領収書・未収金</small></article>
+    </section>
+
+    <section class="section billing-metrics">
+      <article class="card metric"><span>費用総額</span><strong data-billing-summary="gross_total">－</strong><span>円</span></article>
+      <article class="card metric"><span>保険請求予定</span><strong data-billing-summary="insurance_claim_total">－</strong><span>円</span></article>
+      <article class="card metric"><span>利用者請求</span><strong data-billing-summary="client_charge_total">－</strong><span>円</span></article>
+      <article class="card metric"><span>未収残高</span><strong data-billing-summary="unpaid_total">－</strong><span>円</span></article>
+      <article class="card metric"><span>期限超過</span><strong data-billing-summary="overdue_invoice_count">－</strong><span>件</span></article>
+    </section>
+
+    <section class="section grid grid--2 billing-top-grid">
+      <article class="card">
+        <p class="eyebrow">MONTHLY BILLING</p>
+        <h2>月次請求を作成</h2>
+        <form id="billing-generate-form" class="form-grid">
+          <div class="field"><label>請求月</label><input name="service_month" type="month" required></div>
+          <div class="field"><label>担当スタッフ</label><select name="staff_id" data-billing-staff><option value="">未選択</option></select></div>
+          <div class="field field--full">
+            <button class="button button--primary" type="submit">請求データを生成・再生成</button>
+          </div>
+        </form>
+        <p class="help">下書き中は再生成できます。締め処理後は翌月調整を使用します。</p>
+        <p class="error-text" id="billing-generate-error"></p>
+      </article>
+
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">BILLING SETTINGS</p><h2>事業所請求設定</h2></div>
+          <button class="button button--outline button--small" id="reload-billing-settings" type="button">再読込</button>
+        </div>
+        <form id="billing-settings-form" class="form-grid">
+          <div class="field"><label>事業所番号</label><input name="provider_number"></div>
+          <div class="field"><label>標準支払日</label><input name="default_due_day" type="number" min="1" max="31"></div>
+          <div class="field"><label>請求番号接頭辞</label><input name="invoice_prefix"></div>
+          <div class="field"><label>入金番号接頭辞</label><input name="payment_prefix"></div>
+          <div class="field"><label>標準月途中計算</label>
+            <select name="default_billing_rule">
+              <option value="monthly_full">月額全額</option>
+              <option value="half_month">半月判定</option>
+              <option value="daily_prorate">日割り</option>
+              <option value="manual">手動</option>
+            </select>
+          </div>
+          <div class="field"><label>半月判定日数</label><input name="half_month_threshold_days" type="number" min="1" max="31"></div>
+          <div class="field field--full"><label>振込案内</label><textarea name="bank_transfer_note"></textarea></div>
+          <div class="field field--full"><label>請求書備考</label><textarea name="invoice_note"></textarea></div>
+          <div class="field field--full"><button class="button button--secondary" type="submit">請求設定を保存</button></div>
+        </form>
+        <p class="error-text" id="billing-settings-error"></p>
+      </article>
+    </section>
+
+    <section class="section grid grid--2 billing-workspace">
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">BILLING CYCLES</p><h2>月次請求一覧</h2></div>
+          <button class="button button--outline button--small" id="reload-billing-cycles" type="button">再読込</button>
+        </div>
+        <div id="billing-cycle-list" class="billing-cycle-list"></div>
+      </article>
+
+      <article class="card" id="billing-cycle-detail-card">
+        <p class="eyebrow">CURRENT CYCLE</p>
+        <h2 id="billing-cycle-title">請求月を選択してください</h2>
+        <div id="billing-cycle-summary" class="billing-cycle-summary"></div>
+        <div id="billing-cycle-actions" class="button-row" hidden></div>
+        <p class="error-text" id="billing-cycle-error"></p>
+      </article>
+    </section>
+
+    <section class="section" id="billing-cycle-content" hidden>
+      <section class="grid grid--2">
+        <article class="card">
+          <p class="eyebrow">VALIDATION</p>
+          <h2>請求前の確認事項</h2>
+          <div id="billing-validation-list" class="billing-validation-list"></div>
+        </article>
+
+        <article class="card">
+          <p class="eyebrow">CLAIM EXPORT</p>
+          <h2>保険請求確認CSV</h2>
+          <p>国保連へ送信する公式伝送ファイルではありません。保険者番号、被保険者番号、サービスコード、金額を事業所内で確認するCSVです。</p>
+          <button class="button button--secondary" id="download-claim-csv" type="button">確認CSVをダウンロード</button>
+          <div class="notice notice--warning section">実際の国保連伝送は、導入先の請求ソフト・伝送環境に合わせた連携設定が必要です。</div>
+        </article>
+      </section>
+
+      <article class="card section">
+        <div class="split-heading">
+          <div><p class="eyebrow">INVOICES</p><h2>利用者別請求書</h2></div>
+          <span id="billing-invoice-count" class="status status--info">0件</span>
+        </div>
+        <div id="billing-invoice-list" class="billing-invoice-list"></div>
+      </article>
+    </section>
+
+    <section class="section" id="billing-invoice-detail" hidden>
+      <article class="card">
+        <div class="split-heading">
+          <div><p class="eyebrow">INVOICE DETAIL</p><h2 id="billing-invoice-title">請求書</h2></div>
+          <div class="button-row button-row--compact">
+            <button class="button button--outline button--small" id="print-billing-invoice" type="button">請求書を印刷</button>
+            <button class="button button--secondary button--small" id="print-billing-receipt" type="button">領収書を印刷</button>
+          </div>
+        </div>
+        <div id="billing-invoice-summary" class="billing-invoice-summary"></div>
+        <div id="billing-line-list" class="billing-line-list"></div>
+        <p class="error-text" id="billing-invoice-error"></p>
+      </article>
+
+      <section class="section grid grid--3">
+        <article class="card">
+          <p class="eyebrow">CLIENT BILLING PROFILE</p>
+          <h2>利用者請求設定</h2>
+          <form id="client-billing-profile-form" class="form-grid">
+            <div class="field"><label>保険者番号</label><input name="insurer_number"></div>
+            <div class="field"><label>負担割合上書き</label><select name="copay_rate_override"><option value="">利用者情報を使用</option><option value="1">1割</option><option value="2">2割</option><option value="3">3割</option></select></div>
+            <div class="field"><label>支払方法</label><select name="payment_method"><option value="bank_transfer">振込</option><option value="cash">現金</option><option value="direct_debit">口座振替</option><option value="card">カード</option><option value="other">その他</option></select></div>
+            <div class="field"><label>販売給付方式</label><select name="sale_benefit_method"><option value="reimbursement">償還払い</option><option value="proxy_receipt">受領委任払い</option><option value="self_pay">自費</option></select></div>
+            <div class="field field--full"><label>請求先氏名</label><input name="invoice_recipient_name"></div>
+            <div class="field field--full"><label>請求先住所</label><input name="invoice_address"></div>
+            <div class="field field--full"><label>請求メモ</label><textarea name="billing_note"></textarea></div>
+            <div class="field field--full"><button class="button button--outline" type="submit">利用者設定を保存</button></div>
+          </form>
+          <p class="error-text" id="client-billing-profile-error"></p>
+        </article>
+
+        <article class="card">
+          <p class="eyebrow">ADJUSTMENT</p>
+          <h2>下書き調整明細</h2>
+          <form id="billing-adjustment-form" class="form-grid">
+            <div class="field field--full"><label>項目名</label><input name="item_name" placeholder="例：前月差額調整"></div>
+            <div class="field field--full"><label>調整額</label><input name="amount" type="number" placeholder="減額はマイナス"></div>
+            <div class="field field--full"><label>理由</label><textarea name="note"></textarea></div>
+            <div class="field field--full"><button class="button button--secondary" type="submit">調整明細を追加</button></div>
+          </form>
+          <p class="help">締め処理前の下書き請求書だけ追加できます。</p>
+          <p class="error-text" id="billing-adjustment-error"></p>
+        </article>
+
+        <article class="card">
+          <p class="eyebrow">PAYMENT</p>
+          <h2>入金登録</h2>
+          <form id="billing-payment-form" class="form-grid">
+            <div class="field"><label>入金日</label><input name="received_on" type="date"></div>
+            <div class="field"><label>入金額</label><input name="amount" type="number" min="1"></div>
+            <div class="field"><label>入金方法</label><select name="payment_method"><option value="bank_transfer">振込</option><option value="cash">現金</option><option value="direct_debit">口座振替</option><option value="card">カード</option><option value="other">その他</option></select></div>
+            <div class="field"><label>担当</label><select name="staff_id" data-billing-staff><option value="">未選択</option></select></div>
+            <div class="field field--full"><label>振込名義・参照番号</label><input name="reference_number"></div>
+            <div class="field field--full"><label>入金メモ</label><textarea name="note"></textarea></div>
+            <div class="field field--full"><button class="button button--primary" type="submit">入金を登録</button></div>
+          </form>
+          <p class="error-text" id="billing-payment-error"></p>
+          <div id="billing-payment-list" class="billing-payment-list"></div>
+        </article>
+      </section>
+    </section>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="shared.js"></script>
+<script src="billing.js"></script>
+</body>
+</html>

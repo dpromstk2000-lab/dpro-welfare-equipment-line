@@ -2210,3 +2210,367 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* STEP WELFARE-EQUIP-9：請求・入金・未収金 */
+.billing-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.billing-flow article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  min-height: 82px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.billing-flow article > span {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: white;
+  background: var(--primary);
+  font-weight: 900;
+}
+
+.billing-flow article strong {
+  font-size: 16px;
+}
+
+.billing-flow article small {
+  color: var(--muted);
+}
+
+.billing-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.billing-metrics .metric {
+  min-height: 118px;
+  padding: 17px;
+}
+
+.billing-metrics .metric strong {
+  font-size: clamp(25px, 3vw, 34px);
+}
+
+.billing-cycle-list,
+.billing-validation-list,
+.billing-invoice-list,
+.billing-line-list,
+.billing-payment-list {
+  display: grid;
+  gap: 11px;
+  margin-top: 15px;
+}
+
+.billing-cycle-row,
+.billing-invoice-row,
+.billing-line-row,
+.billing-payment-row {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface-alt);
+}
+
+.billing-cycle-row,
+.billing-invoice-row,
+.billing-payment-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 17px;
+}
+
+.billing-cycle-row.is-selected,
+.billing-invoice-row.is-selected {
+  border: 2px solid var(--primary);
+  background: var(--primary-soft);
+}
+
+.billing-cycle-row h3,
+.billing-cycle-row p,
+.billing-invoice-row h3,
+.billing-invoice-row p,
+.billing-line-row h3,
+.billing-line-row p,
+.billing-payment-row p {
+  margin: 0;
+}
+
+.billing-cycle-row__actions,
+.billing-invoice-row__actions {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+  min-width: 110px;
+}
+
+.billing-cycle-summary,
+.billing-invoice-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.billing-cycle-summary > div,
+.billing-invoice-summary > div {
+  display: grid;
+  gap: 5px;
+  min-height: 76px;
+  padding: 13px;
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
+.billing-cycle-summary span,
+.billing-invoice-summary span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.billing-cycle-summary strong,
+.billing-invoice-summary strong {
+  overflow-wrap: anywhere;
+}
+
+.billing-issue-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+}
+
+.billing-issue-row--error {
+  border-color: #e3a0a0;
+  background: #fff5f5;
+}
+
+.billing-issue-row--warning {
+  border-color: #eac88b;
+  background: #fffaf0;
+}
+
+.billing-issue-row p,
+.billing-issue-row small {
+  margin: 3px 0 0;
+}
+
+.billing-issue-row small {
+  color: var(--muted);
+}
+
+.billing-invoice-amounts {
+  display: grid;
+  gap: 4px;
+  min-width: 175px;
+}
+
+.billing-invoice-amounts span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.billing-invoice-amounts strong {
+  color: var(--text);
+}
+
+.billing-line-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+}
+
+.billing-line-row.needs-review {
+  border-color: #eac88b;
+  background: #fffaf0;
+}
+
+.billing-line-amounts {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  min-width: 145px;
+  font-weight: 800;
+}
+
+.billing-line-warning {
+  color: #9a5c00;
+  font-weight: 700;
+}
+
+.billing-payment-row {
+  align-items: center;
+}
+
+.billing-payment-row > div {
+  display: grid;
+  gap: 3px;
+}
+
+.billing-payment-row span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.billing-print-document {
+  max-width: 210mm;
+}
+
+.billing-print-address {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+  margin: 18px 0 24px;
+}
+
+.billing-print-address h2,
+.billing-print-address p {
+  margin: 4px 0;
+}
+
+.billing-print-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 22px 0;
+  padding: 20px;
+  border: 2px solid #222;
+}
+
+.billing-print-total span {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.billing-print-total strong {
+  font-size: 34px;
+}
+
+.billing-print-total--receipt {
+  min-height: 96px;
+}
+
+.billing-print-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.billing-print-breakdown > div {
+  display: grid;
+  gap: 5px;
+  padding: 13px;
+  border: 1px solid #bbb;
+}
+
+.billing-receipt-recipient {
+  margin: 28px 0;
+  border-bottom: 1px solid #333;
+}
+
+.billing-receipt-purpose {
+  min-height: 56px;
+  padding: 16px;
+  border-bottom: 1px solid #333;
+  font-size: 17px;
+}
+
+.billing-receipt-office {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 35px;
+}
+
+.receipt-stamp-box {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border: 1px solid #999;
+}
+
+.print-table td small {
+  display: block;
+  margin-top: 3px;
+  color: #555;
+}
+
+@media (max-width: 1100px) {
+  .billing-flow,
+  .billing-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .billing-cycle-summary,
+  .billing-invoice-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .billing-flow,
+  .billing-metrics,
+  .billing-cycle-summary,
+  .billing-invoice-summary,
+  .billing-print-address,
+  .billing-print-breakdown {
+    grid-template-columns: 1fr;
+  }
+
+  .billing-cycle-row,
+  .billing-invoice-row,
+  .billing-payment-row,
+  .billing-line-row {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .billing-cycle-row__actions,
+  .billing-invoice-row__actions,
+  .billing-line-amounts {
+    justify-items: start;
+    min-width: 0;
+  }
+
+  .billing-invoice-amounts {
+    min-width: 0;
+  }
+}
+
+@media print {
+  .billing-print-document {
+    width: 100%;
+    max-width: none;
+  }
+
+  .billing-print-total {
+    break-inside: avoid;
+  }
+}

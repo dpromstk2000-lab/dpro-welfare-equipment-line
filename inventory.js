@@ -174,6 +174,11 @@
             ${product.can_sell ? `販売 ${esc(yen(product.sale_price))}` : ""}
             ${product.selection_option ? "｜選択制" : ""}
           </p>
+          <p class="help">
+            請求コード：${esc(product.care_service_code || "未設定")}｜
+            全国平均：${esc(yen(product.national_average_rental_price))}｜
+            上限：${esc(yen(product.rental_price_ceiling))}
+          </p>
         </div>
         <div class="product-row__meta">
           <span class="status ${product.is_active ? "status--success" : "status--danger"}">${product.is_active ? "有効" : "無効"}</span>

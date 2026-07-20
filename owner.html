@@ -25,6 +25,7 @@
       <a href="planning.html">アセスメント・計画</a>
       <a href="contract.html">契約・納品</a>
       <a href="aftercare.html">モニタリング・保守</a>
+      <a href="billing.html">請求・入金</a>
       <a href="staff.html">配送スタッフ</a>
       <a href="system-check.html">system-check</a>
     </nav>
@@ -48,7 +49,7 @@
     <section class="hero">
       <p class="eyebrow">OWNER DASHBOARD</p>
       <h1>今日の業務と期限をまとめて確認</h1>
-      <p>紹介案件、訪問、モニタリング、修理、用具在庫を横断して管理します。</p>
+      <p>紹介案件、訪問、モニタリング、修理、用具在庫、請求・入金を横断して管理します。</p>
     </section>
 
     <section class="section grid grid--4">
@@ -66,6 +67,7 @@
         <button data-tab="assets">用具・在庫</button>
         <button data-tab="visits">訪問・配送</button>
         <button data-tab="monitoring">モニタリング</button>
+        <button data-tab="billing">請求・入金</button>
         <button data-tab="settings">事業所設定</button>
       </aside>
 
@@ -81,6 +83,7 @@
               <div class="check-row"><span>モニタリング期限が7日以内</span><span class="status status--warning">6件</span></div>
               <div class="check-row"><span>回収後、消毒未完了</span><span class="status status--danger">3台</span></div>
               <div class="check-row"><span>貸与・販売の選択説明が未記録</span><span class="status status--warning">1件</span></div>
+              <div class="check-row"><span>支払期限を超過した請求</span><span class="status status--danger">0件</span></div>
             </div>
           </article>
         </section>
@@ -325,6 +328,10 @@
                   <div class="field"><label>型番</label><input name="model_number"></div>
                   <div class="field"><label>TAISコード</label><input name="tais_code"></div>
                   <div class="field"><label>介護保険商品コード</label><input name="insurance_item_code"></div>
+                  <div class="field"><label>請求サービスコード</label><input name="care_service_code"></div>
+                  <div class="field"><label>全国平均貸与価格</label><input name="national_average_rental_price" type="number" min="0"></div>
+                  <div class="field"><label>商品別貸与価格上限</label><input name="rental_price_ceiling" type="number" min="0"></div>
+                  <div class="field"><label>上限価格適用開始日</label><input name="price_ceiling_effective_from" type="date"></div>
                   <div class="field checkbox-field"><label><input name="can_rent" type="checkbox" checked> 貸与対応</label></div>
                   <div class="field checkbox-field"><label><input name="can_sell" type="checkbox"> 販売対応</label></div>
                   <div class="field checkbox-field"><label><input name="selection_option" type="checkbox"> 貸与・販売選択制</label></div>
@@ -401,6 +408,23 @@
           <article class="card section">
             <div class="split-heading"><div><p class="eyebrow">AFTERCARE</p><h2>モニタリング・保守管理</h2></div><a class="button button--primary" href="aftercare.html">管理画面を開く</a></div>
             <div class="notice notice--info">期限、対応依頼、修理、交換、回収、消毒・点検を一画面で管理します。</div>
+          </article>
+        </section>
+
+        <section class="panel" data-panel="billing" hidden>
+          <section class="grid grid--4">
+            <article class="action-card"><span class="action-card__number">1</span><h3>月次請求</h3><p>貸与・販売明細から利用者別請求を生成します。</p></article>
+            <article class="action-card"><span class="action-card__number">2</span><h3>請求検証</h3><p>負担割合、保険情報、価格上限、合計額を確認します。</p></article>
+            <article class="action-card"><span class="action-card__number">3</span><h3>請求書・CSV</h3><p>請求書と国保連確認用CSVを出力します。</p></article>
+            <article class="action-card"><span class="action-card__number">4</span><h3>入金・未収</h3><p>入金、領収書、一部入金、期限超過を管理します。</p></article>
+          </section>
+          <article class="card section">
+            <div class="split-heading">
+              <div><p class="eyebrow">BILLING WORKSPACE</p><h2>請求・入金管理画面</h2></div>
+              <a class="button button--primary" href="billing.html">請求・入金管理を開く</a>
+            </div>
+            <p>請求生成後にエラー検証を行い、締め処理、請求書発行、入金登録の順で進めます。</p>
+            <div class="notice notice--warning">確認CSVは事業所内確認用です。国保連の公式伝送は導入先の請求ソフトに合わせて連携します。</div>
           </article>
         </section>
 

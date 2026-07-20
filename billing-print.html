@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>請求書・領収書｜DPRO 福祉用具センター</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="print-page">
+  <main class="print-document billing-print-document">
+    <div class="print-toolbar no-print">
+      <a class="button button--outline" href="billing.html">請求画面へ戻る</a>
+      <button class="button button--primary" id="billing-print-button" type="button">印刷・PDF保存</button>
+    </div>
+    <header class="print-header">
+      <div>
+        <p class="eyebrow" id="billing-print-eyebrow">BILLING DOCUMENT</p>
+        <h1 id="billing-print-heading">請求書</h1>
+      </div>
+      <div class="print-office">
+        <strong data-office-name>DPRO 福祉用具センター</strong>
+        <span>福祉用具レンタル・販売 LINE</span>
+      </div>
+    </header>
+    <div id="billing-print-error" class="notice notice--danger" hidden></div>
+    <section id="billing-print-content">
+      <p class="help">請求データを読み込み中です。</p>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="shared.js"></script>
+  <script src="billing-print.js"></script>
+</body>
+</html>
