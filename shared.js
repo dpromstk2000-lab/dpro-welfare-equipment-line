@@ -64,11 +64,80 @@
   function setupMobileNav() {
     const button = q("[data-nav-toggle]");
     const nav = q("[data-main-nav]");
-    if (!button || !nav) return;
+    const header = button?.closest(".site-header");
+    const headerInner = header?.querySelector(".header-inner");
+    if (!button || !nav || !header || !headerInner) return;
+
+    const closeMenu = () => {
+      nav.classList.remove("is-open");
+      button.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-label", "メニューを開く");
+    };
+
+    const evaluateNavigation = () => {
+      closeMenu();
+
+      // 920px以下は既存のスマートフォン・タブレット用CSSを使用します。
+      if (window.matchMedia("(max-width: 920px)").matches) {
+        header.classList.remove("nav-compact");
+        return;
+      }
+
+      // 一度通常表示に戻し、実際にリンクが2段へ折り返すかを測定します。
+      header.classList.remove("nav-compact");
+
+      window.requestAnimationFrame(() => {
+        const links = qa("a", nav);
+        const linkRows = new Set(
+          links.map((link) => Math.round(link.getBoundingClientRect().top))
+        );
+
+        const headerRect = headerInner.getBoundingClientRect();
+        const brandRect = headerInner.querySelector(".brand")?.getBoundingClientRect();
+        const navRect = nav.getBoundingClientRect();
+
+        const wrapped = linkRows.size > 1;
+        const overlapsBrand = Boolean(
+          brandRect &&
+          navRect.left < brandRect.right + 12
+        );
+        const exceedsHeader =
+          navRect.right > headerRect.right + 1 ||
+          nav.scrollWidth > nav.clientWidth + 1;
+
+        header.classList.toggle(
+          "nav-compact",
+          wrapped || overlapsBrand || exceedsHeader
+        );
+      });
+    };
+
     button.addEventListener("click", () => {
       const open = nav.classList.toggle("is-open");
       button.setAttribute("aria-expanded", String(open));
+      button.setAttribute(
+        "aria-label",
+        open ? "メニューを閉じる" : "メニューを開く"
+      );
     });
+
+    nav.addEventListener("click", (event) => {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    let resizeTimer = 0;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(evaluateNavigation, 80);
+    });
+
+    window.addEventListener("load", evaluateNavigation, { once: true });
+    document.fonts?.ready?.then(evaluateNavigation);
+    evaluateNavigation();
   }
 
   function setupTabs() {
