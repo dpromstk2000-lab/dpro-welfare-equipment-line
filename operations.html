@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145d66">
+  <meta name="description" content="DPRO 福祉用具レンタル・販売 LINE 運用設定・権限・通知・帳票・監査">
+  <title>運用設定・最終確認｜DPRO 福祉用具レンタル・販売 LINE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">DPRO</span>
+      <span><span data-office-name>DPRO 福祉用具センター</span><small>福祉用具レンタル・販売 LINE</small></span>
+    </a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="メニューを開く">メニュー</button>
+    <nav class="main-nav" data-main-nav>
+      <a href="index.html">LINE利用者</a>
+      <a href="member.html">会員画面</a>
+      <a href="inquiry.html">相談受付</a>
+      <a href="owner.html">オーナーPC</a>
+      <a href="owner-ipad.html">相談員iPad</a>
+      <a href="planning.html">アセスメント・計画</a>
+      <a href="contract.html">契約・納品</a>
+      <a href="aftercare.html">モニタリング・保守</a>
+      <a href="billing.html">請求・入金</a>
+      <a href="staff.html">配送スタッフ</a>
+      <a href="operations.html" aria-current="page">運用設定</a>
+      <a href="system-check.html">system-check</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <section class="admin-gate card" data-admin-gate>
+    <p class="eyebrow">OPERATIONS LOGIN</p>
+    <h1>運用設定・最終確認</h1>
+    <p>管理コードを入力してください。</p>
+    <div class="admin-code-row">
+      <input type="password" inputmode="numeric" data-admin-code placeholder="管理コード">
+      <button class="button button--primary" data-admin-login>開く</button>
+      <button class="button button--outline" data-admin-clear>削除</button>
+    </div>
+    <p class="help">デモ管理コード：1234</p>
+    <p class="error-text" data-admin-error></p>
+  </section>
+
+  <section data-protected-area hidden>
+    <section class="hero">
+      <p class="eyebrow">FINAL OPERATIONS</p>
+      <h1>事業所設定・権限・通知・帳票を一画面で管理</h1>
+      <p>導入前の不足を最終確認し、スタッフごとのアクセス、通知文面、帳票、操作履歴を管理します。</p>
+      <div class="hero-actions">
+        <button class="button button--primary" id="run-launch-check" type="button">最終運用チェックを実行</button>
+        <a class="button button--secondary" href="system-check.html">system-checkを開く</a>
+      </div>
+    </section>
+
+    <section class="section operations-readiness" id="operations-readiness">
+      <article class="card operations-ready-card">
+        <div>
+          <p class="eyebrow">LAUNCH READINESS</p>
+          <h2 id="launch-ready-title">最終確認を読み込み中です</h2>
+          <p id="launch-ready-message">事業所設定と運用基盤を確認しています。</p>
+        </div>
+        <span class="status status--info" id="launch-ready-badge">確認中</span>
+      </article>
+      <article class="card metric"><span>重大項目</span><strong id="launch-critical-count">－</strong><span>件</span></article>
+      <article class="card metric"><span>確認事項</span><strong id="launch-warning-count">－</strong><span>件</span></article>
+      <article class="card metric"><span>スタッフ</span><strong id="launch-staff-count">－</strong><span>名</span></article>
+      <article class="card metric"><span>通知文面</span><strong id="launch-template-count">－</strong><span>件</span></article>
+    </section>
+
+    <section class="section owner-layout operations-layout" data-tabs>
+      <aside class="side-menu">
+        <button class="is-active" data-tab="overview">最終チェック</button>
+        <button data-tab="office">事業所設定</button>
+        <button data-tab="staff">スタッフ</button>
+        <button data-tab="permissions">権限設定</button>
+        <button data-tab="notifications">LINE通知</button>
+        <button data-tab="documents">帳票一覧</button>
+        <button data-tab="audit">監査ログ</button>
+      </aside>
+
+      <div>
+        <section class="panel" data-panel="overview">
+          <article class="card">
+            <div class="split-heading">
+              <div><p class="eyebrow">CHECK RESULTS</p><h2>導入前の確認結果</h2></div>
+              <button class="button button--outline button--small" id="reload-operations-summary" type="button">再読込</button>
+            </div>
+            <div id="launch-check-list" class="launch-check-list"></div>
+          </article>
+
+          <section class="grid grid--3 section">
+            <article class="action-card"><span class="action-card__number">1</span><h3>事業所情報</h3><p>電話、住所、営業時間、帳票表示を確認します。</p></article>
+            <article class="action-card"><span class="action-card__number">2</span><h3>スタッフ権限</h3><p>業務に必要な画面だけをロール別に許可します。</p></article>
+            <article class="action-card"><span class="action-card__number">3</span><h3>通知・帳票・監査</h3><p>文面、印刷物、操作履歴を営業前に確認します。</p></article>
+          </section>
+        </section>
+
+        <section class="panel" data-panel="office" hidden>
+          <article class="card">
+            <p class="eyebrow">OFFICE SETTINGS</p>
+            <h2>事業所基本情報</h2>
+            <form id="operations-office-form" class="form-grid">
+              <div class="field"><label>事業所名</label><input name="office_name" required></div>
+              <div class="field"><label>事業所コード</label><input name="office_code" readonly></div>
+              <div class="field"><label>電話番号</label><input name="phone" type="tel"></div>
+              <div class="field"><label>FAX</label><input name="fax" type="tel"></div>
+              <div class="field"><label>メール</label><input name="email" type="email"></div>
+              <div class="field"><label>事業所番号・登録番号</label><input name="registration_number"></div>
+              <div class="field"><label>郵便番号</label><input name="postal_code"></div>
+              <div class="field field--full"><label>住所</label><input name="address"></div>
+              <div class="field"><label>管理責任者</label><input name="contact_person_name"></div>
+              <div class="field"><label>LINE公式アカウント名</label><input name="line_official_account_name"></div>
+              <div class="field"><label>基本訪問枠</label><select name="default_visit_minutes"><option value="30">30分</option><option value="60">60分</option><option value="90">90分</option><option value="120">120分</option></select></div>
+              <div class="field"><label>タイムゾーン</label><input name="timezone" readonly></div>
+
+              <fieldset class="field field--full business-hours-fieldset">
+                <legend>営業時間</legend>
+                <div id="business-hours-grid" class="business-hours-grid"></div>
+              </fieldset>
+
+              <div class="field field--full">
+                <label>休業日（1行に1日、YYYY-MM-DD）</label>
+                <textarea name="closed_dates" placeholder="2026-08-13&#10;2026-08-14"></textarea>
+              </div>
+
+              <fieldset class="field field--full settings-check-grid">
+                <legend>通知運用</legend>
+                <label><input type="checkbox" name="line_enabled"> LINE自動送信を有効にする</label>
+                <label><input type="checkbox" name="manual_copy_enabled"> 文面コピー運用を有効にする</label>
+                <label><input type="checkbox" name="visit_reminder_enabled"> 訪問前通知を使用する</label>
+                <label><input type="checkbox" name="payment_reminder_enabled"> 支払期日前通知を使用する</label>
+              </fieldset>
+
+              <fieldset class="field field--full settings-check-grid">
+                <legend>帳票表示</legend>
+                <label><input type="checkbox" name="show_office_number"> 事業所番号を表示</label>
+                <label><input type="checkbox" name="show_staff_name"> 担当者名を表示</label>
+                <label><input type="checkbox" name="show_signature_box"> 署名欄を表示</label>
+              </fieldset>
+
+              <div class="field field--full">
+                <button class="button button--primary" type="submit">事業所設定を保存</button>
+              </div>
+            </form>
+            <p class="error-text" id="operations-office-error"></p>
+          </article>
+        </section>
+
+        <section class="panel" data-panel="staff" hidden>
+          <section class="grid grid--2">
+            <article class="card">
+              <div class="split-heading">
+                <div><p class="eyebrow">STAFF LIST</p><h2>スタッフ・ログイン状態</h2></div>
+                <button class="button button--outline button--small" id="reload-operations-staff" type="button">再読込</button>
+              </div>
+              <div id="operations-staff-list" class="operations-staff-list"></div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">STAFF EDIT</p>
+              <h2 id="staff-form-title">スタッフを追加</h2>
+              <form id="operations-staff-form" class="form-grid">
+                <input type="hidden" name="staff_id">
+                <div class="field"><label>スタッフコード</label><input name="staff_code" required></div>
+                <div class="field"><label>氏名</label><input name="staff_name" required></div>
+                <div class="field"><label>ロール</label><select name="role"><option value="owner">owner 管理者</option><option value="manager">manager 管理責任者</option><option value="specialist">specialist 専門相談員</option><option value="delivery">delivery 配送・設置</option><option value="office">office 事務</option><option value="viewer">viewer 閲覧</option></select></div>
+                <div class="field"><label>役職名</label><input name="job_title"></div>
+                <div class="field"><label>電話番号</label><input name="phone" type="tel"></div>
+                <div class="field"><label>メール</label><input name="email" type="email"></div>
+                <div class="field"><label>資格番号</label><input name="license_number"></div>
+                <div class="field"><label>表示順</label><input name="display_order" type="number" min="0" value="100"></div>
+                <div class="field"><label>初期PIN（新規時）</label><input name="pin" inputmode="numeric" pattern="[0-9]{4,8}" placeholder="4～8桁"></div>
+                <div class="field checkbox-field"><label><input type="checkbox" name="is_active" checked> 有効</label></div>
+                <div class="field checkbox-field"><label><input type="checkbox" name="can_receive_notifications" checked> 業務通知を受け取る</label></div>
+                <div class="field checkbox-field"><label><input type="checkbox" name="require_pin_change" checked> 初回PIN変更を要求</label></div>
+                <div class="field field--full button-row">
+                  <button class="button button--primary" type="submit">保存</button>
+                  <button class="button button--outline" type="button" id="clear-staff-form">新規入力へ戻す</button>
+                </div>
+              </form>
+              <p class="error-text" id="operations-staff-error"></p>
+              <div class="notice notice--info section">
+                デモPIN：ST001＝1111、ST002＝2222、ST003＝3333。本番導入時は必ず変更します。
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <section class="panel" data-panel="permissions" hidden>
+          <article class="card">
+            <p class="eyebrow">ROLE PERMISSIONS</p>
+            <h2>ロール別の画面・操作権限</h2>
+            <form id="role-permission-form">
+              <div class="field permission-role-select">
+                <label>ロール</label>
+                <select name="role"><option value="owner">owner</option><option value="manager">manager</option><option value="specialist">specialist</option><option value="delivery">delivery</option><option value="office">office</option><option value="viewer">viewer</option></select>
+              </div>
+              <div id="permission-catalog" class="permission-catalog"></div>
+              <div class="button-row">
+                <button class="button button--primary" type="submit">ロール権限を保存</button>
+              </div>
+            </form>
+            <p class="error-text" id="permission-error"></p>
+          </article>
+        </section>
+
+        <section class="panel" data-panel="notifications" hidden>
+          <section class="grid grid--2">
+            <article class="card">
+              <p class="eyebrow">TEMPLATES</p>
+              <h2>LINE通知文面</h2>
+              <div id="notification-template-list" class="notification-template-list"></div>
+            </article>
+
+            <article class="card">
+              <p class="eyebrow">PREVIEW & QUEUE</p>
+              <h2>文面プレビュー・送信キュー</h2>
+              <form id="notification-preview-form" class="form-grid">
+                <div class="field field--full"><label>テンプレート</label><select name="template_key"></select></div>
+                <div class="field"><label>通知先名</label><input name="target_name" value="山田 花子"></div>
+                <div class="field"><label>LINE user ID</label><input name="line_user_id" placeholder="未設定なら文面コピー"></div>
+                <div class="field field--full"><label>差込変数（JSON）</label><textarea name="variables">{"利用者名":"山田 花子","請求月":"2026年7月","請求額":"1260","支払期日":"2026年8月27日"}</textarea></div>
+                <div class="field field--full button-row">
+                  <button class="button button--secondary" type="button" id="preview-notification">プレビュー</button>
+                  <button class="button button--primary" type="submit">送信キューへ追加</button>
+                </div>
+              </form>
+              <div class="notification-preview" id="notification-preview"></div>
+              <p class="error-text" id="notification-preview-error"></p>
+            </article>
+          </section>
+
+          <article class="card section">
+            <div class="split-heading">
+              <div><p class="eyebrow">OUTBOX</p><h2>通知キュー</h2></div>
+              <button class="button button--outline button--small" id="reload-notification-queue" type="button">再読込</button>
+            </div>
+            <div id="notification-queue-list" class="notification-queue-list"></div>
+          </article>
+        </section>
+
+        <section class="panel" data-panel="documents" hidden>
+          <article class="card">
+            <p class="eyebrow">DOCUMENT CENTER</p>
+            <h2>帳票・台帳一覧</h2>
+            <div id="document-registry-list" class="document-registry-list"></div>
+          </article>
+          <section class="grid grid--3 section">
+            <article class="card"><p class="eyebrow">PLANS</p><h2>最近の計画書</h2><div id="document-plan-list"></div></article>
+            <article class="card"><p class="eyebrow">CONTRACTS</p><h2>最近の契約書</h2><div id="document-contract-list"></div></article>
+            <article class="card"><p class="eyebrow">BILLING</p><h2>最近の請求書</h2><div id="document-invoice-list"></div></article>
+          </section>
+        </section>
+
+        <section class="panel" data-panel="audit" hidden>
+          <article class="card">
+            <div class="split-heading">
+              <div><p class="eyebrow">AUDIT LOG</p><h2>操作監査ログ</h2></div>
+              <div class="button-row button-row--compact">
+                <button class="button button--outline button--small" id="reload-audit-log" type="button">再読込</button>
+                <button class="button button--secondary button--small" id="download-audit-csv" type="button">CSV出力</button>
+              </div>
+            </div>
+            <div id="audit-log-list" class="audit-log-list"></div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </section>
+</main>
+<footer class="footer">
+  <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
+  <div>Version: <span data-system-version></span></div>
+</footer>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="shared.js"></script>
+<script src="operations.js"></script>
+</body>
+</html>

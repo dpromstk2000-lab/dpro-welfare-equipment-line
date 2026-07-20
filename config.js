@@ -1,7 +1,7 @@
 window.DPRO_CONFIG = Object.freeze({
   systemName: "DPRO 福祉用具レンタル・販売 LINE",
   systemCode: "WELFARE-EQUIP",
-  version: "WELFARE-EQUIP-9-R1-BILLING-ACTION-GUIDE-20260720",
+  version: "WELFARE-EQUIP-10-OPERATIONS-FINAL-20260720",
   officeCode: "dpro_welfare_equipment_demo",
   officeName: "DPRO 福祉用具センター",
   adminCode: "1234",
@@ -23,6 +23,8 @@ window.DPRO_CONFIG = Object.freeze({
     contractPrint: "contract-print.html",
     aftercare: "aftercare.html",
     billing: "billing.html",
-    billingPrint: "billing-print.html"
+    billingPrint: "billing-print.html",
+    operations: "operations.html",
+    staffLogin: "staff-login.html"
   }
 });

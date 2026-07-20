@@ -27,6 +27,7 @@
       <a href="aftercare.html">モニタリング・保守</a>
       <a href="billing.html">請求・入金</a>
       <a href="staff.html">配送スタッフ</a>
+      <a href="operations.html">運用設定</a>
       <a href="system-check.html">system-check</a>
     </nav>
   </div>
@@ -429,14 +430,21 @@
         </section>
 
         <section class="panel" data-panel="settings" hidden>
-          <article class="card"><p class="eyebrow">SETTINGS</p><h2>事業所設定</h2>
-            <div class="form-grid">
-              <div class="field"><label>事業所名</label><input value="DPRO 福祉用具センター"></div>
-              <div class="field"><label>事業所コード</label><input value="dpro_welfare_equipment_demo" readonly></div>
-              <div class="field"><label>基本訪問枠</label><select><option>30分</option><option>60分</option><option>90分</option><option>120分</option></select></div>
-              <div class="field"><label>タイムゾーン</label><input value="Asia/Tokyo" readonly></div>
+          <section class="grid grid--3">
+            <article class="action-card"><span class="action-card__number">1</span><h3>事業所・営業時間</h3><p>電話、住所、営業時間、休業日を実データへ保存します。</p></article>
+            <article class="action-card"><span class="action-card__number">2</span><h3>スタッフ・権限</h3><p>スタッフPINとロール別の操作権限を設定します。</p></article>
+            <article class="action-card"><span class="action-card__number">3</span><h3>通知・帳票・監査</h3><p>LINE文面、帳票一覧、操作履歴、最終確認を管理します。</p></article>
+          </section>
+          <article class="card section">
+            <div class="split-heading">
+              <div><p class="eyebrow">FINAL OPERATIONS</p><h2>運用設定・最終確認</h2></div>
+              <a class="button button--primary" href="operations.html">運用設定を開く</a>
             </div>
-            <div class="button-row"><button class="button button--primary" data-demo-action="事業所設定を保存するデモです。">設定を保存</button></div>
+            <p>事業所設定の保存、スタッフ追加、PIN変更、権限設定、通知文面、帳票、監査ログは専用画面で行います。</p>
+            <div class="button-row">
+              <a class="button button--secondary" href="staff-login.html">スタッフログインを試す</a>
+              <a class="button button--outline" href="system-check.html">営業前system-check</a>
+            </div>
           </article>
         </section>
       </div>

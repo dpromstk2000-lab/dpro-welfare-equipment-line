@@ -35,7 +35,7 @@
   <section class="hero">
     <p class="eyebrow">SYSTEM CHECK</p>
     <h1>営業前システムチェックと次の操作</h1>
-    <p>フロント画面、Worker、Supabase、RLS、相談・計画・契約・保守に加え、月次請求、保険請求準備、入金、未収金をまとめて確認します。</p>
+    <p>フロント画面、Worker、Supabase、RLS、全業務機能に加え、事業所設定、スタッフ権限、通知、帳票、監査、営業開始可否をまとめて確認します。</p>
     <div class="hero-actions">
       <button class="button button--primary" id="run-check">もう一度チェック</button>
       <a class="button button--secondary" href="inquiry.html?type=new">相談受付を試す</a>
@@ -55,15 +55,15 @@
     </p>
 
     <div class="next-action-box" id="next-action-box" hidden>
-      <h3>STEP 9で使用できる業務画面</h3>
+      <h3>STEP 10で確認する最終運用項目</h3>
       <ol class="next-action-list">
-        <li><strong>月次請求・自己負担計算</strong><span>貸与・販売実績から、1割・2割・3割負担を含む利用者別請求を作成します。</span></li>
-        <li><strong>請求検証・締め・発行</strong><span>保険情報、商品別価格上限、サービスコード、合計額を検査して請求書を発行します。</span></li>
-        <li><strong>入金・領収書・未収金</strong><span>一部入金、完済、入金取消、領収書、支払期限超過を管理します。</span></li>
+        <li><strong>事業所設定・営業時間</strong><span>電話、住所、営業時間、休業日、通知・帳票設定を確認します。</span></li>
+        <li><strong>スタッフPIN・ロール権限</strong><span>スタッフごとのログインと、業務別の閲覧・更新権限を確認します。</span></li>
+        <li><strong>通知・帳票・監査・最終判定</strong><span>LINE文面、帳票一覧、操作履歴、営業開始可否を確認します。</span></li>
       </ol>
       <div class="button-row">
-        <a class="button button--primary" href="billing.html">請求・入金管理を開く</a>
-        <a class="button button--secondary" href="owner.html">オーナーPCを開く</a>
+        <a class="button button--primary" href="operations.html">運用設定・最終確認を開く</a>
+        <a class="button button--secondary" href="staff-login.html">スタッフログインを試す</a>
       </div>
       <p class="help">
         全項目OKの場合、今すぐ行う必須操作はありません。次の開発STEPへ進めます。
@@ -111,7 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "customer", "member", "owner", "ipad",
         "staff", "systemCheck", "inquiry", "planning", "planPrint",
         "contract", "contractPrint", "aftercare",
-        "billing", "billingPrint"
+        "billing", "billingPrint",
+        "operations", "staffLogin"
       ];
       return required.every((key) => Boolean(pages[key]))
         && Object.keys(pages).length === required.length;

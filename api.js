@@ -3,6 +3,7 @@
 
   const cfg = window.DPRO_CONFIG;
   const tokenKey = `dpro_admin_token_${cfg.officeCode}`;
+  const actorKey = `dpro_actor_${cfg.officeCode}`;
   const baseUrl = String(cfg.apiBaseUrl || "").replace(/\/+$/, "");
 
   class DproApiError extends Error {
@@ -19,9 +20,40 @@
     return sessionStorage.getItem(tokenKey) || "";
   }
 
-  function setToken(token) {
-    if (token) sessionStorage.setItem(tokenKey, token);
-    else sessionStorage.removeItem(tokenKey);
+  function decodeTokenPayload(token) {
+    try {
+      const encoded = String(token || "").split(".")[0];
+      if (!encoded) return null;
+      const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/");
+      const padded = normalized + "=".repeat((4 - normalized.length % 4) % 4);
+      const bytes = Uint8Array.from(atob(padded), (char) => char.charCodeAt(0));
+      return JSON.parse(new TextDecoder().decode(bytes));
+    } catch {
+      return null;
+    }
+  }
+
+  function getActor() {
+    try {
+      const stored = sessionStorage.getItem(actorKey);
+      if (stored) return JSON.parse(stored);
+    } catch {
+      // Ignore malformed session storage.
+    }
+    return decodeTokenPayload(getToken());
+  }
+
+  function setToken(token, actor = null) {
+    if (token) {
+      sessionStorage.setItem(tokenKey, token);
+      const resolvedActor = actor || decodeTokenPayload(token);
+      if (resolvedActor) {
+        sessionStorage.setItem(actorKey, JSON.stringify(resolvedActor));
+      }
+    } else {
+      sessionStorage.removeItem(tokenKey);
+      sessionStorage.removeItem(actorKey);
+    }
   }
 
   async function request(path, options = {}) {
@@ -83,14 +115,36 @@
         admin_code: adminCode,
       },
     });
-    setToken(data.token);
+    setToken(data.token, data.actor || null);
     return data;
+  }
+
+  async function staffLogin(staffCode, pin) {
+    const data = await request("/staff/login", {
+      method: "POST",
+      admin: false,
+      body: {
+        office_code: cfg.officeCode,
+        staff_code: staffCode,
+        pin,
+      },
+    });
+    setToken(data.token, data.actor || null);
+    return data;
+  }
+
+  function logout() {
+    setToken("");
+    sessionStorage.removeItem("dpro_welfare_admin_ok");
   }
 
   window.DPRO_API = Object.freeze({
     request,
     login,
+    staffLogin,
+    logout,
     getToken,
+    getActor,
     setToken,
     hasToken: () => Boolean(getToken()),
     errorClass: DproApiError,

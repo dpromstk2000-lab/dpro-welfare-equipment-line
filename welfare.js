@@ -466,12 +466,12 @@
       const allOk = frontOk && backendOk;
 
       if (allOk) {
-        title.textContent = "全項目OKです。STEP 9のシステム検査は完了しています";
+        title.textContent = "全項目OKです。STEP 10の最終システム検査は完了しています";
         badge.textContent = "全項目OK";
         badge.className =
           "status status--success completion-panel__status";
         message.textContent =
-          "設定や接続に異常はありません。月次請求、保険請求準備、請求書、入金、領収書、未収金管理までの基盤も正常です。";
+          "設定や接続に異常はありません。事業所設定、スタッフ権限、通知文面、帳票、監査ログ、最終運用チェックまで正常です。";
         nextActions.hidden = false;
         return;
       }
@@ -518,6 +518,7 @@
           ["契約・同意・個体割当・納品・貸与開始", data.fulfillment_workflow?.ok],
           ["モニタリング・修理・交換・回収・消毒点検", data.aftercare_workflow?.ok],
           ["請求・自己負担・保険請求準備・入金・未収金", data.billing_workflow?.ok],
+          ["事業所設定・スタッフ権限・通知・帳票・監査・最終運用", data.operations_workflow?.ok],
         ];
         const backendOk = items.every(([, ok]) => Boolean(ok));
 
