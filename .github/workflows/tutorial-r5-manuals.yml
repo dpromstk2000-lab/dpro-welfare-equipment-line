@@ -1,0 +1,76 @@
+name: DPRO Tutorial R5 Manuals
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - tutorial-r5-build.py
+      - .github/workflows/tutorial-r5-manuals.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-r5-manuals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout newest main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify forward-only R4 baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          BASELINE="afaa3e18e43eb736873bc659fe261b9d13b07f3e"
+          git merge-base --is-ancestor "$BASELINE" origin/main
+          echo "R4 baseline is an ancestor of current main."
+
+      - name: Install rendering and QR QA dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk poppler-utils zbar-tools
+          python -m pip install --upgrade pip
+          python -m pip install selenium qrcode pillow
+          google-chrome --version || chromium --version
+
+      - name: Build manuals from live Pages and run R5 QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tutorial-r5-build.py
+
+      - name: Upload R5 build artifact before repository write
+        uses: actions/upload-artifact@v4
+        with:
+          name: DPRO_TUTORIAL_WELFARE_EQUIPMENT_R5_MANUALS
+          path: |
+            manuals/DPRO_TUTORIAL_WELFARE_EQUIPMENT_QUICK_START_V1.0.pdf
+            manuals/DPRO_TUTORIAL_WELFARE_EQUIPMENT_DETAILED_MANUAL_V1.0.pdf
+            manuals/DPRO_TUTORIAL_WELFARE_EQUIPMENT_QUICK_START_V1.0.png
+            manuals/DPRO_TUTORIAL_WELFARE_EQUIPMENT_DETAILED_MANUAL_V1.0.png
+            manuals/R5_MANUAL_QA_EVIDENCE.txt
+            manuals/screens/*.png
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Commit R5 manual assets and QA evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf manuals/_build
+          git config user.name "dpro-tutorial-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add manuals
+          if git diff --cached --quiet; then
+            echo "No manual asset changes to commit."
+            exit 0
+          fi
+          git commit -m "Add WELFARE_EQUIPMENT Tutorial R5 manuals [skip ci]"
+          git push origin HEAD:main
