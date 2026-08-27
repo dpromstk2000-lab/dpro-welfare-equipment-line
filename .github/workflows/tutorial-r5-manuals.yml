@@ -1,4 +1,5 @@
 name: DPRO Tutorial R5 Manuals
+# R5 workflow repair version: V1.2
 
 on:
   push:
@@ -29,6 +30,46 @@ jobs:
           BASELINE="afaa3e18e43eb736873bc659fe261b9d13b07f3e"
           git merge-base --is-ancestor "$BASELINE" origin/main
           echo "R4 baseline is an ancestor of current main."
+
+      - name: Fix R5 preview PNG output path
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("tutorial-r5-build.py")
+          text = path.read_text(encoding="utf-8")
+
+          old = 'shutil.copy2(prefix.with_suffix(".png"), out_png)'
+          new = 'shutil.copy2(Path(str(prefix) + ".png"), out_png)'
+
+          if old in text:
+              text = text.replace(old, new, 1)
+              path.write_text(text, encoding="utf-8")
+              print("R5 preview path fix applied.")
+          elif new in text:
+              print("R5 preview path already fixed.")
+          else:
+              raise SystemExit("Expected render_preview copy expression not found; refusing unknown edit.")
+          PY
+
+          if ! git diff --quiet -- tutorial-r5-build.py; then
+            git config user.name "dpro-tutorial-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add tutorial-r5-build.py
+            git commit -m "Fix R5 preview PNG output path [skip ci]"
+            git push origin HEAD:main
+          fi
+
+          python - <<'PY'
+          from pathlib import Path
+          text = Path("tutorial-r5-build.py").read_text(encoding="utf-8")
+          expected = 'shutil.copy2(Path(str(prefix) + ".png"), out_png)'
+          if expected not in text:
+              raise SystemExit("R5 preview path fix QA failed")
+          print("R5 preview path fix QA: PASS")
+          PY
 
       - name: Repair Tutorial asset links on Tutorial-enabled pages
         id: repair
