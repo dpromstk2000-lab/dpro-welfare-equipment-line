@@ -113,11 +113,11 @@
   }
   function replay(){clearTutorialState();state.step=1;state.active=true;setProgress(1,"active");if(pageName()!=="member.html"){location.href=new URL("member.html",location.href).href;return}renderStep()}
   function startDrag(ev){
-    if(ev.button!==undefined&&ev.button!==0)return;const r=state.card.getBoundingClientRect();state.drag={pointerId:ev.pointerId,offsetX:ev.clientX-r.left,offsetY:ev.clientY-r.top};
-    ev.currentTarget.setPointerCapture?.(ev.pointerId);ev.preventDefault();
+    if(ev.button!==undefined&&ev.button!==0)return;const handle=ev.currentTarget,r=state.card.getBoundingClientRect();state.drag={pointerId:ev.pointerId,offsetX:ev.clientX-r.left,offsetY:ev.clientY-r.top};
+    handle.setPointerCapture?.(ev.pointerId);ev.preventDefault();
     const move=m=>{if(!state.drag||m.pointerId!==state.drag.pointerId)return;const p=clampPosition(m.clientX-state.drag.offsetX,m.clientY-state.drag.offsetY);applyCardPosition(p.x,p.y);savePosition(p.x,p.y);m.preventDefault()};
-    const end=e=>{if(!state.drag||e.pointerId!==state.drag.pointerId)return;ev.currentTarget.releasePointerCapture?.(e.pointerId);state.drag=null;ev.currentTarget.removeEventListener("pointermove",move);ev.currentTarget.removeEventListener("pointerup",end);ev.currentTarget.removeEventListener("pointercancel",end)};
-    ev.currentTarget.addEventListener("pointermove",move);ev.currentTarget.addEventListener("pointerup",end);ev.currentTarget.addEventListener("pointercancel",end)
+    const end=e=>{if(!state.drag||e.pointerId!==state.drag.pointerId)return;handle.releasePointerCapture?.(e.pointerId);state.drag=null;handle.removeEventListener("pointermove",move);handle.removeEventListener("pointerup",end);handle.removeEventListener("pointercancel",end)};
+    handle.addEventListener("pointermove",move);handle.addEventListener("pointerup",end);handle.addEventListener("pointercancel",end)
   }
   function keyboardMove(ev){
     const ks=["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"];if(!ks.includes(ev.key))return;ev.preventDefault();const r=state.card.getBoundingClientRect(),a=ev.shiftKey?40:10;let x=r.left,y=r.top;
