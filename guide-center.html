@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#145d66">
+<meta name="description" content="DPRO 福祉用具レンタル・販売 LINE Guide Center">
+<title>Guide Center｜DPRO 福祉用具レンタル・販売 LINE</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="tutorial.css">
+<style>
+.guide-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}.guide-search input{min-height:50px;padding:11px 13px;border:2px solid var(--border);border-radius:12px;font:inherit}
+.guide-filter{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.guide-filter button{min-height:42px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--primary-dark);font:inherit;font-weight:800;cursor:pointer}
+.guide-filter button.is-active{background:var(--primary);color:#fff}.guide-status{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px}.guide-list{display:grid;gap:14px}.guide-article{scroll-margin-top:90px}
+.guide-meta{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.guide-meta span{padding:5px 9px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);font-size:12px;font-weight:800}
+.guide-article details{margin-top:12px}.guide-article summary{cursor:pointer;font-weight:900;color:var(--primary-dark)}.guide-steps{padding-left:22px}.guide-steps li+li{margin-top:6px}
+.guide-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.guide-links a{min-height:42px;display:inline-flex;align-items:center;padding:8px 12px;border-radius:10px;background:var(--primary-soft);color:var(--primary-dark);text-decoration:none;font-weight:800}
+.guide-empty{padding:18px;border:1px dashed var(--border);border-radius:12px;color:var(--muted)}@media(max-width:680px){.guide-search,.guide-status{grid-template-columns:1fr}.guide-search .button{width:100%}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">DPRO</span><span>DPRO 福祉用具センター<small>操作ガイド</small></span></a>
+<nav class="main-nav" style="display:flex"><a href="member.html">会員画面</a><a href="system-check.html">system-check</a></nav></div></header>
+<main class="page">
+<section class="hero hero--compact"><p class="eyebrow">GUIDE CENTER</p><h1>迷ったら、ここから操作を確認</h1>
+<p>First10で全体像を3分で確認し、担当別・作業別ガイドで必要な画面と安全な進め方を確認できます。</p>
+<div class="hero-actions"><button class="button button--primary" type="button" id="guide-first10-primary">First10を開始</button><a class="button button--secondary" href="system-check.html">system-checkを開く</a></div></section>
+
+<section class="section card guide-status" aria-live="polite"><div><p class="eyebrow">FIRST10 STATUS</p><h2 id="guide-progress-title">進捗を確認中</h2><p id="guide-progress-text">ブラウザ内のTutorial専用進捗だけを確認します。</p></div>
+<div class="button-row button-row--compact"><button class="button button--primary button--small" type="button" id="guide-resume">続きから</button><button class="button button--outline button--small" type="button" id="guide-replay">最初から</button></div></section>
+
+<section class="section card"><p class="eyebrow">SEARCH</p><h2>担当・作業から探す</h2>
+<div class="guide-search"><input id="guide-search" type="search" placeholder="例：請求、配送、モニタリング、家族" aria-label="ガイドを検索"><button class="button button--outline" type="button" id="guide-clear">クリア</button></div>
+<div class="guide-filter" aria-label="担当別フィルター"><button type="button" class="is-active" data-guide-filter="all">すべて</button><button type="button" data-guide-filter="family">利用者・家族</button><button type="button" data-guide-filter="specialist">専門相談員</button><button type="button" data-guide-filter="delivery">配送・設置</button><button type="button" data-guide-filter="billing">事務・請求</button><button type="button" data-guide-filter="owner">オーナー・管理</button></div></section>
+
+<section class="section"><div class="section-heading"><p class="eyebrow">QUICK GUIDE</p><h2>3分で全体像</h2><p>相談 → 計画 → 契約 → 配送・設置 → モニタリング・保守 → 請求 → 運用確認の順でつながります。</p></div>
+<div class="grid grid--3"><article class="action-card"><span class="action-card__number">1</span><h3>相談・利用状況</h3><p>会員画面と相談受付で、利用中用具・次回訪問・困りごとを確認します。</p></article>
+<article class="action-card"><span class="action-card__number">2</span><h3>専門職・現場</h3><p>アセスメント、計画、契約、配送、モニタリングを安全な順序で進めます。</p></article>
+<article class="action-card"><span class="action-card__number">3</span><h3>請求・運用</h3><p>請求・入金と、事業所設定・権限・通知・帳票・監査・system-checkを確認します。</p></article></div></section>
+
+<section class="section guide-list" id="guide-list">
+<article class="card guide-article" data-persona="family" data-keywords="利用者 家族 会員 利用状況 用具 次回訪問 相談 交換 不具合"><p class="eyebrow">利用者・家族</p><h2>利用状況・用具確認と相談</h2><div class="guide-meta"><span>member.html</span><span>inquiry.html</span></div><p><strong>目的：</strong>現在の用具、訪問予定、相談状況を確認し、必要な相談先へ進む。</p>
+<details><summary>操作手順と完了の見分け方</summary><ol class="guide-steps"><li>会員画面で利用中用具と次回訪問を確認。</li><li>追加・交換、不具合、予定変更の相談導線を選ぶ。</li><li>相談受付では必要項目を確認する。</li></ol><p><strong>完了：</strong>必要な情報と相談先が分かれば完了です。</p><p><strong>注意：</strong>公開デモでは実在する個人情報を入力しません。転倒・けが時は安全確保と緊急連絡を優先します。</p></details>
+<div class="guide-links"><a href="member.html">会員画面</a><a href="inquiry.html?type=exchange">相談受付</a></div></article>
+
+<article class="card guide-article" data-persona="specialist" data-keywords="専門相談員 アセスメント サービス計画 用具選定 説明 同意 planning"><p class="eyebrow">福祉用具専門相談員</p><h2>アセスメント → サービス計画 → 用具選定</h2><div class="guide-meta"><span>planning.html</span><span>管理コード 1234（デモ）</span></div><p><strong>目的：</strong>状態・生活課題・住環境から根拠ある用具計画へつなぐ。</p>
+<details><summary>操作手順とよくある詰まり</summary><ol class="guide-steps"><li>管理認証後、利用者を検索。</li><li>アセスメントを確認。</li><li>計画、用具選定、説明・同意の順に進む。</li></ol><p><strong>詰まり：</strong>保護エリアが見えない場合は管理認証を確認。完了済み記録は直接改変せず、改訂や新規記録を使用します。</p></details><div class="guide-links"><a href="planning.html">アセスメント・計画</a></div></article>
+
+<article class="card guide-article" data-persona="specialist owner billing" data-keywords="契約 同意 個体割当 納品予定 contract"><p class="eyebrow">相談員・事務</p><h2>契約・同意 → 個体割当 → 納品予定</h2><div class="guide-meta"><span>contract.html</span></div><p><strong>目的：</strong>有効計画を起点に、契約と納品準備を安全な順で確認する。</p><details><summary>操作手順と安全事項</summary><ol class="guide-steps"><li>有効計画を選択。</li><li>契約明細と説明・同意を確認。</li><li>用具個体を割り当て、30分単位で納品予定を準備。</li></ol><p><strong>注意：</strong>First10/Guide Centerは契約作成・同意・納品登録を自動実行しません。</p></details><div class="guide-links"><a href="contract.html">契約・納品準備</a></div></article>
+
+<article class="card guide-article" data-persona="delivery" data-keywords="配送 設置 積込 出発 到着 安全説明 納品完了 staff"><p class="eyebrow">配送・設置スタッフ</p><h2>積込 → 配送 → 設置 → 納品完了</h2><div class="guide-meta"><span>staff.html</span><span>ST003 / 3333（デモ）</span></div><p><strong>目的：</strong>用具管理番号と安全確認をそろえてから貸与開始へ進む。</p><details><summary>操作手順と完了できない条件</summary><ol class="guide-steps"><li>積込明細と個体番号を確認。</li><li>出発・到着の順で進む。</li><li>適合・安定性・使用方法・付属品を確認。</li><li>受領確認後に納品完了。</li></ol><p><strong>禁止：</strong>未確認項目がある状態や重大破損・けががある状態で完了しません。</p></details><div class="guide-links"><a href="staff.html">配送・設置</a><a href="staff-login.html">スタッフログイン</a></div></article>
+
+<article class="card guide-article" data-persona="specialist delivery" data-keywords="モニタリング 修理 交換 返却 回収 消毒 点検 再貸出 aftercare"><p class="eyebrow">専門相談員・現場</p><h2>モニタリング → 修理・交換・返却 → 回収後処理</h2><div class="guide-meta"><span>aftercare.html</span></div><p><strong>目的：</strong>納品後の安全と継続利用を、期限・対応・回収後処理まで追う。</p><details><summary>操作手順と安全事項</summary><ol class="guide-steps"><li>モニタリング期限と利用状況を確認。</li><li>継続・修理・交換・返却を判断。</li><li>回収後は消毒・点検を経て再貸出可能へ戻す。</li></ol><p><strong>安全：</strong>転倒・けが・重大破損時は用具使用を中止し、安全確保と必要な緊急連絡を優先します。</p></details><div class="guide-links"><a href="aftercare.html">モニタリング・保守</a></div></article>
+
+<article class="card guide-article" data-persona="billing owner" data-keywords="請求 入金 未収 保険 CSV 締め 請求書 領収書 billing"><p class="eyebrow">事務・請求担当</p><h2>請求生成 → 検証 → 締め → 入金</h2><div class="guide-meta"><span>billing.html</span></div><p><strong>目的：</strong>貸与・販売明細から月次請求と利用者負担、入金・未収を確認する。</p><details><summary>操作手順と注意事項</summary><ol class="guide-steps"><li>請求月と下書きを確認。</li><li>保険・価格・合計の検証結果を確認。</li><li>締め後、請求書・確認CSV・入金状況を確認。</li></ol><p><strong>注意：</strong>確認CSVは公式国保連伝送ファイルではありません。Guide Centerは請求生成・締め・入金登録を実行しません。</p></details><div class="guide-links"><a href="billing.html">請求・入金</a></div></article>
+
+<article class="card guide-article" data-persona="owner" data-keywords="オーナー 管理 事業所 在庫 商品マスター 権限 通知 帳票 監査 operations owner"><p class="eyebrow">オーナー・管理責任者</p><h2>在庫・事業所設定・権限・通知・帳票・監査</h2><div class="guide-meta"><span>owner.html</span><span>operations.html</span></div><p><strong>目的：</strong>日常業務と導入準備を横断して確認する。</p><details><summary>操作手順とよくある詰まり</summary><ol class="guide-steps"><li>オーナー画面で利用者・在庫・訪問・請求の入口を確認。</li><li>運用設定で事業所、スタッフ、権限、通知、帳票、監査を確認。</li><li>最後にsystem-checkで稼働状況を確認。</li></ol><p><strong>注意：</strong>設定変更や権限保存などの更新操作は、目的と影響を確認してから既存画面で実施します。Guide Centerからは実行しません。</p></details><div class="guide-links"><a href="owner.html">オーナーPC</a><a href="operations.html">運用設定</a><a href="system-check.html">system-check</a></div></article>
+
+<article class="card guide-article" data-persona="all owner" data-keywords="困った troubleshooting system-check エラー 接続 営業前"><p class="eyebrow">TROUBLESHOOTING</p><h2>困ったとき / system-check</h2><p><strong>目的：</strong>画面が開かない、認証できない、データが読み込めない場合の切り分けを行う。</p><details><summary>確認順</summary><ol class="guide-steps"><li>ページを再読み込み。</li><li>管理認証やスタッフログイン状態を確認。</li><li>system-checkを開いて接続状態を確認。</li><li>更新操作は繰り返さず、エラー内容を控える。</li></ol></details><div class="guide-links"><a href="system-check.html">system-check</a></div></article>
+</section>
+
+<p class="guide-empty" id="guide-empty" hidden>条件に一致するガイドがありません。検索語を短くするか「すべて」に戻してください。</p>
+<section class="section notice notice--info"><strong>印刷マニュアルについて</strong><br>Quick Manual / Detailed Manual は次工程R5で作成するため、このR4 Guide Centerでは未実装です。現在は画面内ガイドとFirst10を使用してください。</section>
+</main>
+<footer class="footer"><div><strong>DPRO 福祉用具センター</strong></div><div>Guide Center / Tutorial business mutation = 0</div></footer>
+<script src="tutorial.js"></script>
+<script>
+(() => {
+  "use strict";
+  let activeFilter="all";const search=document.getElementById("guide-search"),articles=[...document.querySelectorAll(".guide-article")],empty=document.getElementById("guide-empty");
+  function refreshStatus(){const api=window.DPRO_TUTORIAL;if(!api)return;const info=api.status(),title=document.getElementById("guide-progress-title"),text=document.getElementById("guide-progress-text");
+    if(info.status==="complete"){title.textContent="First10 完了";text.textContent="10/10完了。いつでも「最初から」で再確認できます。"}
+    else if(["active","paused","skipped"].includes(info.status)){title.textContent=`First10 ${info.step}/10`;text.textContent="途中のステップから再開できます。"}
+    else{title.textContent="First10 未開始";text.textContent="まず10ステップで全体像を確認するのがおすすめです。"}}
+  function startOrResume(){const api=window.DPRO_TUTORIAL;if(!api)return;const info=api.status();(info.status==="complete"||info.status==="new")?api.replay():api.resume()}
+  document.getElementById("guide-first10-primary").addEventListener("click",startOrResume);document.getElementById("guide-resume").addEventListener("click",startOrResume);document.getElementById("guide-replay").addEventListener("click",()=>window.DPRO_TUTORIAL?.replay());
+  function applyFilter(){const term=search.value.trim().toLowerCase();let visible=0;articles.forEach(a=>{const personas=a.dataset.persona||"",hay=`${a.dataset.keywords||""} ${a.textContent}`.toLowerCase(),personaOk=activeFilter==="all"||personas.split(/\s+/).includes(activeFilter)||personas.includes("all"),searchOk=!term||hay.includes(term);a.hidden=!(personaOk&&searchOk);if(!a.hidden)visible++});empty.hidden=visible!==0}
+  search.addEventListener("input",applyFilter);document.getElementById("guide-clear").addEventListener("click",()=>{search.value="";search.focus();applyFilter()});
+  document.querySelectorAll("[data-guide-filter]").forEach(b=>b.addEventListener("click",()=>{activeFilter=b.dataset.guideFilter;document.querySelectorAll("[data-guide-filter]").forEach(i=>i.classList.toggle("is-active",i===b));applyFilter()}));
+  document.addEventListener("dpro-tutorial-ready",refreshStatus);setTimeout(refreshStatus,0);applyFilter()
+})();
+</script>
+</body></html>

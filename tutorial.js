@@ -19,7 +19,7 @@
     {n:9,page:"billing.html",anchor:"billing-flow",selector:".billing-flow",title:"請求・入金",text:"請求生成 → エラー検証 → 締め → 請求発行 → 入金管理の順です。First10では請求生成や入金登録を実行しません。",safety:"請求生成・締め・入金登録などの更新操作は行いません。"},
     {n:10,page:"operations.html",anchor:"operations-readiness",selector:"#operations-readiness",title:"運用最終確認",text:"最後に導入・日常運用の準備状況を確認します。事業所設定、スタッフ権限、通知、帳票、監査、system-checkが運用管理の入口です。",safety:"設定保存・権限変更・通知送信などはFirst10から実行しません。"}
   ]);
-  const state={card:null,highlight:null,entry:null,target:null,step:1,active:false,opener:null,drag:null,observer:null,raf:0};
+  const state={card:null,highlight:null,entry:null,guideEntry:null,target:null,step:1,active:false,opener:null,drag:null,observer:null,raf:0};
 
   function pageName(){return(location.pathname.split("/").pop()||"index.html").toLowerCase()}
   function readStep(){const n=Number(localStorage.getItem(KEYS.step)||"1");return Math.min(10,Math.max(1,Number.isFinite(n)?n:1))}
@@ -54,8 +54,9 @@
       <button type="button" data-tutorial-close>閉じる</button><button type="button" data-tutorial-back>戻る</button>
       <button type="button" class="is-primary" data-tutorial-next>次へ</button><button type="button" class="is-muted" data-tutorial-skip>スキップ</button>
       <button type="button" class="is-muted" data-tutorial-replay>最初から</button><a href="guide-center.html" data-tutorial-guide hidden>Guide Center</a></div></div>`;
-    const e=document.createElement("button");e.type="button";e.className="dpro-tutorial-entry";e.setAttribute("aria-label","DPRO操作ガイドを開く");
-    document.body.append(h,c,e);state.card=c;state.highlight=h;state.entry=e;
+    const e=document.createElement("button");e.type="button";e.className="dpro-tutorial-entry";e.setAttribute("aria-label","First10チュートリアルを開く");
+    let g=null;if(pageName()!=="guide-center.html"){g=document.createElement("a");g.className="dpro-guide-entry";g.href="guide-center.html";g.textContent="Guide Center";g.setAttribute("aria-label","Guide Centerを開く")}
+    document.body.append(h,c);if(g)document.body.append(g);document.body.append(e);state.card=c;state.highlight=h;state.entry=e;state.guideEntry=g;
     const handle=c.querySelector(".dpro-tutorial-handle");handle.addEventListener("pointerdown",startDrag);handle.addEventListener("keydown",keyboardMove);
     c.querySelector("[data-tutorial-close]").addEventListener("click",()=>closeTour("paused"));
     c.querySelector("[data-tutorial-back]").addEventListener("click",previous);
@@ -97,7 +98,7 @@
   }
   function completeTour(){
     setProgress(10,"complete");const q=s=>state.card.querySelector(s),done=q("[data-tutorial-complete]");
-    done.hidden=false;done.textContent="First10 完了。業務データは変更していません。";q("[data-tutorial-next]").hidden=true;q("[data-tutorial-guide]").hidden=true;
+    done.hidden=false;done.textContent="First10 完了。業務データは変更していません。";q("[data-tutorial-next]").hidden=true;q("[data-tutorial-guide]").hidden=false;
     state.highlight.hidden=true;state.target=null;updateEntry()
   }
   function next(){state.step>=10?completeTour():goToStep(state.step+1)}
