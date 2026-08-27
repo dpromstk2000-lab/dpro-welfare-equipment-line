@@ -28,3 +28,30 @@ window.DPRO_CONFIG = Object.freeze({
     staffLogin: "staff-login.html"
   }
 });
+
+/* DPRO TUTORIAL R3-R4 LOADER
+   Tutorial-owned UI/client state only. No business API mutation. */
+(() => {
+  const page = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  const enabledPages = new Set([
+    "index.html", "member.html", "inquiry.html", "owner.html", "owner-ipad.html",
+    "planning.html", "contract.html", "staff.html", "aftercare.html",
+    "billing.html", "operations.html", "system-check.html"
+  ]);
+  if (!enabledPages.has(page)) return;
+
+  if (!document.querySelector('link[data-dpro-tutorial-style]')) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "tutorial.css";
+    link.dataset.dproTutorialStyle = "1";
+    document.head.appendChild(link);
+  }
+  if (!document.querySelector('script[data-dpro-tutorial-script]')) {
+    const script = document.createElement("script");
+    script.src = "tutorial.js";
+    script.defer = true;
+    script.dataset.dproTutorialScript = "1";
+    document.head.appendChild(script);
+  }
+})();
