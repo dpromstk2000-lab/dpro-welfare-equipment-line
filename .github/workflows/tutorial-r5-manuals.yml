@@ -14,7 +14,7 @@ permissions:
 jobs:
   build-r5-manuals:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout newest main
         uses: actions/checkout@v4
@@ -29,6 +29,139 @@ jobs:
           BASELINE="afaa3e18e43eb736873bc659fe261b9d13b07f3e"
           git merge-base --is-ancestor "$BASELINE" origin/main
           echo "R4 baseline is an ancestor of current main."
+
+      - name: Repair Tutorial asset links on Tutorial-enabled pages
+        id: repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          pages = [
+              "index.html",
+              "member.html",
+              "inquiry.html",
+              "owner.html",
+              "owner-ipad.html",
+              "planning.html",
+              "contract.html",
+              "aftercare.html",
+              "billing.html",
+              "staff.html",
+              "staff-login.html",
+              "operations.html",
+              "system-check.html",
+          ]
+
+          css = '<link rel="stylesheet" href="tutorial.css">'
+          js = '<script src="tutorial.js"></script>'
+          changed = []
+
+          for name in pages:
+              path = Path(name)
+              if not path.exists():
+                  raise SystemExit(f"Required Tutorial page missing: {name}")
+
+              text = path.read_text(encoding="utf-8")
+              original = text
+
+              if 'href="tutorial.css"' not in text:
+                  marker = '<link rel="stylesheet" href="styles.css">'
+                  if marker in text:
+                      text = text.replace(marker, marker + "\n  " + css, 1)
+                  elif "</head>" in text:
+                      text = text.replace("</head>", "  " + css + "\n</head>", 1)
+                  else:
+                      raise SystemExit(f"Cannot place tutorial.css in {name}")
+
+              if 'src="tutorial.js"' not in text:
+                  if "</body>" not in text:
+                      raise SystemExit(f"Cannot place tutorial.js in {name}")
+                  text = text.replace("</body>", js + "\n</body>", 1)
+
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+                  changed.append(name)
+
+          # R4 Guide Center must itself load Tutorial assets.
+          guide = Path("guide-center.html").read_text(encoding="utf-8")
+          if 'href="tutorial.css"' not in guide or 'src="tutorial.js"' not in guide:
+              raise SystemExit("Guide Center Tutorial asset linkage is incomplete")
+
+          # Every First10 route must now be Tutorial-enabled.
+          required_first10 = [
+              "member.html", "inquiry.html", "planning.html", "contract.html",
+              "staff.html", "aftercare.html", "billing.html", "operations.html",
+          ]
+          for name in required_first10:
+              text = Path(name).read_text(encoding="utf-8")
+              if 'href="tutorial.css"' not in text or 'src="tutorial.js"' not in text:
+                  raise SystemExit(f"First10 linkage QA failed: {name}")
+
+          print("Tutorial linkage repaired:", ", ".join(changed) if changed else "no changes needed")
+          Path(".r5_tutorial_repair_changed").write_text("1" if changed else "0", encoding="utf-8")
+          PY
+
+          if [[ "$(cat .r5_tutorial_repair_changed)" == "1" ]]; then
+            git config user.name "dpro-tutorial-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add index.html member.html inquiry.html owner.html owner-ipad.html planning.html contract.html aftercare.html billing.html staff.html staff-login.html operations.html system-check.html
+            git commit -m "Repair WELFARE_EQUIPMENT First10 Tutorial linkage for R5 QA"
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          rm -f .r5_tutorial_repair_changed
+
+      - name: Wait for repaired Tutorial on live GitHub Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import time
+          import urllib.request
+
+          base = "https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/"
+          checks = {
+              "member.html": ('src="tutorial.js"', 'href="tutorial.css"'),
+              "planning.html": ('src="tutorial.js"', 'href="tutorial.css"'),
+              "staff.html": ('src="tutorial.js"', 'href="tutorial.css"'),
+              "operations.html": ('src="tutorial.js"', 'href="tutorial.css"'),
+              "guide-center.html": ('src="tutorial.js"', 'href="tutorial.css"'),
+          }
+
+          last = []
+          for attempt in range(60):
+              failed = []
+              for page, needles in checks.items():
+                  url = base + page + f"?r5qa={attempt}"
+                  try:
+                      req = urllib.request.Request(
+                          url,
+                          headers={
+                              "User-Agent": "DPRO-Tutorial-R5-Live-QA/1.1",
+                              "Cache-Control": "no-cache",
+                          },
+                      )
+                      with urllib.request.urlopen(req, timeout=20) as res:
+                          body = res.read().decode("utf-8", "ignore")
+                      if int(res.status) != 200 or any(n not in body for n in needles):
+                          failed.append(page)
+                  except Exception:
+                      failed.append(page)
+
+              if not failed:
+                  print("Live Pages Tutorial linkage: PASS")
+                  break
+
+              last = failed
+              print(f"Live Pages not ready yet ({attempt + 1}/60): {', '.join(failed)}")
+              time.sleep(5)
+          else:
+              raise SystemExit("Live Pages Tutorial linkage did not become ready: " + ", ".join(last))
+          PY
 
       - name: Install rendering and QR QA dependencies
         shell: bash
