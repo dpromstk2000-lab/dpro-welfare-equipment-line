@@ -219,7 +219,7 @@ def pdf_info(path: Path) -> tuple[int, str]:
 def render_preview(pdf: Path, out_png: Path):
     prefix = WORK / (out_png.stem + "_render")
     sh(["pdftoppm", "-png", "-f", "1", "-singlefile", "-r", "150", str(pdf), str(prefix)])
-    shutil.copy2(prefix.with_suffix(".png"), out_png)
+    shutil.copy2(Path(str(prefix) + ".png"), out_png)
 
 
 def qr_decode_pdf(pdf: Path) -> list[str]:
