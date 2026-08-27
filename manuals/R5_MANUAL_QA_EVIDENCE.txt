@@ -1,0 +1,42 @@
+DPRO TUTORIAL WELFARE_EQUIPMENT R5 MANUAL QA EVIDENCE
+Version: V1.0
+Date: 2026-08-27
+
+RESULT: PASS
+Quick Start pages: 2
+Quick Start page size: 594.96 x 841.92 pts (A4)
+Detailed Manual pages: 9
+Detailed Manual page size: 594.96 x 841.92 pts (A4)
+Actual live/demo screenshots: PASS
+First10 open/state browser check: PASS
+Guide Center live content check: PASS
+R3/R4 anchors: PASS
+Japanese rendering source font: Noto Sans CJK JP
+Safety warnings present: PASS
+Real customer/personal data included: NONE
+Secrets/keys/tokens included: NONE
+Tutorial businessMutation: 0
+DB/Worker/API/Auth/Role/Permission/Feature Flag Tutorial changes: 0
+
+HTTP CHECKS
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/guide-center.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/member.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/planning.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/staff-login.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/aftercare.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/billing.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/operations.html
+200 https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/system-check.html
+
+QR DECODE
+Quick Start decoded:
+- https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/member.html
+- https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/guide-center.html
+Detailed Manual decoded:
+- https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/guide-center.html
+
+ASSET SHA256
+8ef0358e08073e1bef2a94311e07efc2f59c75eaf4ce40d938563e105b259485  DPRO_TUTORIAL_WELFARE_EQUIPMENT_QUICK_START_V1.0.pdf
+6066a836f277956feea2df6d39acc7d44cd23a8d50b209258462ed0034ca7f14  DPRO_TUTORIAL_WELFARE_EQUIPMENT_DETAILED_MANUAL_V1.0.pdf
+06bb9de52b604f5b2dc0243da54829bba10a0673d0a218d53cc2aa89ea6ebc45  DPRO_TUTORIAL_WELFARE_EQUIPMENT_QUICK_START_V1.0.png
+d6a256a4aba641828d570d3c4c804a29fc2c50fcf105dab638ba9c024d003a69  DPRO_TUTORIAL_WELFARE_EQUIPMENT_DETAILED_MANUAL_V1.0.png
