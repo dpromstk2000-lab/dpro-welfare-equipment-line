@@ -1,0 +1,92 @@
+name: DPRO CHAT B Welfare Member Role Boundary Fix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dpro-chat-b-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository guard
+        shell: bash
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "dpromstk2000-lab/dpro-welfare-equipment-line" ]; then
+            echo "Wrong repository: expected dpromstk2000-lab/dpro-welfare-equipment-line, got $GITHUB_REPOSITORY" >&2
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify privileged URL auth source boundary
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          required=['owner.html','owner-ipad.html','planning.html','contract.html','aftercare.html','billing.html','operations.html','system-check.html']
+          missing=[]
+          for name in required:
+              p=Path(name)
+              if not p.exists(): missing.append(f'{name}:missing'); continue
+              s=p.read_text(encoding='utf-8')
+              if 'data-admin-gate' not in s: missing.append(f'{name}:no data-admin-gate')
+          api=Path('api.js').read_text(encoding='utf-8')
+          for token in ['/admin/login','Authorization = `Bearer ${token}`','options.admin !== false']:
+              if token not in api: missing.append(f'api.js:missing {token}')
+          if missing: raise SystemExit('Privileged auth boundary incomplete: '+', '.join(missing))
+          print('Privileged source auth boundary: PASS')
+          PY
+
+      - name: Remove privileged navigation from member surface
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('member.html'); s=p.read_text(encoding='utf-8'); before=s
+          start="""    <nav class="main-nav" data-main-nav>\n"""
+          end="""    </nav>\n"""
+          if start not in s: raise SystemExit('member main nav start marker missing')
+          a=s.index(start); b=s.index(end,a)+len(end)
+          public_nav="""    <nav class="main-nav" data-main-nav aria-label="会員メニュー">\n      <a href="index.html">LINE利用者</a>\n      <a href="member.html" aria-current="page">会員画面</a>\n      <a href="inquiry.html">相談する</a>\n    </nav>\n"""
+          s=s[:a]+public_nav+s[b:]
+          s=s.replace("""  <div>Version: <span data-system-version></span></div>""","""  <div>福祉用具レンタル・販売 LINE</div>""")
+          forbidden=['href="owner.html"','href="owner-ipad.html"','href="planning.html"','href="contract.html"','href="aftercare.html"','href="billing.html"','href="staff.html"','href="operations.html"','href="system-check.html"','Version:']
+          for token in forbidden:
+              if token in s: raise SystemExit(f'member.html privileged/dev token remains: {token}')
+          for token in ['href="member.html" aria-current="page"','href="inquiry.html"','aria-label="会員メニュー"']:
+              if token not in s: raise SystemExit(f'member.html public nav result missing: {token}')
+          if s!=before: p.write_text(s,encoding='utf-8')
+          print('WELFARE member navigation boundary patch: PASS')
+          PY
+
+      - name: Static member/auth QA
+        shell: bash
+        run: |
+          ! grep -q 'href="owner.html"' member.html
+          ! grep -q 'href="system-check.html"' member.html
+          grep -q 'aria-label="会員メニュー"' member.html
+          grep -q '/admin/login' api.js
+          grep -q 'Authorization' api.js
+          echo 'WELFARE CHAT B static QA: PASS'
+
+      - name: Commit forward-only fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm --ignore-unmatch ".github/workflows/dpro-chat-b-welfare-member-boundary.yml"
+          git add "member.html"
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Fix CHAT B welfare member role boundary"
+          git push
