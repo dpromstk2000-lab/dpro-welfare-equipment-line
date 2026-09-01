@@ -26,6 +26,70 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Harden system check behind admin authentication
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('system-check.html')
+          s = p.read_text(encoding='utf-8')
+          before = s
+
+          # system-check is a privileged diagnostic surface. If it is not
+          # already gated, wrap the full operational UI in the same admin
+          # authentication gate used by owner/planning/etc.
+          if 'data-admin-gate' not in s:
+              body_marker = '<body>\n'
+              if body_marker not in s:
+                  raise SystemExit('system-check.html body marker missing')
+
+              gate = '''<body>
+          <section class="admin-gate card" data-admin-gate>
+            <p class="eyebrow">管理者確認</p>
+            <h1>営業前チェック</h1>
+            <p>管理者向けの確認画面です。管理コードを入力してください。</p>
+            <div class="admin-code-row">
+              <input type="password" inputmode="numeric" data-admin-code aria-label="管理コード" placeholder="管理コード">
+              <button class="button button--primary" data-admin-login>開く</button>
+              <button class="button button--outline" data-admin-clear>削除</button>
+            </div>
+            <p class="error-text" data-admin-error aria-live="polite"></p>
+          </section>
+
+          <div data-protected-area hidden>
+          '''
+              s = s.replace(body_marker, gate, 1)
+
+              footer_marker = '</footer>\n<script src="config.js"></script>'
+              if footer_marker not in s:
+                  raise SystemExit('system-check.html footer/script marker missing')
+              s = s.replace(
+                  footer_marker,
+                  '</footer>\n</div>\n<script src="config.js"></script>',
+                  1
+              )
+
+          for token in [
+              'data-admin-gate',
+              'data-admin-code',
+              'data-admin-login',
+              'data-admin-clear',
+              'data-admin-error',
+              'data-protected-area hidden'
+          ]:
+              if token not in s:
+                  raise SystemExit(f'system-check auth gate result missing: {token}')
+
+          if 'デモ管理コード：1234' in s:
+              raise SystemExit('system-check must not print the demo admin code in the login gate')
+
+          if s != before:
+              p.write_text(s, encoding='utf-8')
+
+          print('system-check privileged admin gate: PASS')
+          PY
+
       - name: Verify privileged URL auth source boundary
         shell: bash
         run: |
@@ -35,13 +99,27 @@ jobs:
           missing=[]
           for name in required:
               p=Path(name)
-              if not p.exists(): missing.append(f'{name}:missing'); continue
+              if not p.exists():
+                  missing.append(f'{name}:missing')
+                  continue
               s=p.read_text(encoding='utf-8')
-              if 'data-admin-gate' not in s: missing.append(f'{name}:no data-admin-gate')
+              if 'data-admin-gate' not in s:
+                  missing.append(f'{name}:no data-admin-gate')
+              if 'data-protected-area' not in s:
+                  missing.append(f'{name}:no data-protected-area')
+
           api=Path('api.js').read_text(encoding='utf-8')
           for token in ['/admin/login','Authorization = `Bearer ${token}`','options.admin !== false']:
-              if token not in api: missing.append(f'api.js:missing {token}')
-          if missing: raise SystemExit('Privileged auth boundary incomplete: '+', '.join(missing))
+              if token not in api:
+                  missing.append(f'api.js:missing {token}')
+
+          shared=Path('shared.js').read_text(encoding='utf-8')
+          for token in ['setupAdminGate()','window.DPRO_API?.hasToken()','dpro_welfare_admin_ok']:
+              if token not in shared:
+                  missing.append(f'shared.js:missing {token}')
+
+          if missing:
+              raise SystemExit('Privileged auth boundary incomplete: '+', '.join(missing))
           print('Privileged source auth boundary: PASS')
           PY
 
@@ -50,20 +128,58 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          p=Path('member.html'); s=p.read_text(encoding='utf-8'); before=s
-          start="""    <nav class="main-nav" data-main-nav>\n"""
-          end="""    </nav>\n"""
-          if start not in s: raise SystemExit('member main nav start marker missing')
-          a=s.index(start); b=s.index(end,a)+len(end)
-          public_nav="""    <nav class="main-nav" data-main-nav aria-label="会員メニュー">\n      <a href="index.html">LINE利用者</a>\n      <a href="member.html" aria-current="page">会員画面</a>\n      <a href="inquiry.html">相談する</a>\n    </nav>\n"""
-          s=s[:a]+public_nav+s[b:]
-          s=s.replace("""  <div>Version: <span data-system-version></span></div>""","""  <div>福祉用具レンタル・販売 LINE</div>""")
-          forbidden=['href="owner.html"','href="owner-ipad.html"','href="planning.html"','href="contract.html"','href="aftercare.html"','href="billing.html"','href="staff.html"','href="operations.html"','href="system-check.html"','Version:']
+          p=Path('member.html')
+          s=p.read_text(encoding='utf-8')
+          before=s
+
+          start='''    <nav class="main-nav" data-main-nav>\n'''
+          end='''    </nav>\n'''
+          if start not in s:
+              # Idempotent rerun support.
+              if 'aria-label="会員メニュー"' not in s:
+                  raise SystemExit('member main nav start marker missing')
+          else:
+              a=s.index(start)
+              b=s.index(end,a)+len(end)
+              public_nav='''    <nav class="main-nav" data-main-nav aria-label="会員メニュー">
+            <a href="index.html">LINE利用者</a>
+            <a href="member.html" aria-current="page">会員画面</a>
+            <a href="inquiry.html">相談する</a>
+          </nav>
+          '''
+              s=s[:a]+public_nav+s[b:]
+
+          s=s.replace(
+              '''  <div>Version: <span data-system-version></span></div>''',
+              '''  <div>福祉用具レンタル・販売 LINE</div>'''
+          )
+
+          forbidden=[
+              'href="owner.html"',
+              'href="owner-ipad.html"',
+              'href="planning.html"',
+              'href="contract.html"',
+              'href="aftercare.html"',
+              'href="billing.html"',
+              'href="staff.html"',
+              'href="operations.html"',
+              'href="system-check.html"',
+              'Version:'
+          ]
           for token in forbidden:
-              if token in s: raise SystemExit(f'member.html privileged/dev token remains: {token}')
-          for token in ['href="member.html" aria-current="page"','href="inquiry.html"','aria-label="会員メニュー"']:
-              if token not in s: raise SystemExit(f'member.html public nav result missing: {token}')
-          if s!=before: p.write_text(s,encoding='utf-8')
+              if token in s:
+                  raise SystemExit(f'member.html privileged/dev token remains: {token}')
+
+          for token in [
+              'href="member.html" aria-current="page"',
+              'href="inquiry.html"',
+              'aria-label="会員メニュー"'
+          ]:
+              if token not in s:
+                  raise SystemExit(f'member.html public nav result missing: {token}')
+
+          if s != before:
+              p.write_text(s,encoding='utf-8')
           print('WELFARE member navigation boundary patch: PASS')
           PY
 
@@ -73,6 +189,8 @@ jobs:
           ! grep -q 'href="owner.html"' member.html
           ! grep -q 'href="system-check.html"' member.html
           grep -q 'aria-label="会員メニュー"' member.html
+          grep -q 'data-admin-gate' system-check.html
+          grep -q 'data-protected-area' system-check.html
           grep -q '/admin/login' api.js
           grep -q 'Authorization' api.js
           echo 'WELFARE CHAT B static QA: PASS'
@@ -83,7 +201,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm --ignore-unmatch ".github/workflows/dpro-chat-b-welfare-member-boundary.yml"
-          git add "member.html"
+          git add "member.html" "system-check.html"
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
