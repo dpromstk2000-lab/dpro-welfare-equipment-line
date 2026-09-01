@@ -10,6 +10,19 @@
   <link rel="stylesheet" href="tutorial.css">
 </head>
 <body>
+<section class="admin-gate card" data-admin-gate>
+  <p class="eyebrow">管理者確認</p>
+  <h1>営業前チェック</h1>
+  <p>管理者向けの確認画面です。管理コードを入力してください。</p>
+  <div class="admin-code-row">
+    <input type="password" inputmode="numeric" data-admin-code aria-label="管理コード" placeholder="管理コード">
+    <button class="button button--primary" data-admin-login>開く</button>
+    <button class="button button--outline" data-admin-clear>削除</button>
+  </div>
+  <p class="error-text" data-admin-error aria-live="polite"></p>
+</section>
+
+<div data-protected-area hidden>
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="index.html">
@@ -134,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <div><strong data-office-name>DPRO 福祉用具センター</strong></div>
   <div>Version: <span data-system-version></span></div>
 </footer>
+</div>
 <script src="config.js"></script>
 <script src="api.js"></script>
 <script src="shared.js"></script>
