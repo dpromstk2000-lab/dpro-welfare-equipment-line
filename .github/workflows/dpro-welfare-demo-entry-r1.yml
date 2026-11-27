@@ -1,0 +1,144 @@
+name: DPRO WELFARE DEMO ENTRY R1
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/dpro-welfare-demo-entry-r1.yml']
+permissions:
+  contents: write
+concurrency:
+  group: welfare-demo-entry-r1
+  cancel-in-progress: false
+jobs:
+  improve-demo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser test tools
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Patch and test demo entry without live business mutation
+        run: |
+          cat > welfare-demo-entry.js <<'EOF_welfare_demo_entry_js'
+          (()=>{'use strict';
+            const c=window.DPRO_CONFIG||{};
+            const safe=c.systemCode==='WELFARE-EQUIP'&&c.demoMode===true&&c.productionGuard===true&&c.officeCode==='dpro_welfare_equipment_demo'&&c.adminCode==='1234'&&c.apiBaseUrl==='https://dpro-welfare-equipment-line-api.dpromstk2000.workers.dev';
+            const page=location.pathname.split('/').pop()||'index.html';
+            const labels={'member.html':'利用者・家族','owner.html':'管理者PC','owner-ipad.html':'専門相談員iPad','staff-login.html':'配送スタッフ','planning.html':'計画','contract.html':'契約・納品','aftercare.html':'保守','billing.html':'請求・入金','operations.html':'運用設定','staff.html':'配送・設置','index.html':'相談受付','inquiry.html':'相談受付'};
+            function init(){
+              const gate=document.querySelector('[data-admin-gate]');
+              const demoStaff=[...document.querySelectorAll('[data-demo-staff]')];
+              if(!safe){for(const b of demoStaff){b.hidden=true;b.style.setProperty('display','none','important');}return;}
+              if(!labels[page]||document.getElementById('welfareDemoNav'))return;
+              const style=document.createElement('style');style.textContent=`#welfareDemoNav{box-sizing:border-box;width:calc(100% - 24px);max-width:1160px;margin:12px auto;padding:12px 16px;border:1px solid #b9dfd1;border-radius:14px;background:#f2fbf6;color:#103c31}#welfareDemoNav strong{display:block;font-size:17px}#welfareDemoNav p{font-size:13px;line-height:1.5;margin:4px 0 9px}#welfareDemoNav .demo-roles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}#welfareDemoNav a{display:flex;justify-content:center;align-items:center;min-height:44px;border:1px solid #9ccabc;border-radius:9px;background:#fff;color:#134e3e;text-decoration:none;font-size:14px;font-weight:800;text-align:center;padding:6px;line-height:1.4}#welfareDemoNav a[aria-current=page]{background:#0b5342;color:#fff}#welfareQuickBox{padding:14px;margin:12px 0;border:1px solid #a8dbca;border-radius:12px;background:#effaf5;color:#123d31}#welfareQuickBox p{font-size:14px;line-height:1.5;margin:0 0 9px}#welfareQuickLogin{width:100%;min-height:48px;padding:10px;border:0;border-radius:9px;background:#087552;color:#fff;font:inherit;font-size:16px;font-weight:850;cursor:pointer}#welfareQuickLogin:disabled{opacity:.65}#welfareManual summary{cursor:pointer;padding:10px 0}#welfareDemoNav a:focus-visible,#welfareQuickLogin:focus-visible,#welfareManual summary:focus-visible{outline:3px solid #0b7557;outline-offset:3px}@media(max-width:600px){#welfareDemoNav .demo-roles{grid-template-columns:repeat(2,minmax(0,1fr))}}[hidden]{display:none!important}`;document.head.append(style);
+              const nav=document.createElement('nav');nav.id='welfareDemoNav';nav.setAttribute('aria-label','公開DEMO画面切り替え');
+              const title=document.createElement('strong');title.textContent='DPRO 福祉用具｜公開操作DEMO';nav.append(title);
+              const note=document.createElement('p');note.textContent='登録不要。架空データで体験できます。実在する利用者情報・書類は入力しないでください。';nav.append(note);
+              const links=document.createElement('div');links.className='demo-roles';for(const path of ['member.html','owner.html','owner-ipad.html','staff-login.html']){const a=document.createElement('a');a.href=path+'?demo=1';a.textContent=labels[path];if(page===path||(page==='staff.html'&&path==='staff-login.html'))a.setAttribute('aria-current','page');links.append(a)}nav.append(links);
+              const main=document.querySelector('main');if(main)main.before(nav);else document.body.prepend(nav);
+              if(page==='member.html'){const p=document.createElement('p');p.textContent='この家族画面は架空の利用状況のサンプルです。管理者・スタッフ画面は各DEMOボタンから操作できます。';nav.append(p);return;}
+              if(page==='staff-login.html'){
+                const form=document.getElementById('staff-login-form'),fill=document.querySelector('[data-demo-staff="ST003"]'),submit=form?.querySelector('button[type="submit"]');if(!form||!fill||!submit)return;
+                const b=document.createElement('button');b.id='welfareQuickLogin';b.type='button';b.textContent='配送スタッフDEMOを体験する';form.before(b);
+                b.addEventListener('click',()=>{if(submit.disabled)return;fill.click();const f=new FormData(form);if(f.get('staff_code')!=='ST003'||f.get('pin')!=='3333')return;form.elements.destination.value='staff.html';form.requestSubmit(submit);});
+                const sync=()=>{b.disabled=submit.disabled;b.textContent=submit.disabled?'DEMOに接続中…':'配送スタッフDEMOを体験する'};new MutationObserver(sync).observe(submit,{attributes:true,attributeFilter:['disabled']});sync();return;
+              }
+              if(!gate)return;
+              const input=gate.querySelector('[data-admin-code]'),login=gate.querySelector('[data-admin-login]'),row=login?.closest('.admin-code-row');if(!input||!login||!row)return;
+              const box=document.createElement('div');box.id='welfareQuickBox';const p=document.createElement('p');p.textContent=page==='staff.html'?'配送スタッフ専用のデモ認証で体験できます。':'管理コードの手入力は不要です。デモ専用の認証で開きます。';box.append(p);
+              const b=document.createElement('button');b.id='welfareQuickLogin';b.type='button';b.textContent=labels[page]+' DEMOを体験する';box.append(b);row.before(box);
+              const details=document.createElement('details');details.id='welfareManual';const summary=document.createElement('summary');summary.textContent='手動ログイン（必要な場合のみ）';details.append(summary);row.before(details);details.append(row);
+              if(page==='staff.html'){b.addEventListener('click',()=>{location.href='staff-login.html?demo=1';});return;}
+              b.addEventListener('click',()=>{if(login.disabled||!window.DPRO_API?.login)return;input.value='1234';login.click();});
+              const sync=()=>{b.disabled=login.disabled;b.textContent=login.disabled?'DEMOに接続中…':labels[page]+' DEMOを体験する'};new MutationObserver(sync).observe(login,{attributes:true,attributeFilter:['disabled']});sync();
+            }
+            if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+          })();
+          EOF_welfare_demo_entry_js
+          cat > /tmp/demo_patch.py <<'EOF_demo_patch_py'
+          from pathlib import Path
+          import re,json
+          cfg=Path('config.js').read_text()
+          for s in ['systemCode: "WELFARE-EQUIP"','officeCode: "dpro_welfare_equipment_demo"','demoMode: true','productionGuard: true','adminCode: "1234"','apiBaseUrl: "https://dpro-welfare-equipment-line-api.dpromstk2000.workers.dev"']:assert s in cfg,s
+          pages=['index.html','inquiry.html','member.html','owner.html','owner-ipad.html','staff.html','staff-login.html','planning.html','contract.html','aftercare.html','billing.html','operations.html']
+          for name in pages:
+           p=Path(name);s=p.read_text();assert 'config.js' in s and 'shared.js' in s,name
+           tag='<script src="welfare-demo-entry.js?v=20261127-r1"></script>'
+           if tag not in s:
+            assert s.lower().count('</body>')==1,name
+            p.write_text(re.sub(r'</body>',tag+'\n</body>',s,flags=re.I))
+          p=Path('demo-guide.html');s=p.read_text();m=re.search(r'const CONFIG = (\{.*?\});',s,re.S);assert m
+          c=json.loads(m.group(1));c['primaryDemoUrl']='member.html?demo=1';c['quickInfo'][1]['text']='各画面のDEMOボタンで専用認証（手入力不要）'
+          for x in c['screens']:
+           if x['url'].startswith('member.html'):x['url']='member.html?demo=1'
+           x['note']=x['note'].replace('デモ管理コード：1234。','「DEMOを体験する」を押してください。')
+          p.write_text(s[:m.start(1)]+json.dumps(c,ensure_ascii=False,indent=2)+s[m.end(1):])
+          EOF_demo_patch_py
+          cat > /tmp/demo_qa.py <<'EOF_demo_qa_py'
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          from urllib.parse import urlparse
+          import json,mimetypes
+          base='https://dpromstk2000-lab.github.io/dpro-welfare-equipment-line/'
+          api='https://dpro-welfare-equipment-line-api.dpromstk2000.workers.dev/'
+          results=[]
+          with sync_playwright() as p:
+           browser=p.chromium.launch(headless=True)
+           for name in ['member.html','owner.html','owner-ipad.html','staff-login.html','staff.html','planning.html','contract.html','aftercare.html','billing.html','operations.html']:
+            for width in ([390,1440] if name in ['member.html','owner.html','owner-ipad.html','staff-login.html'] else [390]):
+             page=browser.new_page(viewport={'width':width,'height':900}); requests=[]
+             def route(r):
+              req=r.request
+              if req.url.startswith(base):
+               n=urlparse(req.url).path.removeprefix('/dpro-welfare-equipment-line/');path=Path(n)
+               if n and '..' not in path.parts and path.is_file():return r.fulfill(status=200,content_type=mimetypes.guess_type(n)[0] or 'application/octet-stream',body=path.read_bytes())
+               return r.fulfill(status=404,body='not found')
+              if req.url.startswith(api):
+               if req.method=='POST':requests.append((req.url,req.post_data_json))
+               return r.fulfill(status=401,headers={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'*','Access-Control-Allow-Methods':'*'},json={'ok':False,'error':{'message':'QA mock'}})
+              return r.abort()
+             page.route('**/*',route);page.goto(base+name+'?demo=1',wait_until='domcontentloaded');nav=page.locator('#welfareDemoNav');nav.wait_for();assert nav.locator('a').count()==4;assert not requests,(name,requests);assert nav.evaluate('(e)=>e.scrollWidth<=e.clientWidth+1'),name
+             if name=='member.html':assert 'サンプル' in nav.inner_text()
+             elif name=='staff.html':page.locator('#welfareQuickLogin').click();page.wait_for_url('**/staff-login.html?demo=1');assert not requests
+             else:
+              b=page.locator('#welfareQuickLogin');assert b.is_visible(),name;b.click();page.wait_for_timeout(500)
+              assert len(requests)==1,(name,requests)
+              if name=='staff-login.html':assert requests[0]==(api+'staff/login',{'office_code':'dpro_welfare_equipment_demo','staff_code':'ST003','pin':'3333'}),requests
+              else:assert requests[0]==(api+'admin/login',{'office_code':'dpro_welfare_equipment_demo','admin_code':'1234'}),requests
+              assert b.is_enabled(),name
+             results.append({'page':name,'width':width,'result':'PASS'});page.close()
+           # Configuration guard: no automatic login or demo navigation when not demo.
+           for name in ['member.html','owner.html','owner-ipad.html','staff-login.html']:
+            page=browser.new_page();requests=[]
+            def prod(r):
+             if '/config.js' in r.request.url:return r.fulfill(status=200,content_type='application/javascript',body='window.DPRO_CONFIG={systemCode:"WELFARE-EQUIP",demoMode:false,productionGuard:true,officeCode:"production",adminCode:"",apiBaseUrl:"https://invalid.example"};')
+             return route(r)
+            page.route('**/*',prod);page.goto(base+name,wait_until='domcontentloaded');assert page.locator('#welfareDemoNav').count()==0 and page.locator('#welfareQuickLogin').count()==0;assert not requests
+            if name=='staff-login.html':assert all(not b.is_visible() for b in page.locator('[data-demo-staff]').all())
+            results.append({'page':name,'guard':'PASS'});page.close()
+           browser.close()
+          Path('welfare-demo-qa').mkdir(exist_ok=True);Path('welfare-demo-qa/result.json').write_text(json.dumps({'checks':results,'note':'Mock auth only; no real data or LINE mutation'},ensure_ascii=False,indent=2));print(json.dumps(results,ensure_ascii=False))
+          EOF_demo_qa_py
+          node --check welfare-demo-entry.js
+          python /tmp/demo_patch.py
+          python /tmp/demo_qa.py
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: WELFARE-DEMO-ENTRY-R1-QA
+          path: welfare-demo-qa/
+          if-no-files-found: warn
+      - name: Commit verified frontend only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- index.html inquiry.html member.html owner.html owner-ipad.html staff.html staff-login.html planning.html contract.html aftercare.html billing.html operations.html demo-guide.html welfare-demo-entry.js
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'WELFARE: one-click demo authentication and role navigation'
+          git push origin HEAD:main
